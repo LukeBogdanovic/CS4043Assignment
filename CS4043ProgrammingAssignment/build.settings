@@ -8,6 +8,8 @@ settings =
 win32  =
 {
 
+  preferenceStorage = "sqlite",
+	singleInstance = true,
 	},
 
 window =
