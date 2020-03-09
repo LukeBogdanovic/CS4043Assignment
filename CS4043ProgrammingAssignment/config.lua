@@ -11,7 +11,7 @@ application =
 		height = 1080, 
 		scale = "letterbox",
 		fps = 60,
-		
+
 		--[[
 		imageSuffix =
 		{

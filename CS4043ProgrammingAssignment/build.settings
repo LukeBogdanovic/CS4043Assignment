@@ -8,6 +8,8 @@ settings =
 win32  =
 {
 
+  preferenceStorage = "sqlite",
+	singleInstance = true,
 	},
 
 window =
@@ -22,5 +24,19 @@ window =
  enableMinimizeButton = true,
  enableMaximizeButton = true,
 suspendWhenMinimized = true,
+titleText = {
+
+            default = "JabCity",
+            ["en‐us"] = "JabCity (English‐USA)",
+            -- This text is used on English language systems in the United Kingdom.
+            -- Note that the country code must be separated by a dash (-).
+            ["en‐gb"] = "JabCity (English‐UK)",
+            -- This text is used for all other English language systems.
+            ["en"] = "JabCity (English)",
+            -- This text is used for all French language systems.
+            ["fr"] = "JabCity (French)",
+            -- This text is used for all Spanish language systems.
+            ["es"] = "JabCity (Spanish)",
   },
+ }
 }
