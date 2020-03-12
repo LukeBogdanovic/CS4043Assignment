@@ -10,6 +10,7 @@ end
 local function goToOptions()
   composer.gotoScene("options")
 end
+<<<<<<< HEAD
 
 function scene:create(event)
   local sceneGroup = self.view
@@ -31,3 +32,5 @@ function scene:create(event)
   playButton:addEventListener("tap", goToGame)
   optionsButton:addEventListener("tap", goToOptions)
 end
+=======
+>>>>>>> 36f99d27a81ee51d2209f3fe398ef6dec4838a86
