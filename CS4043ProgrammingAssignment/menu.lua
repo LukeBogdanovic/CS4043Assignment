@@ -18,7 +18,7 @@ function scene:create( event )
   background.x = display.contentCenterX
   background.y  = display.contentCenterY
 
-  local title = display.newImageRect( sceneGroup, "title.png", 500, 80 )
+  local title = display.newImageRect( sceneGroup, "title.png", 500, 250 )
   title.x = display.contentCenterX
   title.y = 200
 
@@ -33,6 +33,7 @@ function scene:create( event )
 end
 
 function scene:show( event )
+
   local sceneGroup = self.view
   local phase = event.phase
 
