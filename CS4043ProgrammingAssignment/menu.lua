@@ -3,14 +3,6 @@ local composer = require( "composer" )
 
 local scene = composer.newScene()
 
-local function goToGame()
-  composer.gotoScene( "game" )
-end
-
-local function goToOptions()
-  composer.gotoScene("options")
-end
-
 function scene:create(event)
   local sceneGroup = self.view
 
@@ -29,6 +21,14 @@ function scene:create(event)
   optionsButton:addEventListener("tap",goToOptions)
 end
 
+local function goToGame()
+  composer.gotoScene( "game" )
+end
+
+local function goToOptions()
+  composer.gotoScene("options")
+end
+
 function scene:show( event )
 
   local sceneGroup = self.view
@@ -37,6 +37,7 @@ function scene:show( event )
   if( phase == "will" ) then
 
   elseif ( phase == "did") then
+
  end
 end
 
@@ -63,8 +64,4 @@ scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 
-<<<<<<< HEAD
 return scene
-=======
-return scene--]]
->>>>>>> 33647e9ada33dcecceeb7b913262c983ced92152
