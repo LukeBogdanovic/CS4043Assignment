@@ -29,39 +29,38 @@ function scene:create(event)
   optionsButton:addEventListener("tap",goToOptions)
 end
 
---function scene:show( event )
+function scene:show( event )
 
-  --local sceneGroup = self.view
-  --local phase  = event.phase
+  local sceneGroup = self.view
+  local phase  = event.phase
 
---  if( phase == "will" ) then
+  if( phase == "will" ) then
 
---  elseif ( phase == "did") then
+  elseif ( phase == "did") then
+ end
+end
 
---  end
---end
+function scene:hide(event)
 
---function scene:hide(event)
+  local sceneGroup = self.view
+  local phase = event.phase
 
-  --local sceneGroup = self.view
-  --local phase = event.phase
+  if( phase == "will" ) then
 
-  --if( phase == "will" ) then
+  elseif( phase == "did" ) then
 
---  elseif( phase == "did" ) then
+  end
+end
 
---  end
---end
+function scene:destroy(event)
 
---function scene:destroy(event)
+  local sceneGroup = self.view
 
-  --local sceneGroup = self.view
+end
 
---end
+scene:addEventListener( "create", scene )
+scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
+scene:addEventListener( "destroy", scene )
 
---scene:addEventListener( "create", scene )
---scene:addEventListener( "show", scene )
---scene:addEventListener( "hide", scene )
---scene:addEventListener( "destroy", scene )
-
---return scene--]]
+return scene
