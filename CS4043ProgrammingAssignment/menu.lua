@@ -10,9 +10,8 @@ end
 local function goToOptions()
   composer.gotoScene("options")
 end
-<<<<<<< HEAD
 
-function scene:create(event)
+function scene:create( event )
   local sceneGroup = self.view
 
   local background = display.newImageRect( sceneGroup , "background1.png" , 1920 , 1080 )
@@ -32,5 +31,39 @@ function scene:create(event)
   playButton:addEventListener("tap", goToGame)
   optionsButton:addEventListener("tap", goToOptions)
 end
-=======
->>>>>>> 36f99d27a81ee51d2209f3fe398ef6dec4838a86
+
+function scene:show( event )
+  local sceneGroup = self.view
+  local phase = event.phase
+
+  if ( phase == "will" ) then
+
+  elseif ( phase == "did" ) then
+
+  end
+end
+
+function scene:hide( event )
+
+  local sceneGroup = self.view
+  local phase = event.phase
+
+  if ( phase == "will" ) then
+
+  elseif ( phase == "did" ) then
+
+  end
+end
+
+function scene:destroy( event )
+
+  local sceneGroup = self.view
+
+end
+
+scene:addEventListener( "create", scene )
+scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
+scene:addEventListener( "destroy", scene )
+
+return scene
