@@ -10,4 +10,6 @@ display.setStatusBar( display.HiddenStatusBar )
 
 math.randomseed( os.time() )
 
-composer.gotoScene( "menu" )
+local function gotoMenu()
+  composer.gotoScene( "menu" )
+end

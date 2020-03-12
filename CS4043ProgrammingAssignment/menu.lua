@@ -1,7 +1,7 @@
 -- menu.lua
+local composer = require( "composer" )
 
 local scene = composer.newScene()
-
 
 local function goToGame()
   composer.gotoScene( "game" )
