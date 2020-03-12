@@ -9,7 +9,7 @@ local function goToOptions()
   composer.gotoScene("options")
 end
 
-function scene:create()
+function scene:create(event)
   local sceneGroup = self.view
 
   local background = display.newImageRect(sceneGroup,"background1.png",800,1400)
@@ -22,8 +22,6 @@ function scene:create()
 
   local playButton = display.newText(sceneGroup, "play", display.contentCenterX,700,native.systemFont,44)
   playButton:setFillColor(0.82,0.86,1)
-
-
 
   playButton:addEventListener("tap",goToGame)
   optionsButton:addEventListener("tap",goToOptions)
