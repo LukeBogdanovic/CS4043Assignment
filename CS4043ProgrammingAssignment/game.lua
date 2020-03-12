@@ -20,9 +20,9 @@ local backGroup
 local mainGroup
 local uiGroup
 
---local background = display.newImageRect(backGroup,"",,)
---background.x = display.contentCenterX
---background.y = display.contentCenterY
+local background = display.newImageRect(backGroup,"background1",1920,1080)
+background.x = display.contentCenterX
+background.y = display.contentCenterY
 
 livesText	= display.newText( uiGroup,"Lives: "..lives,200,80,native.systemFont,36 )
 
