@@ -3,8 +3,9 @@ local composer = require( "composer" )
 
 local scene = composer.newScene()
 
-composer.gotoScene( "game" )
-
+local function goToGame()
+  composer.gotoScene( "game" )
+end
 
 local function goToOptions()
   composer.gotoScene("options")
