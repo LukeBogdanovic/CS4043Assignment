@@ -20,10 +20,6 @@ local backGroup
 local mainGroup
 local uiGroup
 
-local function updateText()
-  livesText.text = "Lives: "..lives
-end
-
 function scene:create(event)
   local sceneGroup = self.view
 
@@ -44,4 +40,8 @@ function scene:create(event)
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,200,80,native.systemFont,36 )
 
+end
+
+local function updateText()
+  livesText.text = "Lives: "..lives
 end
