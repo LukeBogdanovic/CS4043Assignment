@@ -4,7 +4,7 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 
 local function goToGame()
-  composer.gotoScene( "game" )
+  composer.gotoScene( "level1" )
 end
 
 local function goToOptions()
