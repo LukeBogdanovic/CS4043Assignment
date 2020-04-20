@@ -13,9 +13,7 @@ physics.setGravity(0,0)
 
 local lives = 3
 local died = false
-
 local  livesText
-
 local backGroup
 local mainGroup
 local uiGroup

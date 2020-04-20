@@ -22,11 +22,15 @@ function scene:create( event )
   title.x = display.contentCenterX
   title.y = 200
 
-  local playButton = display.newText( sceneGroup, "play", display.contentCenterX, 700 , native.systemFont,44 )
-  playButton:setFillColor(0.82,0.86,1)
+  local playButton = display.newRect(sceneGroup, display.contentCenterX, 700, 220, 80 )
 
-  local optionsButton = display.newText( sceneGroup, "options" , display.contentCenterX , 810 ,native.systemFont , 44 )
-  optionsButton:setFillColor(0.75,0.78,1)
+  local optionsButton = display.newRect(sceneGroup, display.contentCenterX , 800 , 220 , 80 )
+
+  local playButtonText = display.newText( sceneGroup, "play", display.contentCenterX, 700 , native.systemFont,44 )
+  playButtonText:setFillColor(0.82,0.86,1)
+
+  local optionsButtonText = display.newText( sceneGroup, "options" , display.contentCenterX , 810 ,native.systemFont , 44 )
+  optionsButtonText:setFillColor(0.75,0.78,1)
 
   playButton:addEventListener("tap", goToGame)
   optionsButton:addEventListener("tap", goToOptions)
