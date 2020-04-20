@@ -14,7 +14,7 @@ end
 function scene:create( event )
   local sceneGroup = self.view
 
-  local background1 = display.newImageRect( sceneGroup , "Level1Background1.png" , 1920 , 1080 )
+  local background = display.newImageRect( sceneGroup , "background1.png" , 1920 , 1080 )
   background.x = display.contentCenterX
   background.y  = display.contentCenterY
 
@@ -22,13 +22,11 @@ function scene:create( event )
   title.x = display.contentCenterX
   title.y = 200
 
-  local playButton = display.newImageRect( sceneGroup, filename, [baseDir,] width, height )
+  local playButton = display.newText( sceneGroup, "play", display.contentCenterX, 700 , native.systemFont,44 )
   playButton:setFillColor(0.82,0.86,1)
 
-  local optionsButton = display.newImageRect( [parent,] filename, [baseDir,] width, height )
+  local optionsButton = display.newText( sceneGroup, "options" , display.contentCenterX , 810 ,native.systemFont , 44 )
   optionsButton:setFillColor(0.75,0.78,1)
-
-  local playText = display.newText( options )
 
   playButton:addEventListener("tap", goToGame)
   optionsButton:addEventListener("tap", goToOptions)
