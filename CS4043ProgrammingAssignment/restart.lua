@@ -3,7 +3,7 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 
 local function backtoMenu()
-  composer.gotoScene( "menu" )
+  composer.gotoScene( "menu","fade" )
 end
 
 local gameOverText

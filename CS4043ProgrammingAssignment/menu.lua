@@ -4,11 +4,11 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 
 local function goToGame()
-  composer.gotoScene( "Level1", {time=800, effect="crossFade"} )
+  composer.gotoScene( "Level1", {time=500, effect="crossFade"} )
 end
 
 local function goToOptions()
-  composer.gotoScene("options",{time=800,effect="crossFade"})
+  composer.gotoScene("options",{time=500,effect="crossFade"})
 end
 
 local backGroup
@@ -42,7 +42,7 @@ function scene:create( event )
   local playText = display.newText( uiGroup,"Play",display.contentCenterX-25,450,"Font.ttf",108 )
 
   local optionsText = display.newText( uiGroup,"Options",display.contentCenterX-25,750,"Font.ttf",108 )
-  
+
   playButton:addEventListener("tap", goToGame)
   optionsButton:addEventListener("tap", goToOptions)
 end

@@ -7,6 +7,10 @@ local function backToStart()
   composer.gotoScene( "restart" )
 end
 
+local function nextLevel()
+  composer.gotoScene( "Story2" , "fade" )
+end
+
 local physics  = require("physics")
 physics.start()
 physics.setGravity(0,0)
@@ -50,11 +54,11 @@ function scene:create(event)
   sceneGroup:insert(uiGroup)
 
   background = display.newImageRect(backGroup,"Level1Background.png",1920,1080)
-  background.x = 1920
+  background.x = display.contentCenterX
   background.y = display.contentCenterY
 
   background2 = display.newImageRect( backGroup , "Level1Background.png" , 1920 , 1080 )
-  background2.x = 0
+  background2.x = display.contentCenterX+1920
   background2.y  = display.contentCenterY
 
   floor = display.newImageRect( backGroup, "floor.png",1920 ,100 )
@@ -146,15 +150,15 @@ local function spawnController( action, params )
 end
 
 local function bgScroll(event)
-  background.x = background.x + scrollSpeed
-  background2.x = background2.x + scrollSpeed
+  background.x = background.x - scrollSpeed
+  background2.x = background2.x - scrollSpeed
 
-  if background.x == display.contentWidth * 1.5 then
-    background.x = display.contentWidth*-.5
+  if (background.x + 1920/2 < 0) then
+    background.x = background.width*3/2-scrollSpeed
   end
 
-  if background2.x == display.contentWidth * 1.5 then
-    background2.x = display.contentWidth*-.5
+  if (background2.x + 1920/2 < 0) then
+    background2.x = background2.width*3/2-scrollSpeed
   end
 
 end
@@ -168,10 +172,13 @@ local function gameOver()
 end
 
 local function backToBeginning()
-  if lives == lives-1 then
-    composer.gotoScene("Level1")
+  if died == true then
+    deathText = display.newText( "YOU DIED" )
+    if lives == lives-1 then
+      composer.gotoScene("level1")
+    end
   end
-end 
+end
 
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
