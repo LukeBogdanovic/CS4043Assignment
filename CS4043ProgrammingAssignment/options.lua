@@ -1,5 +1,4 @@
 --options.lua
-
 local composer = new require("composer")
 
 local scene = composer.newScene()
@@ -20,7 +19,7 @@ function scene:create( event )
   uiGroup = display.newGroup()
   sceneGroup:insert(uiGroup)
 
-  local background = display.newImageRect( sceneGroup, "background1.png",1920,1080  )
+  local background = display.newImageRect( backGroup, "Level1Background.png",1920,1080  )
   background.x = display.contentCenterX
   background.y = display.contentCenterY
 
@@ -43,4 +42,22 @@ function scene:show( event )
   end
 end
 
-return scene 
+function scene:hide( event )
+
+  local sceneGroup = self.view
+  local phase = event.phase
+
+  if ( phase == "will" ) then
+
+  elseif ( phase == "did" ) then
+
+  end
+end
+
+function scene:destroy( event )
+
+  local sceneGroup = self.view
+
+end
+
+return scene
