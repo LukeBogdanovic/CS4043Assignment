@@ -21,6 +21,8 @@ local uiGroup
 local spawnTimer
 local spawnedObjects = {}
 local scrollSpeed = 2
+local background
+local background2
 
 local spawnParams = {
 xmin = 20,
@@ -46,11 +48,11 @@ function scene:create(event)
   uiGroup = display.newGroup()
   sceneGroup:insert(uiGroup)
 
-  local background = display.newImageRect(backGroup,"Level1Background.png",1920,1080)
+  background = display.newImageRect(backGroup,"Level1Background.png",1920,1080)
   background.x = display.contentCenterX
   background.y = display.contentCenterY
 
-  local background2 = display.newImageRect( backGroup , "Level1Background.png" , 1920 , 1080 )
+  background2 = display.newImageRect( backGroup , "Level1Background.png" , 1920 , 1080 )
   background2.x = display.contentCenterX
   background2.y  = display.contentCenterY
 
@@ -140,15 +142,15 @@ end
 
 local function bgScroll(event)
   background.x = background.x + scrollSpeed
-  --background2.x = background2.x + scrollSpeed
+  background2.x = background2.x + scrollSpeed
 
-  --if background.x == display.contentWidth * 1.5 then
-  --  background.x = display.contentWidth*-.5
---  end
+  if background.x == display.contentWidth * 1.5 then
+    background.x = display.contentWidth*-.5
+  end
 
-  --if background2.x == display.contentWidth * 1.5 then
-    --background2.x = display.contentWidth*-.5
-  --end
+  if background2.x == display.contentWidth * 1.5 then
+    background2.x = display.contentWidth*-.5
+  end
 
 end
 
