@@ -4,8 +4,7 @@ local composer = require("composer")
 local scene = composer.newScene()
 
 local function backToStart()
-
-
+  composer.gotoScene( "restart" )
 end
 
 local physics  = require("physics")
@@ -23,6 +22,8 @@ local spawnedObjects = {}
 local scrollSpeed = 2
 local background
 local background2
+local pauseButton
+local floor
 
 local spawnParams = {
 xmin = 20,
@@ -49,12 +50,16 @@ function scene:create(event)
   sceneGroup:insert(uiGroup)
 
   background = display.newImageRect(backGroup,"Level1Background.png",1920,1080)
-  background.x = display.contentCenterX
+  background.x = 1920
   background.y = display.contentCenterY
 
   background2 = display.newImageRect( backGroup , "Level1Background.png" , 1920 , 1080 )
-  background2.x = display.contentCenterX
+  background2.x = 0
   background2.y  = display.contentCenterY
+
+  floor = display.newImageRect( backGroup, "floor.png",1920 ,100 )
+  floor.y = 1080
+  floor.x = display.contentCenterX
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
@@ -158,7 +163,7 @@ Runtime:addEventListener("enterFrame",bgScroll)
 
 local function gameOver()
   if lives == 0 then
-
+    backToStart()
   end
 end
 

@@ -2,16 +2,19 @@ local composer = require( "composer" )
 
 local scene = composer.newScene()
 
-local composer = require( "composer" )
+composer.gotoScene( "menu" )
 
-local scene = composer.newScene()
+local gameOverText
 
-
+local function gameOver()
+  gameOverText = display.newText( "GAME OVER","font.ttf",200 )
+  gameOverText.x = display.contentCenterX
+  gameOverText.y = display.contentCenterY
+end
 -- create()
 function scene:create( event )
 
     local sceneGroup = self.view
-
 
 end
 
@@ -28,7 +31,6 @@ function scene:show( event )
     elseif ( phase == "did" ) then
 
         composer.removeScene("restart")
-        composer.gotoScene( "main", "fade"   )
 
     end
 end
