@@ -167,6 +167,12 @@ local function gameOver()
   end
 end
 
+local function backToBeginning()
+  if lives == lives-1 then
+    composer.gotoScene("Level1")
+  end
+end 
+
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )

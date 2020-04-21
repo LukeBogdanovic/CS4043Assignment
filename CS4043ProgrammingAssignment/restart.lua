@@ -2,7 +2,9 @@ local composer = require( "composer" )
 
 local scene = composer.newScene()
 
-composer.gotoScene( "menu" )
+local function backtoMenu()
+  composer.gotoScene( "menu" )
+end
 
 local gameOverText
 
