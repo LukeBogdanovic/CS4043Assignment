@@ -29,7 +29,6 @@ local background2
 local pauseButton
 local floor
 local enemiesKilled = 0
-local buff
 local hotDog
 local ninja
 
@@ -196,6 +195,7 @@ local function bgScroll(event)
 end
 
 Runtime:addEventListener("enterFrame",bgScroll)
+--Runtime:addEventListener("key",)
 
 local function gameOver()
   if lives == 0 then
@@ -210,6 +210,20 @@ local function backToBeginning()
       composer.gotoScene("level1")
     end
   end
+end
+
+local function gamePause()
+  local options = {
+    isModal = true,
+    effect = "fade",
+    time = 400
+  }
+  physics.pause()
+  composer.showOverlay( "pause" , options )
+end
+
+local function gameResume()
+  physics.resume()
 end
 
 scene:addEventListener( "create", scene )
