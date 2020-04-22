@@ -91,12 +91,12 @@ function scene:create(event)
       }
   }
 
-  local buff = display.newSprite( buffsheet, buffseq )
+  local buff = display.newSprite( mainGroup, "buffsheet.png", buffseq )
   buff.x = cx
   buff.y = 1000
   buff:setSequence( "run" )
   buff:play()
-  
+
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
 

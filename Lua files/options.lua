@@ -16,6 +16,7 @@ local backButton
 local backButtonText
 local title
 local volume = 0.5
+local volumeActual = volume*100
 local volumeUpButtonText
 local volumeDownButtonText
 local muteButton
@@ -24,7 +25,7 @@ local music = audio.loadSound( "music/Menu.wav" )
 local musicChannel
 
 local function updateVolumeText(event)
-  volumeText.text = "Volume: "..(volume*100)
+  volumeText.text = "Volume: "..volumeActual
 end
 
 local function volumeSet(event)
@@ -33,7 +34,7 @@ end
 
 local function volumeUp(event)
   volume =  volume  + 0.1
-  if volume >= 100 then
+  if volume >= 1.0 then
     volume = 100
   end
 end
@@ -94,7 +95,7 @@ function scene:create( event )
   muteButtonText = display.newText(uiGroup,"Mute Volume",display.contentCenterX-25,150,"Font.ttf",108)
   volumeText = display.newText(uiGroup,"Volume: "..(volume*100),300,display.contentCenterY,"Font.ttf",108)
 
-  musicChannel = audio.play( music ,{channel = 1, loops = -1, duration = 14000} )
+  musicChannel = audio.play( music ,{channel = 1, loops = -1} )
 
 
   backButton:addEventListener("tap", backToMain)
