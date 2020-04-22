@@ -15,6 +15,8 @@ local backGroup
 local uiGroup
 local music = audio.loadSound( "music/Menu.mp3" )
 local musicChannel
+local ClickButton = audio.loadSound( "sounds/ClickButton.mp3" )
+local CLickButtonChannel
 
 local function volumeSet()
   audio.setVolume( 0.5 )
@@ -51,9 +53,17 @@ function scene:create( event )
 
   local optionsText = display.newText( uiGroup,"Options",display.contentCenterX-25,750,"Font.ttf",108 )
 
+
+  local function Buttonclicked (event)
+    audio.setVolume( .2, { channel= ClickButtonChannel } )
+    ClickButtonChannel = audio.play( ClickButton,{channel=1, loops = 0})
+  end
+
   musicChannel = audio.play( music ,{channel = 1, loops = -1} )
 
+  playButton:addEventListener("tap", Buttonclicked)
   playButton:addEventListener("tap", goToGame)
+  optionsButton:addEventListener("tap", Buttonclicked)
   optionsButton:addEventListener("tap", goToOptions)
 end
 
