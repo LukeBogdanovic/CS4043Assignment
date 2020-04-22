@@ -11,7 +11,7 @@ local function nextLevel()
   composer.gotoScene( "Story2" , "fade" )
 end
 
-local physics  = require("physics")
+local physics = require("physics")
 physics.start()
 physics.setGravity(0,0)
 
@@ -29,6 +29,9 @@ local background2
 local pauseButton
 local floor
 local enemiesKilled = 0
+local buff
+local hotDog
+local ninja
 
 local spawnParams = {
 xmin = 20,

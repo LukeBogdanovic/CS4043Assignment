@@ -29,7 +29,10 @@ local background2
 local pauseButton
 local floor
 local deathText
-local enemiesKilled
+local enemiesKilled = 0
+local buff
+local hotDog
+local ninja
 
 local spawnParams = {
 xmin = 20,
