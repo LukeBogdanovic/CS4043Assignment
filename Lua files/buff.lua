@@ -24,6 +24,25 @@ buff.x = display.contentCenterX
 buff.y = 900
 buff:setSequence( "run" )
 
+
+local punchsheet = graphics.newImageSheet( "img/punchsheet.png" , options )
+
+local punchseq = {
+    {
+      name = "punch",
+      start = 1,
+      count = 3,
+      time = 1100,
+      loopCount = 1,
+      loopDirection = "forward"
+   }
+}
+
+local buffpunch = display.newSprite( puchsheet, punchseq )
+punch.x = buff.x
+punch.y = buff.y
+punch:setSequence( "punch" )
+
 function walkBuff( event )
   if (event.keyName == 'd' and event.phase == 'down') then
     buff.x = buff.x + 30
