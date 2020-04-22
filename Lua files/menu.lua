@@ -13,7 +13,7 @@ end
 
 local backGroup
 local uiGroup
-local music = audio.loadSound( "music/LevelOne.mp3" )
+local music = audio.loadSound( "music/Menu.mp3" )
 local musicChannel
 
 local function volumeSet()
