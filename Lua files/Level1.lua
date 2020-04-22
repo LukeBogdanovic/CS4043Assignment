@@ -72,8 +72,8 @@ function scene:create(event)
   local options =
   {
       --required parameters
-      width = 69,
-      height = 96,
+      width = 207,
+      height = 288,
       numFrames = 8 }
 
 
@@ -93,7 +93,7 @@ function scene:create(event)
 
   local buff = display.newSprite( buffsheet, buffseq )
   buff.x = display.contentCenterX
-  buff.y = 1000
+  buff.y = 900
   buff:setSequence( "run" )
   buff:play()
 
