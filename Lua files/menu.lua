@@ -54,7 +54,7 @@ function scene:create( event )
   local optionsText = display.newText( uiGroup,"Options",display.contentCenterX-25,750,"Font.ttf",108 )
 
 
-  local function Buttonclicked (event)
+  function Buttonclicked (event)
     audio.setVolume( .5, { channel= ClickButtonChannel } )
     ClickButtonChannel = audio.play( ClickButton,{channel=2, loops = 0})
   end
@@ -87,7 +87,6 @@ function scene:hide( event )
   if ( phase == "will" ) then
 
   elseif ( phase == "did" ) then
-    composer.removeScene( "menu" )
   end
 end
 

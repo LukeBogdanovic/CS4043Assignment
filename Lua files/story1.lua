@@ -18,6 +18,8 @@ local musicChannel1
 local musicChannel2
 local music1 = audio.loadSound( "music/Menu.mp3" )
 local music2 = audio.loadSound( "music/Level1.mp3" )
+local ClickButton
+local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
 
 local function fadeMusic(event)
   musicChannel = audio.fadeOut( { channel=1, time=1500  } )

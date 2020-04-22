@@ -23,6 +23,8 @@ local muteButton
 local volumeDisplay
 local music = audio.loadSound( "music/Menu.wav" )
 local musicChannel
+local ClickButton
+local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
 
 local function updateVolumeText(event)
   volumeText.text = "Volume: "..volumeActual
@@ -97,6 +99,10 @@ function scene:create( event )
 
   musicChannel = audio.play( music ,{channel = 1, loops = -1} )
 
+  local function Buttonclicked (event)
+    audio.setVolume( .5, { channel= ClickButtonChannel } )
+    ClickButtonChannel = audio.play( ClickButton,{channel=2, loops = 0})
+  end
 
   backButton:addEventListener("tap", backToMain)
   volumeUpButton:addEventListener("tap",volumeUp)
@@ -108,6 +114,10 @@ function scene:create( event )
   volumeUpButton:addEventListener("tap",updateVolumeText)
   volumeDownButton:addEventListener("tap",updateVolumeText)
   muteButton:addEventListener("tap",updateVolumeText)
+  muteButton:addEventListener("tap", Buttonclicked)
+  volumeDownButton:addEventListener("tap", Buttonclicked)
+  backButton:addEventListener("tap", Buttonclicked)
+  volumeUpButton:addEventListener("tap", Buttonclicked)
 end
 
 function scene:show( event )

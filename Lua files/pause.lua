@@ -15,17 +15,19 @@ function scene:create( event )
     pauseGroup = display.newGroup()
     sceneGroup:insert( pauseGroup )
 
-    local MenuBackground = display.newImageRect( pauseGroup, "MenuBackground2.png", display.actualContentWidth, display.actualContentHeight )
+    local MenuBackground = display.newImageRect( pauseGroup, "Level1Background.png", display.actualContentWidth, display.actualContentHeight )
     MenuBackground.x = display.contentCenterX
     MenuBackground.y = display.contentCenterY
 
-    local buttonBackToMenu = display.newText( sceneGroup, "Back To Menu", display.contentCenterX, 0.3*display.actualContentHeight, native.systemFont, 100 )
+    local buttonBackToMenu = display.newText( pauseGroup, "Back To Menu", display.contentCenterX, 0.3*display.actualContentHeight, native.systemFont, 100 )
     buttonBackToMenu:setFillColor( 0, 0.294, 0.518 )
     buttonBackToMenu:addEventListener( "tap", gotoMenu )
 
-    local buttonContinue = display.newText( sceneGroup, "Continue", display.contentCenterX, 0.35*display.actualContentHeight+50, native.systemFont, 100 )
+    local buttonContinue = display.newText( pauseGroup, "Continue", display.contentCenterX, 0.35*display.actualContentHeight+50, native.systemFont, 100 )
     buttonContinue:setFillColor( 0, 0.294, 0.518 )
     buttonContinue:addEventListener( "tap", gotoGame )
+
+    local
 end
 
 function scene:show( event )

@@ -43,6 +43,10 @@ spawnOnTimer = 12,
 spawnInitial = 4
 }
 
+local function updateKilled(event)
+  enemiesKilled = enemiesKilled + 1
+end
+
 function scene:create(event)
   local sceneGroup = self.view
 
@@ -70,10 +74,12 @@ function scene:create(event)
   floor.x = display.contentCenterX
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
+  KilledText = display.newText( uiGroup,"EnemiesKilled: "..enemiesKilled, )
 end
 
 local function updateText()
   livesText.text = "Lives: "..lives
+  killedText.text = "EnemiesKilled: "..enemiesKilled
 end
 
 function scene:show( event )
@@ -168,6 +174,7 @@ local function bgScroll(event)
 end
 
 Runtime:addEventListener("enterFrame",bgScroll)
+Runtime:addEventListener("")
 
 local function gameOver()
   if lives == 0 then
@@ -178,9 +185,8 @@ end
 local function backToBeginning()
   if died == true then
     deathText = display.newText( "YOU DIED" )
-    if lives == lives-1 then
-      composer.gotoScene("level2")
-    end
+    enemiesKilled = 0
+    composer.gotoScene("level2")
   end
 end
 

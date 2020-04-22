@@ -1,5 +1,6 @@
 --level1.lua
 local composer = require("composer")
+local buff2 = require("buff")
 
 local scene = composer.newScene()
 
@@ -31,6 +32,7 @@ local floor
 local enemiesKilled = 0
 local hotDog
 local ninja
+local pauseButton = "img/pauseButton.png"
 
 local spawnParams = {
 xmin = 20,
@@ -68,33 +70,8 @@ function scene:create(event)
   floor.y = 1080
   floor.x = display.contentCenterX
 
-  local options =
-  {
-      --required parameters
-      width = 207,
-      height = 288,
-      numFrames = 8 }
-
-
-  local buffsheet = graphics.newImageSheet( "img/buffsheet.png" , options )
-
-  local buffseq = {
-      -- consecutive frames sequence
-      {
-          name = "run",
-          start = 1,
-          count = 8,
-          time = 1100,
-          loopCount = 0,
-          loopDirection = "forward"
-      }
-  }
-
-  local buff = display.newSprite( buffsheet, buffseq )
-  buff.x = display.contentCenterX
-  buff.y = 900
-  buff:setSequence( "run" )
-  buff:play()
+  floor.objType = "floor"
+  physics.addBody( floor,"static",  {bounce = 0.0, friction = 0.3} )
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
@@ -195,7 +172,6 @@ local function bgScroll(event)
 end
 
 Runtime:addEventListener("enterFrame",bgScroll)
---Runtime:addEventListener("key",)
 
 local function gameOver()
   if lives == 0 then
@@ -226,6 +202,7 @@ local function gameResume()
   physics.resume()
 end
 
+Runtime:addEventListener("escape",gamePause)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
