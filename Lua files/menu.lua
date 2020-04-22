@@ -55,7 +55,7 @@ function scene:create( event )
 
 
   local function Buttonclicked (event)
-    audio.setVolume( .2, { channel= ClickButtonChannel } )
+    audio.setVolume( .5, { channel= ClickButtonChannel } )
     ClickButtonChannel = audio.play( ClickButton,{channel=2, loops = 0})
   end
 
