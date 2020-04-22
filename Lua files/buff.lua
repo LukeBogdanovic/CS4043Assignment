@@ -1,10 +1,5 @@
 --buff.lua
 
-
-local function keyPress(event)
-  --if (event.keyName)
-end
-
 local options =
 {
     --required parameters
@@ -30,7 +25,6 @@ local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
 buff:setSequence( "run" )
---buff:play()
 
 function walkBuff( event )
   if (event.keyName == 'd' and event.phase == 'down') then
