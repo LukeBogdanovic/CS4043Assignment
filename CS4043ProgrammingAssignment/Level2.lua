@@ -28,6 +28,7 @@ local background
 local background2
 local pauseButton
 local floor
+local enemiesKilled = 0
 
 local spawnParams = {
 xmin = 20,

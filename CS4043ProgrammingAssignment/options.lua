@@ -9,6 +9,43 @@ end
 
 local backGroup
 local uiGroup
+local volumeUpButton
+local volumeDownButton
+local background
+local backButton
+local backButtonText
+local title
+local volume = 0.5
+local volumeUpButtonText
+local volumeDownButtonText
+local muteButton
+local volumeDisplay
+
+local function updateVolumeText(event)
+  volumeText.text = "Volume: "..(volume*100)
+end
+
+local function volumeSet(event)
+  audio.setVolume( volume )
+end
+
+local function volumeUp(event)
+  volume =  volume  + 0.1
+  if volume >= 100 then
+    volume = 100
+  end
+end
+
+local function volumeDown(event)
+  volume = volume - 0.1
+  if volume <= 0 then
+    volume = 0
+  end
+end
+
+local function muteVolume(event)
+  volume = 0.0
+end
 
 function scene:create( event )
   local sceneGroup = self.view
@@ -19,17 +56,47 @@ function scene:create( event )
   uiGroup = display.newGroup()
   sceneGroup:insert(uiGroup)
 
-  local background = display.newImageRect( backGroup, "Level1Background.png",1920,1080  )
+  background = display.newImageRect( backGroup, "Level1Background.png",1920,1080  )
   background.x = display.contentCenterX
   background.y = display.contentCenterY
 
-  local backButton = display.newImageRect( uiGroup ,"Button.png", 600, 400 )
+  title = display.newImageRect( backGroup, "title.png", 600, 300 )
+  title.x = 350
+  title.y = 200
+
+  backButton = display.newImageRect( uiGroup ,"Button.png", 600, 400 )
   backButton.x = display.contentCenterX-25
   backButton.y = 900
 
-  local backButtonText = display.newText( uiGroup ,"Back To Main",display.contentCenterX-25,900,"Font.ttf",108 )
+  volumeUpButton = display.newImageRect( uiGroup ,"Button.png", 600, 400 )
+  volumeUpButton.x = display.contentCenterX-25
+  volumeUpButton.y = 400
+
+  volumeDownButton = display.newImageRect( uiGroup ,"Button.png", 600, 400 )
+  volumeDownButton.x = display.contentCenterX-25
+  volumeDownButton.y = 650
+
+  muteButton = display.newImageRect( uiGroup, "Button.png", 600, 400 )
+  muteButton.x = display.contentCenterX-25
+  muteButton.y = 150
+
+  volumeDisplay = display.newImageRect( uiGroup, "Button.png", 600, 400 )
+  volumeDisplay.x = 300
+  volumeDisplay.y = display.contentCenterY
+
+  backButtonText = display.newText( uiGroup ,"Back To Menu",display.contentCenterX-25,900,"Font.ttf",108 )
+  volumeUpButtonText = display.newText( uiGroup,"volume Up",display.contentCenterX-25,400,"Font.ttf",108 )
+  volumeDownButtonText = display.newText(uiGroup,"volume Down", display.contentCenterX-25,650,"Font.ttf",108)
+  muteButtonText = display.newText(uiGroup,"Mute Volume",display.contentCenterX-25,150,"Font.ttf",108)
+  volumeText = display.newText(uiGroup,"Volume: "..(volume*10),300,display.contentCenterY,"Font.ttf",108)
 
   backButton:addEventListener("tap", backToMain)
+  volumeUpButton:addEventListener("tap",volumeUp)
+  volumeDownButton:addEventListener("tap",volumeDown)
+  muteButton:addEventListener("tap",muteVolume)
+  volumeUpButton:addEventListener("tap",updateVolumeText)
+  volumeDownButton:addEventListener("tap",updateVolumeText)
+  muteButton:addEventListener("tap",updateVolumeText)
 end
 
 function scene:show( event )
