@@ -13,6 +13,8 @@ end
 
 local backGroup
 local uiGroup
+local music = audio.loadSound( "music/LevelOne.mp3" )
+local musicChannel
 
 function scene:create( event )
   local sceneGroup = self.view
@@ -42,6 +44,8 @@ function scene:create( event )
   local playText = display.newText( uiGroup,"Play",display.contentCenterX-25,450,"Font.ttf",108 )
 
   local optionsText = display.newText( uiGroup,"Options",display.contentCenterX-25,750,"Font.ttf",108 )
+
+  musicChannel = audio.play( music ,{channel = 1, loops = -1} )
 
   playButton:addEventListener("tap", goToGame)
   optionsButton:addEventListener("tap", goToOptions)

@@ -58,6 +58,8 @@ function scene:create( event )
   uiGroup = display.newGroup()
   sceneGroup:insert(uiGroup)
 
+  volumeSet()
+
   background = display.newImageRect( backGroup, "img/Level1Background.png",1920,1080  )
   background.x = display.contentCenterX
   background.y = display.contentCenterY
@@ -92,12 +94,16 @@ function scene:create( event )
   muteButtonText = display.newText(uiGroup,"Mute Volume",display.contentCenterX-25,150,"Font.ttf",108)
   volumeText = display.newText(uiGroup,"Volume: "..(volume*100),300,display.contentCenterY,"Font.ttf",108)
 
-  musicChannel = audio.play( music ,{channel = 1, loops = -1} )
+  musicChannel = audio.play( music ,{channel = 1, loops = -1, duration = 14000} )
+
 
   backButton:addEventListener("tap", backToMain)
   volumeUpButton:addEventListener("tap",volumeUp)
   volumeDownButton:addEventListener("tap",volumeDown)
   muteButton:addEventListener("tap",muteVolume)
+  volumeUpButton:addEventListener("tap",volumeSet)
+  volumeDownButton:addEventListener("tap",volumeSet)
+  muteButton:addEventListener("tap",volumeSet)
   volumeUpButton:addEventListener("tap",updateVolumeText)
   volumeDownButton:addEventListener("tap",updateVolumeText)
   muteButton:addEventListener("tap",updateVolumeText)
