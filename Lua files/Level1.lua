@@ -69,6 +69,34 @@ function scene:create(event)
   floor.y = 1080
   floor.x = display.contentCenterX
 
+  local options =
+  {
+      --required parameters
+      width = 71,
+      height = 97,
+      numFrames = 8 }
+
+
+  local buffsheet = graphics.newImageSheet( "buffsheet.png" , options )
+
+  local buffseq = {
+      -- consecutive frames sequence
+      {
+          name = "run",
+          start = 1,
+          count = 8,
+          time = 1100,
+          loopCount = 0,
+          loopDirection = "forward"
+      }
+  }
+
+  local buff = display.newSprite( buffsheet, buffseq )
+  buff.x = cx
+  buff.y = 1000
+  buff:setSequence( "run" )
+  buff:play()
+  
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
 
