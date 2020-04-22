@@ -72,12 +72,12 @@ function scene:create(event)
   local options =
   {
       --required parameters
-      width = 71,
-      height = 97,
+      width = 96,
+      height = 132,
       numFrames = 8 }
 
 
-  local buffsheet = graphics.newImageSheet( "buffsheet.png" , options )
+  local buffsheet = graphics.newImageSheet( "img/buffsheet.png" , options )
 
   local buffseq = {
       -- consecutive frames sequence
@@ -92,7 +92,7 @@ function scene:create(event)
   }
 
   local buff = display.newSprite( buffsheet, buffseq )
-  buff.x = cx
+  buff.x = display.contentCenterX
   buff.y = 1000
   buff:setSequence( "run" )
   buff:play()
