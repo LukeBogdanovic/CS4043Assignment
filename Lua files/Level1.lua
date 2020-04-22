@@ -91,7 +91,7 @@ function scene:create(event)
       }
   }
 
-  local buff = display.newSprite( mainGroup, "buffsheet.png", buffseq )
+  local buff = display.newSprite( buffsheet, buffseq )
   buff.x = cx
   buff.y = 1000
   buff:setSequence( "run" )
