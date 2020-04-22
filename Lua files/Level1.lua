@@ -72,8 +72,8 @@ function scene:create(event)
   local options =
   {
       --required parameters
-      width = 71,
-      height = 97,
+      width = 69,
+      height = 96,
       numFrames = 8 }
 
 
