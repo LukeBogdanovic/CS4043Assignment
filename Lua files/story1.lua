@@ -14,8 +14,16 @@ local background
 local nextLevelButton
 local nextLevelButtonText
 local floor
-local musicChannel
+local musicChannel1
+local musicChannel2
 local music1 = audio.loadSound( "music/Menu.mp3" )
+local music2 = audio.loadSound( "music/Level1.mp3" )
+local ClickButton
+local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
+
+local function fadeMusic(event)
+  musicChannel = audio.fadeOut( { channel=1, time=1500  } )
+end
 
 function scene:create( event )
   local sceneGroup = self.view
@@ -66,7 +74,7 @@ function scene:hide( event )
   if ( phase == "will" ) then
 
   elseif ( phase == "did" ) then
-
+     composer.removeScene( "story1" )
   end
 end
 
