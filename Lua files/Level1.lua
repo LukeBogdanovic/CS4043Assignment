@@ -97,6 +97,8 @@ function scene:create(event)
   buff:setSequence( "run" )
   buff:play()
 
+
+
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
 
