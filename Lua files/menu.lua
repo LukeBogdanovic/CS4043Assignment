@@ -23,19 +23,19 @@ function scene:create( event )
   uiGroup = display.newGroup()
   sceneGroup:insert( uiGroup )
 
-  local background = display.newImageRect( backGroup , "Level1Background.png" , 1920 , 1080 )
+  local background = display.newImageRect( backGroup , "img/Level1Background.png" , 1920 , 1080 )
   background.x = display.contentCenterX
   background.y  = display.contentCenterY
 
-  local title = display.newImageRect( backGroup, "title.png", 600, 300 )
+  local title = display.newImageRect( backGroup, "img/title.png", 600, 300 )
   title.x = display.contentCenterX
   title.y = 200
 
-  local playButton = display.newImageRect( uiGroup, "Button.png",  600, 400 )
+  local playButton = display.newImageRect( uiGroup, "img/Button.png",  600, 400 )
   playButton.x = display.contentCenterX - 25
   playButton.y = 450
 
-  local optionsButton = display.newImageRect( uiGroup, "Button.png", 600, 400 )
+  local optionsButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
   optionsButton.x = display.contentCenterX - 25
   optionsButton.y = 750
 

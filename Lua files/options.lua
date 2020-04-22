@@ -56,31 +56,31 @@ function scene:create( event )
   uiGroup = display.newGroup()
   sceneGroup:insert(uiGroup)
 
-  background = display.newImageRect( backGroup, "Level1Background.png",1920,1080  )
+  background = display.newImageRect( backGroup, "img/Level1Background.png",1920,1080  )
   background.x = display.contentCenterX
   background.y = display.contentCenterY
 
-  title = display.newImageRect( backGroup, "title.png", 600, 300 )
+  title = display.newImageRect( backGroup, "img/title.png", 600, 300 )
   title.x = 350
   title.y = 200
 
-  backButton = display.newImageRect( uiGroup ,"Button.png", 600, 400 )
+  backButton = display.newImageRect( uiGroup ,"img/Button.png", 600, 400 )
   backButton.x = display.contentCenterX-25
   backButton.y = 900
 
-  volumeUpButton = display.newImageRect( uiGroup ,"Button.png", 600, 400 )
+  volumeUpButton = display.newImageRect( uiGroup ,"img/Button.png", 600, 400 )
   volumeUpButton.x = display.contentCenterX-25
   volumeUpButton.y = 400
 
-  volumeDownButton = display.newImageRect( uiGroup ,"Button.png", 600, 400 )
+  volumeDownButton = display.newImageRect( uiGroup ,"img/Button.png", 600, 400 )
   volumeDownButton.x = display.contentCenterX-25
   volumeDownButton.y = 650
 
-  muteButton = display.newImageRect( uiGroup, "Button.png", 600, 400 )
+  muteButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
   muteButton.x = display.contentCenterX-25
   muteButton.y = 150
 
-  volumeDisplay = display.newImageRect( uiGroup, "Button.png", 600, 400 )
+  volumeDisplay = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
   volumeDisplay.x = 300
   volumeDisplay.y = display.contentCenterY
 

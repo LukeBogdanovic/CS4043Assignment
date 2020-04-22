@@ -1,4 +1,4 @@
---level1.lua
+--level3.lua
 local composer = require("composer")
 
 local scene = composer.newScene()
@@ -8,7 +8,7 @@ local function backToStart()
 end
 
 local function nextLevel()
-  composer.gotoScene( "Story2" , "fade" )
+  composer.gotoScene( "Story4" ,"fade" )
 end
 
 local physics  = require("physics")
@@ -28,7 +28,8 @@ local background
 local background2
 local pauseButton
 local floor
-local enemiesKilled = 0
+local deathText
+local enemiesKilled
 
 local spawnParams = {
 xmin = 20,
@@ -54,15 +55,15 @@ function scene:create(event)
   uiGroup = display.newGroup()
   sceneGroup:insert(uiGroup)
 
-  background = display.newImageRect(backGroup,"Level1Background.png",1920,1080)
+  background = display.newImageRect(backGroup,"img/Level3Background.png",1920,1080)
   background.x = display.contentCenterX
   background.y = display.contentCenterY
 
-  background2 = display.newImageRect( backGroup , "Level1Background.png" , 1920 , 1080 )
+  background2 = display.newImageRect( backGroup , "img/Level3Background.png" , 1920 , 1080 )
   background2.x = display.contentCenterX+1920
   background2.y  = display.contentCenterY
 
-  floor = display.newImageRect( backGroup, "floor.png",1920 ,100 )
+  floor = display.newImageRect( backGroup, "img/floor.png",1920 ,100 )
   floor.y = 1080
   floor.x = display.contentCenterX
 
@@ -105,7 +106,7 @@ end
 
 local function spawnItem( bounds )
 
-  local item =display.newItems ( 0, 0, 20 )
+  local item = display.newItems ( 0, 0, 20 )
 
   item.x = math.random( bounds.xMin, bounds.xMax)
   item.y = math.random( bounds.yMin, bounds.yMax)
@@ -176,7 +177,7 @@ local function backToBeginning()
   if died == true then
     deathText = display.newText( "YOU DIED" )
     if lives == lives-1 then
-      composer.gotoScene("level1")
+      composer.gotoScene("Level3")
     end
   end
 end
