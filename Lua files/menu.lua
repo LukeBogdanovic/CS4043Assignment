@@ -4,7 +4,7 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 
 local function goToGame()
-  composer.gotoScene( "Level1", {time=500, effect="crossFade"} )
+  composer.gotoScene( "story1", {time=500, effect="crossFade"} )
 end
 
 local function goToOptions()

@@ -88,7 +88,7 @@ function scene:create( event )
   volumeUpButtonText = display.newText( uiGroup,"volume Up",display.contentCenterX-25,400,"Font.ttf",108 )
   volumeDownButtonText = display.newText(uiGroup,"volume Down", display.contentCenterX-25,650,"Font.ttf",108)
   muteButtonText = display.newText(uiGroup,"Mute Volume",display.contentCenterX-25,150,"Font.ttf",108)
-  volumeText = display.newText(uiGroup,"Volume: "..(volume*10),300,display.contentCenterY,"Font.ttf",108)
+  volumeText = display.newText(uiGroup,"Volume: "..(volume*100),300,display.contentCenterY,"Font.ttf",108)
 
   backButton:addEventListener("tap", backToMain)
   volumeUpButton:addEventListener("tap",volumeUp)
