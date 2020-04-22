@@ -16,6 +16,10 @@ local uiGroup
 local music = audio.loadSound( "music/LevelOne.mp3" )
 local musicChannel
 
+local function volumeSet()
+  audio.setVolume( 0.5 )
+end
+
 function scene:create( event )
   local sceneGroup = self.view
 
@@ -24,6 +28,8 @@ function scene:create( event )
 
   uiGroup = display.newGroup()
   sceneGroup:insert( uiGroup )
+
+  volumeSet()
 
   local background = display.newImageRect( backGroup , "img/Level1Background.png" , 1920 , 1080 )
   background.x = display.contentCenterX

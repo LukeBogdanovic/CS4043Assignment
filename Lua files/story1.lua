@@ -14,6 +14,8 @@ local background
 local nextLevelButton
 local nextLevelButtonText
 local floor
+local musicChannel
+local music1 = audio.loadSound( "music/Menu.mp3" )
 
 function scene:create( event )
   local sceneGroup = self.view
