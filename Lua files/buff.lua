@@ -135,14 +135,21 @@ local buffseq = {
       time = 1100,
       loopCount = 0,
       loopDirection = "forward"
-   }
-  
+   },
+   {
+        name = "punch",
+        frames = { 1,9,10 },
+        time = 300,
+        loopCount = 1,
+        loopDirection = "bounce"
+    },
+dd
 }
 
 local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
-buff:setSequence( "walk" )
+buff:setSequence( "punch" )
 
 function walkBuff( event )
   if (event.keyName == 'd' and event.phase == 'down') then
