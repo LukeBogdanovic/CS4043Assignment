@@ -166,7 +166,7 @@ local buffseq = {
       },
       {
            name = "hurt",
-            frames = {1,11},
+           frames = {1,11},
            time = 300,
            loopCount = 1,
            loopDirection = "bounce"
@@ -174,14 +174,22 @@ local buffseq = {
 
 }
 
+local gravity = 0.2
 local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
 buff.isJumping = false
+buff.groundLevel = buff.y
 buff:setSequence("walk")
-local physics = require("physics")
-physics.start()
-physics.addBody( buff, "dynamic",{bounce = 0,} )
+
+local function moveBuff(event)
+  buff.jumpSpeed = buff.jumpSpeed - gravity
+  buff.y = buff.y - buff.jumpSpeed
+  if buff.y >= buff.groundLevel then
+    Runtime:removeEventListener("enterFrame",moveBuff)
+    buff.y = buff.groundLevel
+  end
+end
 
 local function key(event)
   if (event.phase == "down") then
@@ -210,18 +218,18 @@ end
 function walkBuff( event )
     if (aPressed) then
       buff:play("walk")
-      buff.x = buff.x - 5
+      buff.x = buff.x - 10
     end
     if (dPressed) then
       buff:play("walk")
-      buff.x = buff.x + 5
+      buff.x = buff.x + 10
     end
 end
 
 function buffJump(event)
-  if(event.keyName == "space" and event.phase == 'down'and not buff.isJumping) then
-    buff:applyLinearImpulse(0,-15*buff.mass)
-    buff.isJumping = true
+  if(spacePressed) then
+    buff.jumpSpeed = 7
+    Runtime:addEventListener("enterFrame",moveBuff)
   end
 end
 
