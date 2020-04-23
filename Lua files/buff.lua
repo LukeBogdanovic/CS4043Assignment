@@ -147,8 +147,8 @@ local buffseq = {
    {
         name = "punch",
         frames = { 1,9,10 },
-        time = 300,
-        loopCount = 1,
+        time = 250,
+        loopCount = 0,
         loopDirection = "bounce"
     },
     {
@@ -182,10 +182,7 @@ buff.x = display.contentCenterX
 buff.y = 900
 buff:setSequence("walk")
 
-local buffImage = "img/output.png"
-local buffOutline = graphics.newOutline( 2, buffImage )
-local buffRect = display.newImageRect( buffImage,207,294 )
-physics.addBody(buffRect,{outline = buffOutline})
+physics.addBody( buff, {radius = 147, isSensor = true} )
 
 local function key(event)
   if (event.phase == "down") then
@@ -224,7 +221,7 @@ end
 
 function buffJump(event)
   if(spacePressed) then
-    buffRect:applyLinearImpulse(0,-0.75,buffRect.x,buffRect.y)
+    buff:applyLinearImpulse(0,-100,buff.x,buff.y)
   end
 end
 
