@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 local dPressed = false
 local aPressed = false
 local spacePressed = false
@@ -5,6 +6,8 @@ local fPressed = false
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,9.8)
+=======
+>>>>>>> ac743e6cdf12d7af2e9f12fc5529513320992d9b
 
 local options =
 {
@@ -169,7 +172,7 @@ local buffseq = {
       },
       {
            name = "hurt",
-           frames = {1,11},
+            frames = {1,11},
            time = 300,
            loopCount = 1,
            loopDirection = "bounce"
@@ -180,6 +183,7 @@ local buffseq = {
 local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
+<<<<<<< HEAD
 buff:setSequence("walk")
 local buffRect = display.newRect( buff.x, buff.y, 207, 294 )
 physics:addBody(myRect,"dynamic")
@@ -207,38 +211,44 @@ local function key(event)
           end
       end
 end
+=======
+buff:setSequence( "walk" )
+>>>>>>> ac743e6cdf12d7af2e9f12fc5529513320992d9b
 
 function walkBuff( event )
-    if (aPressed) then
-      buff:play("walk")
-      buff.x = buff.x - 10
-    end
-    if (dPressed) then
-      buff:play("walk")
-      buff.x = buff.x + 10
-    end
+  if (event.keyName == 'd' and event.phase == 'down') then
+    buff.x = buff.x + 30
+    buff:play()
+    return true
+  end
+  if (event.keyName == 'a' and event.phase == 'down') then
+      buff.x = buff.x - 30
+      buff:play()
+      return true
+  end
+  buff:pause()
 end
 
 function buffJump(event)
+<<<<<<< HEAD
   if(spacePressed) then
     myRect:applyLinearImpulse(0,-0.75,buff.x,buff.y)
   end
 end
+=======
+  if(event.keyName == "space" and event.phase == 'down') then
+    buff:applyLinearImpulse( 0, .80, buff.x, buff.y )
+>>>>>>> ac743e6cdf12d7af2e9f12fc5529513320992d9b
 
-function buffPunch(event)
-  if(fPressed)then
-    buff:setSequence("punch")
-    buff:play("punch")
-  end
-  if not (fPressed) then
-    buff:setSequence("walk")
   end
 end
+<<<<<<< HEAD
 
 buff:addEventListener("key",buffJump)
 Runtime:addEventListener("enterFrame",walkBuff)
+=======
+Runtime:addEventListener("key",walkBuff)
+>>>>>>> ac743e6cdf12d7af2e9f12fc5529513320992d9b
 Runtime:addEventListener("key",buffJump)
-Runtime:addEventListener("key",key)
-Runtime:addEventListener("key",buffPunch)
 
 return buff

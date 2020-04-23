@@ -1,6 +1,5 @@
 --level2.lua
 local composer = require("composer")
-local buff = require("buff")
 
 local scene = composer.newScene()
 
@@ -30,6 +29,9 @@ local background2
 local pauseButton
 local floor
 local enemiesKilled = 0
+local buff
+local hotDog
+local ninja
 
 local spawnParams = {
 xmin = 20,
@@ -172,6 +174,7 @@ local function bgScroll(event)
 end
 
 Runtime:addEventListener("enterFrame",bgScroll)
+Runtime:addEventListener("")
 
 local function gameOver()
   if lives == 0 then
