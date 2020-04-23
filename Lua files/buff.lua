@@ -1,3 +1,4 @@
+
 local options =
 {
     frames =
@@ -172,7 +173,7 @@ local buffseq = {
 local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
-buff:setSequence( "hurt" )
+buff:setSequence( "walk" )
 
 function walkBuff( event )
   if (event.keyName == 'd' and event.phase == 'down') then
@@ -190,10 +191,10 @@ end
 
 function buffJump(event)
   if(event.keyName == "space" and event.phase == 'down') then
-    buff:applyLinearImpulse(0,-10)
+    buff:applyLinearImpulse( 0, .80, buff.x, buff.y )
+
   end
 end
-
 Runtime:addEventListener("key",walkBuff)
 Runtime:addEventListener("key",buffJump)
 
