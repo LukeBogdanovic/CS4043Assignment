@@ -1,5 +1,6 @@
 --level3.lua
 local composer = require("composer")
+local buff = require("buff")
 
 local scene = composer.newScene()
 
@@ -30,9 +31,7 @@ local pauseButton
 local floor
 local deathText
 local enemiesKilled = 0
-local buff
-local hotDog
-local ninja
+
 
 local spawnParams = {
 xmin = 20,

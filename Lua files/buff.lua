@@ -1,3 +1,8 @@
+local dPressed = false
+local aPressed = false
+local spacePressed = false
+local fPressed = false
+
 local options =
 {
     frames =
@@ -150,28 +155,66 @@ local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
 buff:setSequence( "punch" )
+buff:setSequence("walk")
+buff.isJumping = false
+local physics = require("physics")
+physics.start()
+physics.addBody( buff, "dynamic",{bounce = 0,} )
+
+local function key(event)
+  if (event.phase == "down") then
+          if (event.keyName == "f") then
+              fPressed = true
+          elseif (event.keyName == "space") then
+              spacePressed = true
+          elseif (event.keyName == "a") then
+              aPressed = true
+          elseif (event.keyName == "d") then
+              dPressed = true
+          end
+      elseif (event.phase == "up") then
+          if (event.keyName == "f") then
+              fPressed = false
+          elseif (event.keyName == "space") then
+              spacePressed = false
+          elseif (event.keyName == "a") then
+              aPressed = false
+          elseif (event.keyName == "d") then
+              dPressed = false
+          end
+      end
+end
 
 function walkBuff( event )
-  if (event.keyName == 'd' and event.phase == 'down') then
-    buff.x = buff.x + 30
-    buff:play()
-    return true
-  end
-  if (event.keyName == 'a' and event.phase == 'down') then
-      buff.x = buff.x - 30
-      buff:play()
-      return true
-  end
-  buff:pause()
+    if (aPressed) then
+        buff:pause("punch")
+        buff.x = buff.x - 5
+        buff:play("walk")
+    end
+    if (dPressed) then
+        buff.x = buff.x + 5
+        buff:play("walk")
+    end
 end
 
 function buffJump(event)
-  if(event.keyName == "space" and event.phase == 'down') then
-    buff:applyLinearImpulse(0,-10)
+  if(event.keyName == "space" and event.phase == 'down'and not buff.isJumping) then
+    buff:applyLinearImpulse(0,-15*buff.mass)
+    buff.isJumping = true
   end
 end
 
-Runtime:addEventListener("key",walkBuff)
+function buffPunch(event)
+  buff:pause("walk")
+  if(fPressed)then
+    buff:setSequence("punch")
+    buff:play("punch")
+  end
+end
+
+Runtime:addEventListener("enterFrame",walkBuff)
 Runtime:addEventListener("key",buffJump)
+Runtime:addEventListener("key",key)
+Runtime:addEventListener("key",buffPunch)
 
 return buff
