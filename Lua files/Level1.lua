@@ -73,6 +73,8 @@ function scene:create(event)
   floor.objType = "floor"
   physics.addBody( floor,"static",  {bounce = 0.0, friction = 0.3} )
 
+
+
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
 
