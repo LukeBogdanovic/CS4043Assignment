@@ -143,13 +143,36 @@ local buffseq = {
         loopCount = 1,
         loopDirection = "bounce"
     },
-dd
+    {
+         name = "pickupHurley",
+         start = 13,
+         count = 2,
+         time = 300,
+         loopCount = 2,
+         loopDirection = "forward"
+     },
+     {
+          name = "walkHurley",
+          start = 15,
+          count = 4,
+          time = 1100,
+          loopCount = 1,
+          loopDirection = "forward"
+      },
+      {
+           name = "hurt",
+            frames = {1,11},
+           time = 300,
+           loopCount = 1,
+           loopDirection = "bounce"
+       },
+
 }
 
 local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
-buff:setSequence( "punch" )
+buff:setSequence( "hurt" )
 
 function walkBuff( event )
   if (event.keyName == 'd' and event.phase == 'down') then
