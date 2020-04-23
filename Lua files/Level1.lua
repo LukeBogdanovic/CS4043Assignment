@@ -1,6 +1,6 @@
 --level1.lua
 local composer = require("composer")
-local buff2 = require("buff")
+local buff = require("buff")
 
 local scene = composer.newScene()
 
@@ -14,7 +14,7 @@ end
 
 local physics = require("physics")
 physics.start()
-physics.setGravity(0,0)
+physics.setGravity(0,30)
 
 local lives = 3
 local died = false
@@ -32,7 +32,7 @@ local floor
 local enemiesKilled = 0
 local hotDog
 local ninja
-local pauseButton = "img/pauseButton.png"
+local killed = enemiesKilled + 1
 
 local spawnParams = {
 xmin = 20,
@@ -71,9 +71,8 @@ function scene:create(event)
   floor.x = display.contentCenterX
 
   floor.objType = "floor"
-  physics.addBody( floor,"static",  {bounce = 0.0, friction = 0.3} )
-
-
+  physics.addBody( floor,"static",  {bounce = 0, friction = 0.3} )
+  physics.addBody( buff,"dynamic",{bounce = 0} )
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
@@ -83,7 +82,6 @@ local function updateText()
 end
 
 function scene:show( event )
-
   local sceneGroup = self.view
   local phase = event.phase
 
@@ -95,7 +93,6 @@ function scene:show( event )
 end
 
 function scene:hide( event )
-
   local sceneGroup = self.view
   local phase = event.phase
 
@@ -175,13 +172,13 @@ end
 
 Runtime:addEventListener("enterFrame",bgScroll)
 
-local function gameOver()
+local function gameOver(event)
   if lives == 0 then
     backToStart()
   end
 end
 
-local function backToBeginning()
+local function backToBeginning(event)
   if died == true then
     deathText = display.newText( "YOU DIED" )
     if lives == lives-1 then
@@ -190,21 +187,6 @@ local function backToBeginning()
   end
 end
 
-local function gamePause()
-  local options = {
-    isModal = true,
-    effect = "fade",
-    time = 400
-  }
-  physics.pause()
-  composer.showOverlay( "pause" , options )
-end
-
-local function gameResume()
-  physics.resume()
-end
-
-Runtime:addEventListener("escape",gamePause)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
