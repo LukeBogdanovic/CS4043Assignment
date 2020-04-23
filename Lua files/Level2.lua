@@ -172,7 +172,6 @@ local function bgScroll(event)
 end
 
 Runtime:addEventListener("enterFrame",bgScroll)
-Runtime:addEventListener("")
 
 local function gameOver()
   if lives == 0 then

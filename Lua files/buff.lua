@@ -154,9 +154,8 @@ dd
 local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
-buff:setSequence( "punch" )
-buff:setSequence("walk")
 buff.isJumping = false
+buff:setSequence("walk")
 local physics = require("physics")
 physics.start()
 physics.addBody( buff, "dynamic",{bounce = 0,} )
@@ -187,13 +186,12 @@ end
 
 function walkBuff( event )
     if (aPressed) then
-        buff:pause("punch")
-        buff.x = buff.x - 5
-        buff:play("walk")
+      buff:play("walk")
+      buff.x = buff.x - 5
     end
     if (dPressed) then
-        buff.x = buff.x + 5
-        buff:play("walk")
+      buff:play("walk")
+      buff.x = buff.x + 5
     end
 end
 
@@ -205,10 +203,12 @@ function buffJump(event)
 end
 
 function buffPunch(event)
-  buff:pause("walk")
   if(fPressed)then
     buff:setSequence("punch")
     buff:play("punch")
+  end
+  if not (fPressed) then
+    buff:setSequence("walk")
   end
 end
 
