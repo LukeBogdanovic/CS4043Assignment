@@ -2,6 +2,9 @@ local dPressed = false
 local aPressed = false
 local spacePressed = false
 local fPressed = false
+local physics = require("physics")
+physics.start()
+physics.setGravity(0,9.8)
 
 local options =
 {
@@ -174,22 +177,12 @@ local buffseq = {
 
 }
 
-local gravity = 0.2
 local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
-buff.isJumping = false
-buff.groundLevel = buff.y
 buff:setSequence("walk")
-
-local function moveBuff(event)
-  buff.jumpSpeed = buff.jumpSpeed - gravity
-  buff.y = buff.y - buff.jumpSpeed
-  if buff.y >= buff.groundLevel then
-    Runtime:removeEventListener("enterFrame",moveBuff)
-    buff.y = buff.groundLevel
-  end
-end
+local buffRect = display.newRect( buff.x, buff.y, 207, 294 )
+physics:addBody(myRect,"dynamic")
 
 local function key(event)
   if (event.phase == "down") then
@@ -228,8 +221,7 @@ end
 
 function buffJump(event)
   if(spacePressed) then
-    buff.jumpSpeed = 7
-    Runtime:addEventListener("enterFrame",moveBuff)
+    myRect:applyLinearImpulse(0,-0.75,buff.x,buff.y)
   end
 end
 
@@ -243,6 +235,7 @@ function buffPunch(event)
   end
 end
 
+buff:addEventListener("key",buffJump)
 Runtime:addEventListener("enterFrame",walkBuff)
 Runtime:addEventListener("key",buffJump)
 Runtime:addEventListener("key",key)
