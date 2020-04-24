@@ -14,7 +14,8 @@ end
 
 local physics = require("physics")
 physics.start()
-physics.setGravity(0,30)
+physics.setGravity(0,20)
+physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
@@ -30,8 +31,6 @@ local background2
 local pauseButton
 local floor
 local enemiesKilled = 0
-local hotDog
-local ninja
 local killed = enemiesKilled + 1
 
 local spawnParams = {
@@ -66,12 +65,14 @@ function scene:create(event)
   background2.x = display.contentCenterX+1920
   background2.y  = display.contentCenterY
 
-  floor = display.newImageRect( backGroup, "img/floor.png",1920 ,100 )
+  floor = display.newImageRect( backGroup, "img/floor.png",3840 ,100 )
   floor.y = 1080
   floor.x = display.contentCenterX
 
   floor.objType = "floor"
-  physics.addBody( floor,"static",  {bounce = 0, friction = 0.3} )
+  physics.addBody( floor,"static",  {friction = 1} )
+
+  physics.addBody( buff,"dynamic",100,100, {density =5},isSensor==true )
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
@@ -79,10 +80,12 @@ end
 local function updateText()
   livesText.text = "Lives: "..lives
 end
-
+--youre a poopy bum bum
 function scene:show( event )
   local sceneGroup = self.view
   local phase = event.phase
+
+  physics.start()
 
   if ( phase == "will" ) then
 
@@ -106,53 +109,6 @@ function scene:destroy( event )
 
   local sceneGroup = self.view
 
-end
-
-local function spawnItem( bounds )
-
-  local item =display.newItems ( 0, 0, 20 )
-
-  item.x = math.random( bounds.xMin, bounds.xMax)
-  item.y = math.random( bounds.yMin, bounds.yMax)
-
-  spawnedObjects[#spawnedObjects+1] = item
-end
-
-local function spawnController( action, params )
-
-  if (spawnTimer and ( action == "start" or action == "stop")) then
-    timer.cancel( spawnTimer )
-  end
-
-  if ( action == "start" ) then
-
-   local spawnBounds = {}
-   spawnBounds.xMin = params.xMin or 0
-   spawnBounds.xMax = params.xMax or display.contentWidth
-   spawnBounds.yMin = params.yMin or 0
-   spawnBounds.yMax = params.yMax or display.contentHeight
-
-   local spawnTime = params.spawnTime or 1000
-   local spawnOnTimer = params.spawnOnTimer or 50
-   local spawnInitial = params.spawnInitial or 0
-
-   if( SpawnInitial > 0 ) then
-     for n = 1,spawnInitial do
-       spawnItem( spawnBounds )
-     end
-   end
-
-   if ( spawnOnTimer > 0 ) then
-     spawnTimer = timer.performWithDelay( spawnTime,
-     function() spawnItem( spawnBounds ); end, spawnOnTimer )
-   end
-
-   elseif (action == "pause") then
-     timer.pause( spawnTimer )
-
-   elseif ( action == "resume" ) then
-     timer.resume( spawnTimer )
-  end
 end
 
 local function bgScroll(event)
