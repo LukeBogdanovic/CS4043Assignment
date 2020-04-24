@@ -226,7 +226,7 @@ function buffJump(event)
 end
 
 function charCollide( self,event )
-   if ( event.selfElement == 2  ) then
+   if ( event.selfElement == 2 and event.other.objType == "floor" ) then
       if ( event.phase == "down" ) then
          self.canJump = self.canJump+1
       elseif ( event.phase == "up" ) then

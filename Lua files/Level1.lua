@@ -72,7 +72,8 @@ function scene:create(event)
   floor.objType = "floor"
   physics.addBody( floor,"static",  {friction = 1} )
 
-  physics.addBody( buff,"dynamic",100,100, {density =5},isSensor==true )
+  physics.addBody( buff,"dynamic", {density =5,bounce=0},
+  {box ={halfWidth=10,halfHeight=14,x=0,y=160},isSensor==true} )
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
@@ -80,7 +81,7 @@ end
 local function updateText()
   livesText.text = "Lives: "..lives
 end
---youre a poopy bum bum
+
 function scene:show( event )
   local sceneGroup = self.view
   local phase = event.phase
