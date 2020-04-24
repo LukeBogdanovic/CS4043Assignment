@@ -5,6 +5,7 @@ local fPressed = false
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,9.8)
+physics.setDrawMode( "hybrid" )
 
 local options =
 {
@@ -182,7 +183,10 @@ buff.x = display.contentCenterX
 buff.y = 900
 buff:setSequence("walk")
 
-physics.addBody( buff, {radius = 147, isSensor = true} )
+physics.addBody( buff, {density = 1.0, bounce = 0},
+{box = {halfwidth=103.5,halfHeight=147,x =0,y=60},isSensor = true} )
+buff.isFixedRotation = true
+buff.sensorOverLaps = 0
 
 local function key(event)
   if (event.phase == "down") then
@@ -220,7 +224,9 @@ function walkBuff( event )
 end
 
 function buffJump(event)
-  if(spacePressed) then
+  if(spacePressed and buff.sensorOverLaps > 0) then
+    local vx,vy = buff:getLinearVelocity()
+    buff:setLinearVelocity(vx,0)
     buff:applyLinearImpulse(0,-100,buff.x,buff.y)
   end
 end
@@ -235,6 +241,19 @@ function buffPunch(event)
   end
 end
 
+local function sensorCollide(self , event)
+  if (event.selfElement == 2 and event.other.objType == "floor") then
+    if(event.phase == "began") then
+      self.sensorOverLaps = self.sensorOverLaps + 1
+    elseif(event.phase == "ended") then
+      self.sensorOverLaps = self.sensorOverLaps - 1
+    end
+  end
+end
+
+buff.collision = sensorCollide
+
+buff:addEventListener("collision")
 buff:addEventListener("key",buffJump)
 Runtime:addEventListener("enterFrame",walkBuff)
 Runtime:addEventListener("key",buffJump)
