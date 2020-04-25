@@ -3,6 +3,7 @@ local aPressed = false
 local spacePressed = false
 local fPressed = false
 local physics = require("physics")
+local globalData = require("globalData")
 
 local options =
 {
@@ -175,13 +176,13 @@ local buffseq = {
 
 }
 
+local floor = 1080
+
 local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
 buff:setSequence("walk")
-
 buff.isFixedRotation = true
-buff.canJump = 0
 
 function key(event)
   if (event.phase == "down") then
@@ -219,20 +220,10 @@ function walkBuff( event )
 end
 
 function buffJump(event)
-  if (spacePressed and event.phase == "down" and buff.canJump == 0 ) then
+  if (spacePressed) then
     buff:setLinearVelocity(0,-200)
   end
   return true
-end
-
-function charCollide( self,event )
-   if ( event.selfElement == 2 and event.other.objType == "floor" ) then
-      if ( event.phase == "down" ) then
-         self.canJump = self.canJump+1
-      elseif ( event.phase == "up" ) then
-         self.canJump = self.canJump-1
-      end
-   end
 end
 
 function buffPunch(event)
@@ -245,9 +236,8 @@ function buffPunch(event)
   end
 end
 
-buff:addEventListener("key",buffJump)
 Runtime:addEventListener("enterFrame",walkBuff)
-Runtime:addEventListener("key",buffJump)
+Runtime:addEventListener("enterFrame",buffJump)
 Runtime:addEventListener("key",key)
 Runtime:addEventListener("key",buffPunch)
 

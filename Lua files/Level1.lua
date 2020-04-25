@@ -1,6 +1,7 @@
 --level1.lua
 local composer = require("composer")
 local buff = require("buff")
+local globalData = require("globalData")
 
 local scene = composer.newScene()
 
@@ -17,19 +18,18 @@ physics.start()
 physics.setGravity(0,20)
 physics.setDrawMode("hybrid")
 
-local lives = 3
-local died = false
+_G.lives = 3
+_G.died = false
 local livesText
 local backGroup
 local mainGroup
 local uiGroup
 local spawnTimer
 local spawnedObjects = {}
-local scrollSpeed = 2
+_G.scrollSpeed = 2
 local background
 local background2
 local pauseButton
-local floor
 local enemiesKilled = 0
 local killed = enemiesKilled + 1
 
@@ -68,12 +68,12 @@ function scene:create(event)
   floor = display.newImageRect( backGroup, "img/floor.png",3840 ,100 )
   floor.y = 1080
   floor.x = display.contentCenterX
+  floor.name = "floor"
 
   floor.objType = "floor"
-  physics.addBody( floor,"static",  {friction = 1} )
+  physics.addBody( floor,"static",  {friction = 0.3,bounce = 0},{isSensor==true} )
 
-  physics.addBody( buff,"dynamic", {density =5,bounce=0},
-  {box ={halfWidth=10,halfHeight=14,x=0,y=160},isSensor==true} )
+  physics.addBody( buff,"dynamic", {density =5,bounce=0} )
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
