@@ -1,7 +1,7 @@
 --level2.lua
 local composer = require("composer")
-
 local scene = composer.newScene()
+local buff = require ("buff")
 
 local function backToStart()
   composer.gotoScene( "restart" )
@@ -16,15 +16,10 @@ physics.start()
 physics.setGravity(0,30)
 physics.setDrawMode("hybrid")
 
-local lives = 3
-local died = false
 local livesText
 local backGroup
 local mainGroup
 local uiGroup
-local spawnTimer
-local spawnedObjects = {}
-local scrollSpeed = 2
 local background
 local background2
 local pauseButton
@@ -37,6 +32,8 @@ end
 
 function scene:create(event)
   local sceneGroup = self.view
+
+  function.getlives()
 
   physics.pause()
 
@@ -62,7 +59,7 @@ function scene:create(event)
   floor.x = display.contentCenterX
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
-  KilledText = display.newText( uiGroup,"EnemiesKilled: "..enemiesKilled, )
+  -- KilledText = display.newText( uiGroup,"EnemiesKilled: "..enemiesKilled )
 end
 
 local function updateText()
@@ -71,9 +68,10 @@ local function updateText()
 end
 
 function scene:show( event )
-
   local sceneGroup = self.view
   local phase = event.phase
+
+  physics.start()
 
   if ( phase == "will" ) then
 
@@ -128,7 +126,11 @@ local function backToBeginning()
   end
 end
 
-Runtime:addEventListener("enterFrame",bgScroll
+local function getLives()
+  lives = _G.lives
+end
+
+Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )

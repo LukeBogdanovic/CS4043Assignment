@@ -24,3 +24,7 @@ local ninjaseq = {
     loopDirection = "bounce"
   }
 }
+
+local ninja = display.newSprite( ninjaSheet, ninjaseq )
+
+function ninjaWalk()

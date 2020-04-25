@@ -180,6 +180,7 @@ buff.x = display.contentCenterX
 buff.y = 900
 buff:setSequence("walk")
 buff.isFixedRotation = true
+buff.mass = 999
 local canJump = false
 
 function key(event)
@@ -220,7 +221,7 @@ end
 function buffJump(event)
   if (spacePressed and canJump == false) then
     canJump = true
-    buff:setLinearVelocity(0,-700)
+    buff:setLinearVelocity(0,-1.5*buff.mass)
   end
 end
 

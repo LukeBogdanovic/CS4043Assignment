@@ -14,7 +14,7 @@ end
 
 local physics = require("physics")
 physics.start()
-physics.setGravity(0,30)
+physics.setGravity(0,60)
 physics.setDrawMode("hybrid")
 
 _G.lives = 3
@@ -23,24 +23,12 @@ local livesText
 local backGroup
 local mainGroup
 local uiGroup
-local spawnTimer
-local spawnedObjects = {}
 _G.scrollSpeed = 2
 local background
 local background2
 local pauseButton
 local enemiesKilled = 0
 local killed = enemiesKilled + 1
-
-local spawnParams = {
-xmin = 20,
-xmax = 300,
-yMin = 20,
-yMax = 460,
-spawnTime = 200,
-spawnOnTimer = 12,
-spawnInitial = 4
-}
 
 function scene:create(event)
   local sceneGroup = self.view
@@ -72,7 +60,7 @@ function scene:create(event)
   floor.objType = "floor"
   physics.addBody( floor,"static",  {friction = 0.3,bounce = 0},{isSensor==true} )
 
-  physics.addBody( buff,"dynamic", {density =5,bounce=0} )
+  physics.addBody( buff,"dynamic", {density =1000000000000,bounce=0} )
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
