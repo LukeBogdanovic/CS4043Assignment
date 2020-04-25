@@ -3,7 +3,6 @@ local aPressed = false
 local spacePressed = false
 local fPressed = false
 local physics = require("physics")
-local globalData = require("globalData")
 
 local options =
 {
@@ -176,8 +175,6 @@ local buffseq = {
 
 }
 
-local floor = 1080
-
 local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
@@ -221,9 +218,8 @@ end
 
 function buffJump(event)
   if (spacePressed) then
-    buff:setLinearVelocity(0,-200)
+    buff:setLinearVelocity(0,-700)
   end
-  return true
 end
 
 function buffPunch(event)

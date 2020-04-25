@@ -1,7 +1,6 @@
 --level1.lua
 local composer = require("composer")
 local buff = require("buff")
-local globalData = require("globalData")
 
 local scene = composer.newScene()
 
@@ -15,7 +14,7 @@ end
 
 local physics = require("physics")
 physics.start()
-physics.setGravity(0,20)
+physics.setGravity(0,30)
 physics.setDrawMode("hybrid")
 
 _G.lives = 3
@@ -125,8 +124,6 @@ local function bgScroll(event)
     end
 end
 
-Runtime:addEventListener("enterFrame",bgScroll)
-
 local function gameOver(event)
   if lives == 0 then
     backToStart()
@@ -142,6 +139,7 @@ local function backToBeginning(event)
   end
 end
 
+Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
