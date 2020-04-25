@@ -11,9 +11,10 @@ local function nextLevel()
   composer.gotoScene( "Story3" ,"fade" )
 end
 
-local physics  = require("physics")
+local physics = require("physics")
 physics.start()
-physics.setGravity(0,0)
+physics.setGravity(0,30)
+physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
@@ -29,19 +30,6 @@ local background2
 local pauseButton
 local floor
 local enemiesKilled = 0
-local buff
-local hotDog
-local ninja
-
-local spawnParams = {
-xmin = 20,
-xmax = 300,
-yMin = 20,
-yMax = 460,
-spawnTime = 200,
-spawnOnTimer = 12,
-spawnInitial = 4
-}
 
 local function updateKilled(event)
   enemiesKilled = enemiesKilled + 1
@@ -112,53 +100,6 @@ function scene:destroy( event )
 
 end
 
-local function spawnItem( bounds )
-
-  local item =display.newItems ( 0, 0, 20 )
-
-  item.x = math.random( bounds.xMin, bounds.xMax)
-  item.y = math.random( bounds.yMin, bounds.yMax)
-
-  spawnedObjects[#spawnedObjects+1] = item
-end
-
-local function spawnController( action, params )
-
-  if (spawnTimer and ( action == "start" or action == "stop")) then
-    timer.cancel( spawnTimer )
-  end
-
-  if ( action == "start" ) then
-
-   local spawnBounds = {}
-   spawnBounds.xMin = params.xMin or 0
-   spawnBounds.xMax = params.xMax or display.contentWidth
-   spawnBounds.yMin = params.yMin or 0
-   spawnBounds.yMax = params.yMax or display.contentHeight
-
-   local spawnTime = params.spawnTime or 1000
-   local spawnOnTimer = params.spawnOnTimer or 50
-   local spawnInitial = params.spawnInitial or 0
-
-   if( SpawnInitial > 0 ) then
-     for n = 1,spawnInitial do
-       spawnItem( spawnBounds )
-     end
-   end
-
-   if ( spawnOnTimer > 0 ) then
-     spawnTimer = timer.performWithDelay( spawnTime,
-     function() spawnItem( spawnBounds ); end, spawnOnTimer )
-   end
-
-   elseif (action == "pause") then
-     timer.pause( spawnTimer )
-
-   elseif ( action == "resume" ) then
-     timer.resume( spawnTimer )
-  end
-end
-
 local function bgScroll(event)
   background.x = background.x - scrollSpeed
   background2.x = background2.x - scrollSpeed
@@ -172,9 +113,6 @@ local function bgScroll(event)
   end
 
 end
-
-Runtime:addEventListener("enterFrame",bgScroll)
-Runtime:addEventListener("")
 
 local function gameOver()
   if lives == 0 then
@@ -190,6 +128,7 @@ local function backToBeginning()
   end
 end
 
+Runtime:addEventListener("enterFrame",bgScroll
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )

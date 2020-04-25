@@ -180,6 +180,7 @@ buff.x = display.contentCenterX
 buff.y = 900
 buff:setSequence("walk")
 buff.isFixedRotation = true
+local canJump = false
 
 function key(event)
   if (event.phase == "down") then
@@ -217,7 +218,8 @@ function walkBuff( event )
 end
 
 function buffJump(event)
-  if (spacePressed) then
+  if (spacePressed and canJump == false) then
+    canJump = true
     buff:setLinearVelocity(0,-700)
   end
 end
@@ -232,6 +234,13 @@ function buffPunch(event)
   end
 end
 
+function on_hit(event)
+  if(event.phase == "began") then
+    canJump = false
+  end
+end
+
+buff:addEventListener("collision",on_hit)
 Runtime:addEventListener("enterFrame",walkBuff)
 Runtime:addEventListener("enterFrame",buffJump)
 Runtime:addEventListener("key",key)
