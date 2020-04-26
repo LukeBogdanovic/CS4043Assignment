@@ -16,7 +16,7 @@ end
 
 local physics  = require("physics")
 physics.start()
-physics.setGravity(0,0)
+physics.setGravity(0,60)
 
 local lives = 3
 local died = false

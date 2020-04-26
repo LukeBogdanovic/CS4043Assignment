@@ -49,6 +49,9 @@ local function volumeDown(event)
   if volume <= 0 then
     volume = 0
   end
+  if(volume < 0.03)then
+    volume = 0.0
+  end
 end
 
 local function muteVolume(event)

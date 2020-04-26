@@ -25,7 +25,7 @@ local ninjaseq = {
   }
 }
 
-local ninja = display.newSprite( ninjaSheet, ninjaseq )
+-- local ninja = display.newSprite( ninjaSheet, ninjaseq )
 
 -- function ninjaWalk()
 return duck
