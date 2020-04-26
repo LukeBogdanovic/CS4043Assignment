@@ -8,7 +8,7 @@ local scene = composer.newScene()
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,60)
-physics.setDrawMode("hybrid")
+-- physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
@@ -179,7 +179,7 @@ local ninjaseq = {
 function createNinja(event)
     local whereFromNinja = math.random(2)
     local ninjas = display.newSprite( ninjaSheet,ninjaseq )
-    physics.addBody( ninjas, "dynamic" ,{density=1,bounce=0} )
+    physics.addBody( ninjas, "dynamic" ,{density=1,bounce=0, radius= 147} )
     ninjas.isFixedRotation = true
   if(whereFromNinja == 1)then
     ninjas.x = -80

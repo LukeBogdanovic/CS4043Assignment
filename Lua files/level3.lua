@@ -125,7 +125,8 @@ local i = 0
 function createDuck(event)
     local whereFromDuck = math.random(2)
     ducks[i] = display.newSprite( duckSheet,duckseq )
-    physics.addBody( ducks[i], "dynamic" ,{density=1,bounce=0} )
+    physics.addBody( ducks, "dynamic" ,{density=1,bounce=0, radius= 125} )
+    ducks.isFixedRotation = true
   if(whereFromDuck == 1)then
     ducks[i].x = -60
     ducks[i].y = 900
@@ -193,7 +194,8 @@ local ninjaseq = {
 function createNinja(event)
     local whereFromNinja = math.random(2)
     ninjas[i] = display.newSprite( ninjaSheet,ninjaseq )
-    physics.addBody( ninjas[i], "dynamic" ,{density=1,bounce=0} )
+    physics.addBody( ninjas, "dynamic" ,{density=1,bounce=0, radius= 147} )
+    ninjas.isFixedRotation = true
   if(whereFromNinja == 1)then
     ninjas[i].x = -60
     ninjas[i].y = 900
