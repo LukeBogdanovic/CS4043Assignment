@@ -56,12 +56,14 @@ function scene:create(event)
   floor.objType = "floor"
   physics.addBody( floor,"static",  {friction = 0.3,bounce = 0})
 
-  physics.addBody( buff,"dynamic", {density =1,bounce=0} )
+  physics.addBody( buff,"dynamic", {density =1,bounce=0},{box ={halfWidth=45,halfHeight=30 ,x=96,y=30},isSensor = true} )
 
   musicChannel = audio.play( music, {channel = 1,loops = -1} )
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
+
+buff.isFixedRotation = true
 
 local function updateText()
   livesText.text = "Lives: "..lives
@@ -275,7 +277,6 @@ end
 
 timer.performWithDelay( 7000, createNinja ,-1 )
 
--- Runtime:addEventListener("enterFrame",createDuck)
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
