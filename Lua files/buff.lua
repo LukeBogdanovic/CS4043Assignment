@@ -179,7 +179,6 @@ local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
 buff:setSequence("walk")
-buff.isFixedRotation = true
 buff.mass = 999
 local canJump = false
 
