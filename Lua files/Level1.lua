@@ -5,7 +5,6 @@ local duck = require("duck")
 local hotDog = require("hotDog")
 local Ninja = require("Ninja")
 local scene = composer.newScene()
-
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,60)
@@ -24,7 +23,7 @@ local background
 local background2
 local pauseButton
 local enemiesKilled = 0
-local killed = enemiesKilled + 1
+local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
 local musicChannel
 
@@ -57,16 +56,17 @@ function scene:create(event)
   physics.addBody( floor,"static",  {friction = 0.3,bounce = 0})
 
   physics.addBody( buff,"dynamic", {density =1,bounce=0},{box ={halfWidth=45,halfHeight=30 ,x=96,y=30},isSensor = true} )
+  buff.isFixedRotation = true
 
   musicChannel = audio.play( music, {channel = 1,loops = -1} )
 
-  livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
+  livesText	= display.newText( uiGroup,"Lives: "..lives,140,80,"Font.ttf",108 )
+  killCounter = display.newText( uiGroup,"Killed: "..enemiesKilled,1760,80,"Font.ttf",108 )
 end
-
-buff.isFixedRotation = true
 
 local function updateText()
   livesText.text = "Lives: "..lives
+  killCounter.text = "Killed:"..enemiesKilled
 end
 
 local function bgScroll(event)
@@ -109,6 +109,7 @@ end
 function scene:destroy( event )
   local sceneGroup = self.view
   audio.dispose( music )
+  composer.removeScene( "level1", false )
 end
 
 local function backToStart()
