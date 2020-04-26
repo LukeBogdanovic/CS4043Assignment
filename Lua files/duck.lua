@@ -24,3 +24,5 @@ local duckseq = {
     loopDirection = "bounce"
   }
 }
+
+local duck = display.newSprite( duckSheet, duckseq )

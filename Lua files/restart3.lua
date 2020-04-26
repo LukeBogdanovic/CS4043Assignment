@@ -13,9 +13,8 @@ local function backtoMenu()
 end
 
 local function backToLevel()
-  composer.gotoScene( "level1" , {effect = "fade"} )
+  composer.gotoScene( "level3" , {effect = "fade"} )
 end
-
 
 function scene:create( event )
     local sceneGroup = self.view
@@ -40,6 +39,7 @@ function scene:create( event )
 end
 
 function scene:show( event )
+
     local sceneGroup = self.view
     local phase = event.phase
 
@@ -53,6 +53,7 @@ function scene:show( event )
 end
 
 function scene:hide( event )
+
     local sceneGroup = self.view
     local phase = event.phase
 
@@ -66,7 +67,7 @@ end
 
 function scene:destroy( event )
     local sceneGroup = self.view
-    composer.removeScene( "restart", true )
+    composer.removeScene( "restart3", true )
 end
 
 scene:addEventListener( "create", scene )

@@ -85,9 +85,8 @@ function scene:hide( event )
 end
 
 function scene:destroy( event )
-
   local sceneGroup = self.view
-
+  composer.removeScene( "menu", true )
 end
 
 scene:addEventListener( "create", scene )

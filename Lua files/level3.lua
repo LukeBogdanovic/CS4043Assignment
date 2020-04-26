@@ -66,7 +66,7 @@ function scene:create(event)
   background2.x = display.contentCenterX+1920
   background2.y  = display.contentCenterY
 
-  floor = display.newImageRect( backGroup, "img/floor.png",1920 ,100 )
+  floor = display.newImageRect( backGroup, "img/floor.png",3840 ,100 )
   floor.y = 1080
   floor.x = display.contentCenterX
 

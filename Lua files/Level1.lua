@@ -17,13 +17,13 @@ physics.start()
 physics.setGravity(0,60)
 physics.setDrawMode("hybrid")
 
-_G.lives = 3
-_G.died = false
+local lives = 3
+local died = false
 local livesText
 local backGroup
 local mainGroup
 local uiGroup
-_G.scrollSpeed = 2
+local scrollSpeed = 2
 local background
 local background2
 local pauseButton
@@ -58,9 +58,9 @@ function scene:create(event)
   floor.name = "floor"
 
   floor.objType = "floor"
-  physics.addBody( floor,"static",  {friction = 0.3,bounce = 0},{isSensor==true} )
+  physics.addBody( floor,"static",  {friction = 0.3,bounce = 0})
 
-  physics.addBody( buff,"dynamic", {density =1000000000000,bounce=0} )
+  physics.addBody( buff,"dynamic", {density =1,bounce=0} )
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
@@ -94,7 +94,6 @@ function scene:hide( event )
 end
 
 function scene:destroy( event )
-
   local sceneGroup = self.view
 
 end
