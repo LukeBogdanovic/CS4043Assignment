@@ -1,28 +1,57 @@
-local duckOptions =
-{
-    width = 320,
-    height = 320,
-    numFrames = 4
-}
+-- local buff = require("buff")
+-- local duckOptions =
+-- {
+    -- width = 320,
+    -- height = 320,
+    -- numFrames = 4
+-- }
 
-local duckSheet = graphics.newImageSheet( "img/ducksheetlarge.png",  duckOptions )
+-- local duckSheet = graphics.newImageSheet( "img/ducksheetlarge.png",  duckOptions )
 
-local duckseq = {
-  {
-    name = "duckwalk"
-    start = 1,
-    count = 3,
-    time = 413,
-    loopCount = 0,
-    loopDirection = "forward"
-  },
-  {
-    name = "duckMelee"
-    frames = {1,4},
-    time = 413,
-    loopCount = 1,
-    loopDirection = "bounce"
-  }
-}
+-- local duckseq = {
+  -- {
+  -- start = 1,
+    -- name = "duckwalk",
+    -- count = 3,
+    -- time = 413,
+    -- loopCount = 0,
+    -- loopDirection = "forward"
+  -- },
+  -- {
+    -- name = "duckMelee",
+    -- frames = {1,4},
+    -- time = 413,
+    -- loopCount = 1,
+    -- loopDirection = "bounce"
+  -- }
+-- }
 
-local duck = display.newSprite( duckSheet, duckseq )
+-- function createDuck()
+  -- local newDuck = display.newSprite(duckSheet,duckseq)
+  -- local whereFrom = math.random(2)
+  -- if(whereFrom == 1)then
+    -- newDuck.x = -60
+    -- newDuck.y = buff.y
+    -- if ((buff.x - duck.x) >= 600) then
+      -- duck:setSequence("duckwalk")
+      -- duck:setLinearVelocity(200,0)
+    -- elseif((buff.x-duck.x) < 600)then
+      -- duck:setLinearVelocity(100,0)
+    -- end
+  -- elseif(whereFrom == 2)then
+    -- newDuck.x = 1920+60
+    -- newDuck.y = buff.y
+    -- if ((buff.x - duck.x) >= 600) then
+      -- duck:setLinearVelocity(200,0)
+    -- elseif((buff.x-duck.x) < 600)then
+      -- duck:setLinearVelocity(100,0)
+    -- end
+  -- end
+-- end
+
+-- local function duckWalk()
+  -- if()then
+
+  -- end
+-- end
+-- return duck

@@ -1,7 +1,11 @@
 --level2.lua
 local composer = require("composer")
+local buff = require("buff")
+local duck = require("duck")
+local hotDog = require("hotDog")
+local Ninja = require("Ninja")
+
 local scene = composer.newScene()
-local buff = require ("buff")
 
 local function backToStart()
   composer.gotoScene( "restart" )

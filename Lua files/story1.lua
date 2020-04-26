@@ -17,12 +17,16 @@ local floor
 local musicChannel1
 local musicChannel2
 local music1 = audio.loadSound( "music/Menu.mp3" )
-local music2 = audio.loadSound( "music/Level1.mp3" )
+local music2 = audio.loadSound( "music/levelOne.mp3" )
 local ClickButton
 local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
 
 local function fadeMusic(event)
-  musicChannel = audio.fadeOut( { channel=1, time=1500  } )
+  musicChannel1 = audio.fadeOut( music1,{ channel=1, time=1500  } )
+end
+
+local function newMusic(event)
+  musicChannel2 = audio.play( music2,{channel =2, loops=-1} )
 end
 
 function scene:create( event )
@@ -45,17 +49,20 @@ function scene:create( event )
   floor.x = display.contentCenterX
   floor.y = 1080
 
-  nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
-  nextLevelButton.x = 1650
-  nextLevelButton.y = 100
-
-  nextLevelButtonText = display.newText( uiGroup,"Next Level",1650,100,"font.ttf",108 )
-
-  nextLevelButton:addEventListener("tap",goToLevel)
+  timer.performWithDelay( 6000, fadeMusic )
+  timer.performWithDelay( 7000, newMusic )
+  function nextLevelAppear()
+    nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
+    nextLevelButton.x = 1650
+    nextLevelButton.y = 100
+    nextLevelButtonText = display.newText( uiGroup,"Next Level",1650,100,"font.ttf",108 )
+    nextLevelButton:addEventListener("tap",Buttonclicked)
+    nextLevelButton:addEventListener("tap",goToLevel)
+  end
+  timer.performWithDelay( 15000,nextLevelAppear )
 end
 
 function scene:show( event )
-
   local sceneGroup = self.view
   local phase = event.phase
 
@@ -67,21 +74,20 @@ function scene:show( event )
 end
 
 function scene:hide( event )
-
   local sceneGroup = self.view
   local phase = event.phase
 
   if ( phase == "will" ) then
 
   elseif ( phase == "did" ) then
-     composer.removeScene( "story1" )
+
   end
 end
 
 function scene:destroy( event )
-
   local sceneGroup = self.view
-
+  audio.dispose( music )
+  composer.removeScene( "story1", false )
 end
 
 scene:addEventListener( "create", scene )

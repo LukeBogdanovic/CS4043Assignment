@@ -1,5 +1,9 @@
 --story3.lua
-local composer = require( "composer" )
+local composer = require("composer")
+local buff = require("buff")
+local duck = require("duck")
+local hotDog = require("hotDog")
+local Ninja = require("Ninja")
 
 local scene = composer.newScene()
 
@@ -16,6 +20,19 @@ local nextLevelButtonText
 local floor
 local ClickButton
 local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
+
+function Buttonclicked (event)
+  audio.setVolume( .5, { channel= ClickButtonChannel } )
+  ClickButtonChannel = audio.play( ClickButton,{channel=2, loops = 0})
+end
+
+local function fadeMusic(event)
+  musicChannel1 = audio.fadeOut( music1,{ channel=1, time=1500  } )
+end
+
+local function newMusic(event)
+  musicChannel2 = audio.play( music2,{channel =2, loops=-1} )
+end
 
 function scene:create( event )
   local sceneGroup = self.view
@@ -37,13 +54,17 @@ function scene:create( event )
   floor.x = display.contentCenterX
   floor.y = 1080
 
-  nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
-  nextLevelButton.x = display.contentCenterX
-  nextLevelButton.y = 200
+  timer.performWithDelay( 6000, fadeMusic )
 
-  nextLevelButtonText = display.newText( uiGroup,"Next Level",1750,200,"font.ttf",108 )
-
-  nextLevelButton:addEventListener("tap",goToLevel)
+  function nextLevelAppear()
+    nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
+    nextLevelButton.x = 1650
+    nextLevelButton.y = 100
+    nextLevelButtonText = display.newText( uiGroup,"Next Level",1650,100,"font.ttf",108 )
+    nextLevelButton:addEventListener("tap",Buttonclicked)
+    nextLevelButton:addEventListener("tap",goToLevel)
+  end
+  timer.performWithDelay( 15000,nextLevelAppear )
 end
 
 function scene:show( event )
@@ -59,22 +80,20 @@ function scene:show( event )
 end
 
 function scene:hide( event )
-
   local sceneGroup = self.view
   local phase = event.phase
 
   if ( phase == "will" ) then
 
   elseif ( phase == "did" ) then
-    composer.removeScene( "story3", shouldRecycle )
 
   end
 end
 
 function scene:destroy( event )
-
   local sceneGroup = self.view
-
+  audio.dispose( music )
+  composer.removeScene( "Story4", false)
 end
 
 scene:addEventListener( "create", scene )

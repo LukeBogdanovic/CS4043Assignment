@@ -7,6 +7,10 @@ local background
 local backGroup
 local continueText
 local mainText
+local ClickButton
+local ClickButtonChannel = audio.loadSound("sounds/ClickButton.mp3")
+local music = audio.loadSound( "sounds/GameOver.mp3" )
+local musicChannel
 
 local function backtoMenu()
   composer.gotoScene( "menu",{effect = "fade"} )
@@ -16,6 +20,10 @@ local function backToLevel()
   composer.gotoScene( "level2" , {effect = "fade"} )
 end
 
+function Buttonclicked (event)
+  audio.setVolume( .5, { channel= ClickButtonChannel } )
+  ClickButtonChannel = audio.play( ClickButton,{channel=2, loops = 0})
+end
 
 function scene:create( event )
     local sceneGroup = self.view
@@ -34,6 +42,8 @@ function scene:create( event )
 
     mainText = display.newText(backGroup,"BACK TO MENU",display.contentCenterX,display.contentCenterY+300 ,"font.ttf",160)
     mainText:setFillColor(255,0,0)
+
+    musicChannel = audio.play(music,{channel = 1,loops = 0})
 
     continueText:addEventListener("tap", backToLevel)
     mainText:addEventListener("tap", backtoMenu)

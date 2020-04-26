@@ -15,6 +15,17 @@ local nextLevelButtonText
 local floor
 local ClickButton
 local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
+local music = audio.loadSound( "music/FinalLevel.mp3" )
+local musicChannel
+
+function Buttonclicked (event)
+  audio.setVolume( .5, { channel= ClickButtonChannel } )
+  ClickButtonChannel = audio.play( ClickButton,{channel=2, loops = 0})
+end
+
+local function newMusic(event)
+  musicChannel = audio.play( music2,{channel =1, loops=-1} )
+end
 
 function scene:create( event )
   local sceneGroup = self.view
@@ -36,17 +47,20 @@ function scene:create( event )
   floor.x = display.contentCenterX
   floor.y = 1080
 
-  nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
-  nextLevelButton.x = display.contentCenterX
-  nextLevelButton.y = 200
+  timer.performWithDelay( 6000, fadeMusic )
 
-  nextLevelButtonText = display.newText( uiGroup,"Back To Main Menu",1750,200,"font.ttf",108 )
-
-  nextLevelButton:addEventListener("tap",goToMenu)
+  function nextLevelAppear()
+    nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
+    nextLevelButton.x = 1650
+    nextLevelButton.y = 100
+    nextLevelButtonText = display.newText( uiGroup,"Next Level",1650,100,"font.ttf",108 )
+    nextLevelButton:addEventListener("tap",Buttonclicked)
+    nextLevelButton:addEventListener("tap",goToLevel)
+  end
+  timer.performWithDelay( 15000,nextLevelAppear )
 end
 
 function scene:show( event )
-
   local sceneGroup = self.view
   local phase = event.phase
 
@@ -58,22 +72,20 @@ function scene:show( event )
 end
 
 function scene:hide( event )
-
   local sceneGroup = self.view
   local phase = event.phase
 
   if ( phase == "will" ) then
 
   elseif ( phase == "did" ) then
-    composer.removeScene( "story4", shouldRecycle )
 
   end
 end
 
 function scene:destroy( event )
-
   local sceneGroup = self.view
-
+  audio.dispose( music )
+  composer.removeScene( "Story4", false)
 end
 
 scene:addEventListener( "create", scene )

@@ -9,7 +9,7 @@ local ninjaSheet = graphics.newImageSheet( "img/ninjaSheet.png",  ninjaOptions )
 
 local ninjaseq = {
   {
-    name = "ninjawalk"
+    name = "ninjawalk",
     start = 1,
     count = 3,
     time = 413,
@@ -17,7 +17,7 @@ local ninjaseq = {
     loopDirection = "forward"
   },
   {
-    name = "ninjaMelee"
+    name = "ninjaMelee",
     frames = {1,4},
     time = 413,
     loopCount = 1,
@@ -27,4 +27,5 @@ local ninjaseq = {
 
 local ninja = display.newSprite( ninjaSheet, ninjaseq )
 
-function ninjaWalk()
+-- function ninjaWalk()
+return duck

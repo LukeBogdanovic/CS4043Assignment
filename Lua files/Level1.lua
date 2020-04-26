@@ -1,16 +1,10 @@
 --level1.lua
 local composer = require("composer")
 local buff = require("buff")
-
+local duck = require("duck")
+local hotDog = require("hotDog")
+local Ninja = require("Ninja")
 local scene = composer.newScene()
-
-local function backToStart()
-  composer.gotoScene( "restart" )
-end
-
-local function nextLevel()
-  composer.gotoScene( "Story2" , "fade" )
-end
 
 local physics = require("physics")
 physics.start()
@@ -19,6 +13,7 @@ physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
+local whereFrom
 local livesText
 local backGroup
 local mainGroup
@@ -29,6 +24,8 @@ local background2
 local pauseButton
 local enemiesKilled = 0
 local killed = enemiesKilled + 1
+local music = audio.loadSound( "music/levelOne.mp3" )
+local musicChannel
 
 function scene:create(event)
   local sceneGroup = self.view
@@ -55,18 +52,34 @@ function scene:create(event)
   floor = display.newImageRect( backGroup, "img/floor.png",3840 ,100 )
   floor.y = 1080
   floor.x = display.contentCenterX
-  floor.name = "floor"
-
   floor.objType = "floor"
   physics.addBody( floor,"static",  {friction = 0.3,bounce = 0})
 
   physics.addBody( buff,"dynamic", {density =1,bounce=0} )
+
+  musicChannel = audio.play( music, {channel = 1,loops = -1} )
+
+  timer.performWithDelay( 7000,createDuck,-1 )
+  physics:addBody( newDuck, "dynamic" ,{density=1,bounce=0} )
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
 
 local function updateText()
   livesText.text = "Lives: "..lives
+end
+
+local function bgScroll(event)
+    background.x = background.x - scrollSpeed
+    background2.x = background2.x - scrollSpeed
+
+    if (background.x + 1920/2 < 0) then
+      background.x = background.width*3/2-scrollSpeed
+    end
+
+    if (background2.x + 1920/2 < 0) then
+      background2.x = background2.width*3/2-scrollSpeed
+    end
 end
 
 function scene:show( event )
@@ -95,20 +108,15 @@ end
 
 function scene:destroy( event )
   local sceneGroup = self.view
-
+  audio.dispose( music )
 end
 
-local function bgScroll(event)
-    background.x = background.x - scrollSpeed
-    background2.x = background2.x - scrollSpeed
+local function backToStart()
+  composer.gotoScene( "restart" )
+end
 
-    if (background.x + 1920/2 < 0) then
-      background.x = background.width*3/2-scrollSpeed
-    end
-
-    if (background2.x + 1920/2 < 0) then
-      background2.x = background2.width*3/2-scrollSpeed
-    end
+local function nextLevel()
+  composer.gotoScene( "Story2" , "fade" )
 end
 
 local function gameOver(event)
@@ -122,6 +130,65 @@ local function backToBeginning(event)
     deathText = display.newText( "YOU DIED" )
     if lives == lives-1 then
       composer.gotoScene("level1")
+    end
+  end
+end
+
+local function finishLevel()
+  if (enemiesKilled == 15) then
+    nextLevel()
+  end
+end
+
+local duckOptions =
+{
+    width = 320,
+    height = 320,
+    numFrames = 4
+}
+
+local duckSheet = graphics.newImageSheet( "img/ducksheetlarge.png",  duckOptions )
+
+local duckseq = {
+  {
+    name = "duckwalk",
+    start = 1,
+    count = 3,
+    time = 413,
+    loopCount = 0,
+    loopDirection = "forward"
+  },
+  {
+    name = "duckMelee",
+    frames = {1,4},
+    time = 413,
+    loopCount = 1,
+    loopDirection = "bounce"
+  }
+}
+
+local newDuck = display.newSprite(duckSheet,duckseq)
+local ducks ={}
+local i = 0
+
+function createDuck()
+  local whereFrom = math.random(2)
+  if(whereFrom == 1)then
+    newDuck.x = -60
+    newDuck.y = buff.y
+    if ((buff.x - duck.x) >= 600) then
+      duck:setSequence("duckwalk")
+      duck:setLinearVelocity(200,0)
+    elseif((buff.x-duck.x) < 600)then
+      duck:setLinearVelocity(100,0)
+    end
+  elseif(whereFrom == 2)then
+    newDuck.x = 1920+60
+    newDuck.y = buff.y
+    if ((buff.x - duck.x) >= 600) then
+      duck:setLinearVelocity(200,0)
+    elseif((buff.x-duck.x) < 600)then
+      duck:setLinearVelocity(100,0)
     end
   end
 end

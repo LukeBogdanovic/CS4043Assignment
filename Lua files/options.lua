@@ -21,23 +21,26 @@ local volumeUpButtonText
 local volumeDownButtonText
 local muteButton
 local volumeDisplay
-local music = audio.loadSound( "music/Menu.wav" )
-local musicChannel
-local ClickButton
-local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
+local ClickButton = audio.loadSound( "sounds/ClickButton.mp3" )
+local ClickButtonChannel
 
 local function updateVolumeText(event)
-  volumeText.text = "Volume: "..volumeActual
+  volumeText.text = "Volume: "..volume*100
 end
 
 local function volumeSet(event)
   audio.setVolume( volume )
 end
 
+local function Buttonclicked (event)
+  audio.setVolume( .5, { channel= ClickButtonChannel } )
+  ClickButtonChannel = audio.play( ClickButton,{channel=2, loops = 0})
+end
+
 local function volumeUp(event)
   volume =  volume  + 0.1
   if volume >= 1.0 then
-    volume = 100
+    volume = 1.0
   end
 end
 
@@ -60,8 +63,6 @@ function scene:create( event )
 
   uiGroup = display.newGroup()
   sceneGroup:insert(uiGroup)
-
-  volumeSet()
 
   background = display.newImageRect( backGroup, "img/Level1Background.png",1920,1080  )
   background.x = display.contentCenterX
@@ -95,14 +96,7 @@ function scene:create( event )
   volumeUpButtonText = display.newText( uiGroup,"volume Up",display.contentCenterX-25,400,"Font.ttf",108 )
   volumeDownButtonText = display.newText(uiGroup,"volume Down", display.contentCenterX-25,650,"Font.ttf",108)
   muteButtonText = display.newText(uiGroup,"Mute Volume",display.contentCenterX-25,150,"Font.ttf",108)
-  volumeText = display.newText(uiGroup,"Volume: "..(volume*100),300,display.contentCenterY,"Font.ttf",108)
-
-  musicChannel = audio.play( music ,{channel = 1, loops = -1} )
-
-  local function Buttonclicked (event)
-    audio.setVolume( .5, { channel= ClickButtonChannel } )
-    ClickButtonChannel = audio.play( ClickButton,{channel=2, loops = 0})
-  end
+  volumeText = display.newText(uiGroup,"Volume: "..volume*100,300,display.contentCenterY,"Font.ttf",108)
 
   backButton:addEventListener("tap", backToMain)
   volumeUpButton:addEventListener("tap",volumeUp)

@@ -1,6 +1,9 @@
 --level3.lua
 local composer = require("composer")
-
+local buff = require("buff")
+local duck = require("duck")
+local hotDog = require("hotDog")
+local Ninja = require("Ninja")
 local scene = composer.newScene()
 
 local function backToStart()
@@ -30,19 +33,6 @@ local pauseButton
 local floor
 local deathText
 local enemiesKilled = 0
-local buff
-local hotDog
-local ninja
-
-local spawnParams = {
-xmin = 20,
-xmax = 300,
-yMin = 20,
-yMax = 460,
-spawnTime = 200,
-spawnOnTimer = 12,
-spawnInitial = 4
-}
 
 function scene:create(event)
   local sceneGroup = self.view
@@ -78,7 +68,6 @@ local function updateText()
 end
 
 function scene:show( event )
-
   local sceneGroup = self.view
   local phase = event.phase
 
@@ -90,7 +79,6 @@ function scene:show( event )
 end
 
 function scene:hide( event )
-
   local sceneGroup = self.view
   local phase = event.phase
 
@@ -102,56 +90,8 @@ function scene:hide( event )
 end
 
 function scene:destroy( event )
-
   local sceneGroup = self.view
 
-end
-
-local function spawnItem( bounds )
-
-  local item = display.newItems ( 0, 0, 20 )
-
-  item.x = math.random( bounds.xMin, bounds.xMax)
-  item.y = math.random( bounds.yMin, bounds.yMax)
-
-  spawnedObjects[#spawnedObjects+1] = item
-end
-
-local function spawnController( action, params )
-
-  if (spawnTimer and ( action == "start" or action == "stop")) then
-    timer.cancel( spawnTimer )
-  end
-
-  if ( action == "start" ) then
-
-   local spawnBounds = {}
-   spawnBounds.xMin = params.xMin or 0
-   spawnBounds.xMax = params.xMax or display.contentWidth
-   spawnBounds.yMin = params.yMin or 0
-   spawnBounds.yMax = params.yMax or display.contentHeight
-
-   local spawnTime = params.spawnTime or 1000
-   local spawnOnTimer = params.spawnOnTimer or 50
-   local spawnInitial = params.spawnInitial or 0
-
-   if( SpawnInitial > 0 ) then
-     for n = 1,spawnInitial do
-       spawnItem( spawnBounds )
-     end
-   end
-
-   if ( spawnOnTimer > 0 ) then
-     spawnTimer = timer.performWithDelay( spawnTime,
-     function() spawnItem( spawnBounds ); end, spawnOnTimer )
-   end
-
-   elseif (action == "pause") then
-     timer.pause( spawnTimer )
-
-   elseif ( action == "resume" ) then
-     timer.resume( spawnTimer )
-  end
 end
 
 local function bgScroll(event)
@@ -171,12 +111,12 @@ end
 Runtime:addEventListener("enterFrame",bgScroll)
 
 local function gameOver()
-  if lives == 0 then
+  if (lives == 0) then
     backToStart()
   end
 end
 
-local function backToBeginning()
+local function backToBeginning(event)
   if died == true then
     deathText = display.newText( "YOU DIED" )
     if lives == lives-1 then
