@@ -56,11 +56,7 @@ function scene:create(event)
   floor.objType = "floor"
   physics.addBody( floor,"static",  {friction = 0.3,bounce = 0})
 
-<<<<<<< HEAD
   physics.addBody( buff,"dynamic", {density =1,bounce=0},{box ={halfWidth=45,halfHeight=30 ,x=96,y=30},isSensor = true} )
-=======
-  physics.addBody( buff,"dynamic", {density =1,bounce=0,})
->>>>>>> 9892d9cf2f75d96193510f01a90a0af29b8b05ca
 
   musicChannel = audio.play( music, {channel = 1,loops = -1} )
 
