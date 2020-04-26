@@ -57,6 +57,7 @@ function scene:create(event)
   physics.addBody( floor,"static",  {friction = 0.3,bounce = 0})
 
   physics.addBody( buff,"dynamic", {density =1,bounce=0,})
+  buff.isFixedRotation = true
 
   musicChannel = audio.play( music, {channel = 1,loops = -1} )
 

@@ -46,9 +46,6 @@ end
 
 local function volumeDown(event)
   volume = volume - 0.1
-  if volume <= 0 then
-    volume = 0
-  end
   if(volume < 0.03)then
     volume = 0.0
   end
