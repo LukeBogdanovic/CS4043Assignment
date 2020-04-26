@@ -13,7 +13,7 @@ physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
-local whereFrom
+local whereFrom = math.random(2)
 local livesText
 local backGroup
 local mainGroup
@@ -60,7 +60,6 @@ function scene:create(event)
   musicChannel = audio.play( music, {channel = 1,loops = -1} )
 
   timer.performWithDelay( 7000,createDuck,-1 )
-  physics:addBody( newDuck, "dynamic" ,{density=1,bounce=0} )
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
 end
@@ -172,24 +171,30 @@ local ducks ={}
 local i = 0
 
 function createDuck()
-  local whereFrom = math.random(2)
+  for i = 1,10 do
+    ducks[i] = display.newSprite( duckSheet,duckseq  )
   if(whereFrom == 1)then
-    newDuck.x = -60
-    newDuck.y = buff.y
-    if ((buff.x - duck.x) >= 600) then
-      duck:setSequence("duckwalk")
-      duck:setLinearVelocity(200,0)
-    elseif((buff.x-duck.x) < 600)then
-      duck:setLinearVelocity(100,0)
+    ducks[i].x = -60
+    ducks[i].y = buff.y
+    ducks[i]:setSequence("duckwalk")
+    if ((buff.x - ducks[i].x) >= 600) then
+      ducks[i]:play()
+      ducks[i]:setLinearVelocity(200,0)
+    elseif((buff.x-ducks[i].x) < 600)then
+      ducks[i]:play()
+      ducks[i]:setLinearVelocity(100,0)
     end
   elseif(whereFrom == 2)then
-    newDuck.x = 1920+60
-    newDuck.y = buff.y
-    if ((buff.x - duck.x) >= 600) then
-      duck:setLinearVelocity(200,0)
-    elseif((buff.x-duck.x) < 600)then
-      duck:setLinearVelocity(100,0)
+    ducks[i].x = 1920+60
+    ducks[i].y = buff.y
+    if ((buff.x - ducks[i].x) >= 600) then
+      ducks[i]:play()
+      ducks[i]:setLinearVelocity(200,0)
+    elseif((buff.x-ducks[i].x) < 600)then
+      ducks[i]:play()
+      ducks[i]:setLinearVelocity(100,0)
     end
+  end
   end
 end
 
