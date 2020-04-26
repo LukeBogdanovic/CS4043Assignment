@@ -56,7 +56,7 @@ function scene:create(event)
   floor.objType = "floor"
   physics.addBody( floor,"static",  {friction = 0.3,bounce = 0})
 
-  physics.addBody( buff,"dynamic", {density =1,bounce=0} )
+  physics.addBody( buff,"dynamic", {density =1,bounce=0,})
 
   musicChannel = audio.play( music, {channel = 1,loops = -1} )
 
@@ -173,6 +173,7 @@ function createDuck(event)
     local whereFromDuck = math.random(2)
     ducks[i] = display.newSprite( duckSheet,duckseq )
     physics.addBody( ducks[i], "dynamic" ,{density=1,bounce=0} )
+    ducks[i].isFixedRotation = true
   if(whereFromDuck == 1)then
     ducks[i].x = -60
     ducks[i].y = 900
@@ -241,6 +242,7 @@ function createNinja(event)
     local whereFromNinja = math.random(2)
     ninjas[i] = display.newSprite( ninjaSheet,ninjaseq )
     physics.addBody( ninjas[i], "dynamic" ,{density=1,bounce=0} )
+    ninjas[i].isFixedRotation = true
   if(whereFromNinja == 1)then
     ninjas[i].x = -60
     ninjas[i].y = 900
