@@ -26,6 +26,7 @@ local enemiesKilled = 0
 local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
 local musicChannel
+local sensorOverlaps = 0
 
 function scene:create(event)
   local sceneGroup = self.view
@@ -121,7 +122,7 @@ local function nextLevel()
 end
 
 local function gameOver(event)
-  if lives == 0 then
+  if (lives == 0) then
     backToStart()
   end
 end
@@ -141,74 +142,13 @@ local function finishLevel()
   end
 end
 
-local duckOptions =
-{
-    width = 320,
-    height = 320,
-    numFrames = 4
-}
+local function killEnemy(self,event)
+  if(buff.buffPunch and event.other.type == "ninjas")then
+    if(event.phase == "began")then
 
-local duckSheet = graphics.newImageSheet( "img/ducksheetlarge.png",  duckOptions )
-
-local duckseq = {
-  {
-    name = "duckwalk",
-    start = 1,
-    count = 3,
-    time = 413,
-    loopCount = 0,
-    loopDirection = "forward"
-  },
-  {
-    name = "duckMelee",
-    frames = {1,4},
-    time = 413,
-    loopCount = 1,
-    loopDirection = "bounce"
-  }
-}
-
-function createDuck(event)
-    local whereFromDuck = math.random(2)
-    local ducks = display.newSprite( duckSheet,duckseq )
-    physics.addBody( ducks, "dynamic" ,{density=1,bounce=0} )
-    ducks.isFixedRotation = true
-  if(whereFromDuck == 1)then
-    ducks.x = -60
-    ducks.y = 900
-    ducks:setSequence("duckwalk")
-    if ((buff.x - ducks.x) >= 600) then
-      ducks:play()
-      if not(died) then
-        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
-      end
-    elseif((buff.x-ducks.x) < 600)then
-      ducks:play()
-      if not(died) then
-        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
-      end
-    end
-  elseif(whereFromDuck == 2)then
-    ducks.x = 1920+60
-    ducks.y = 900
-    if ((buff.x - ducks.x) >= 600) then
-        ducks:play()
-      if not(died) then
-        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
-      end
-    elseif((buff.x-ducks.x) < 600)then
-      ducks:play()
-      if not(died) then
-        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
-      end
     end
   end
 end
-
-local function onHit(event)
-  -- if()then
-end
-timer.performWithDelay( 5000, createDuck ,-1 )
 
 local ninjaOptions =
 {
@@ -275,7 +215,7 @@ function createNinja(event)
 end
 
 timer.performWithDelay( 7000, createNinja ,-1 )
-
+Runtime:addEventListener("collision",killEnemy)
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )

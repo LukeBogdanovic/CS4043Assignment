@@ -56,8 +56,19 @@ function scene:create(event)
   floor = display.newImageRect( backGroup, "img/floor.png",3840 ,100 )
   floor.y = 1080
   floor.x = display.contentCenterX
+  floor.objType = "floor"
+  physics.addBody( floor,"static",  {friction = 0.3,bounce = 0})
+
+  physics.addBody( buff,"dynamic", {density =1,bounce=0},{box ={halfWidth=45,halfHeight=30 ,x=96,y=30},isSensor = true} )
+  buff.isFixedRotation = true
+
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
+  killCounter = display.newText( uiGroup,"Killed: "..enemiesKilled,1760,80,"Font.ttf",108 )
+end
+
+local function updateKilled(event)
+  enemiesKilled = enemiesKilled + 1
 end
 
 local function updateText()
