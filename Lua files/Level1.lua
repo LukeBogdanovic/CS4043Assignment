@@ -12,7 +12,6 @@ physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
-local duckAlive = true
 local livesText
 local hit = false
 local backGroup
@@ -21,7 +20,6 @@ local uiGroup
 local scrollSpeed = 2
 local background
 local background2
-local pauseButton
 local enemiesKilled = 0
 local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
@@ -145,7 +143,8 @@ end
 local function killEnemy(self,event)
   if(buff.buffPunch and event.other.type == "ninjas")then
     if(event.phase == "began")then
-
+      display.remove( ninjas )
+      enemiesKilled = enemiesKilled+1
     end
   end
 end
@@ -183,7 +182,7 @@ function createNinja(event)
     physics.addBody( ninjas, "dynamic" ,{density=1,bounce=0} )
     ninjas.isFixedRotation = true
   if(whereFromNinja == 1)then
-    ninjas.x = -60
+    ninjas.x = -80
     ninjas.y = 900
     ninjas:setSequence("ninjawalk")
     if ((buff.x - ninjas.x) >= 600) then
@@ -198,7 +197,7 @@ function createNinja(event)
       end
     end
   elseif(whereFromNinja == 2)then
-    ninjas.x = 1920+60
+    ninjas.x = 1920+80
     ninjas.y = 900
     if ((buff.x - ninjas.x) >= 600) then
         ninjas:play()
