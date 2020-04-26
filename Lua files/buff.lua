@@ -180,7 +180,7 @@ buff.x = display.contentCenterX
 buff.y = 900
 buff:setSequence("walk")
 buff.mass = 999
-local canJump = false
+local canJump = true
 
 function key(event)
   if (event.phase == "down") then
@@ -218,8 +218,8 @@ function walkBuff( event )
 end
 
 function buffJump(event)
-  if (spacePressed and canJump == false) then
-    canJump = true
+  if (spacePressed and canJump) then
+    canJump = false
     buff:setLinearVelocity(0,-1.5*buff.mass)
   end
 end
@@ -236,7 +236,7 @@ end
 
 function on_hit(event)
   if(event.phase == "began") then
-    canJump = false
+    canJump = true
   end
 end
 
