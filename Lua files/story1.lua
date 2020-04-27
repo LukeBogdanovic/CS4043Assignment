@@ -20,6 +20,8 @@ local music1 = audio.loadSound( "music/Menu.mp3" )
 local music2 = audio.loadSound( "music/levelOne.mp3" )
 local ClickButton
 local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
+local buffthinking
+local perfectchickenroll
 
 local function fadeMusic(event)
   musicChannel1 = audio.fadeOut( music1,{ channel=1, time=1500  } )
@@ -48,6 +50,14 @@ function scene:create( event )
   floor = display.newImageRect( backGroup, "img/floor.png",1920 , 100 )
   floor.x = display.contentCenterX
   floor.y = 1080
+
+  buffthinking = display.newImageRect( uiGroup, "img/Chicken_Roll_think_bubble.png", 560, 860)
+  buffthinking.x = 700
+  buffthinking.y = 600
+
+  perfectchickenroll = display.newImageRect( uiGroup, "img/Chicken-Roll.png", 220, 220)
+  perfectchickenroll.x = 720
+  perfectchickenroll.y = 370
 
   timer.performWithDelay( 6000, fadeMusic )
   timer.performWithDelay( 7000, newMusic )
