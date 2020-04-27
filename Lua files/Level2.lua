@@ -2,7 +2,6 @@
 local composer = require("composer")
 local buff = require("buff")
 local duck = require("duck")
-local hotDog = require("hotDog")
 local Ninja = require("Ninja")
 
 local scene = composer.newScene()
@@ -18,7 +17,7 @@ end
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,60)
--- physics.setDrawMode("hybrid")
+physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false

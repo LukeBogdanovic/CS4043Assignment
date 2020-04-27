@@ -178,6 +178,7 @@ local buffseq = {
 local buff = display.newSprite( buffsheet, buffseq )
 buff.x = display.contentCenterX
 buff.y = 900
+buff.objType = "player"
 buff:setSequence("walk")
 buff.mass = 999
 local canJump = true

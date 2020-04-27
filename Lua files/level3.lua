@@ -118,42 +118,38 @@ end
 
 Runtime:addEventListener("enterFrame",bgScroll)
 
-local ninjas ={}
-local ducks ={}
-local i = 0
-
 function createDuck(event)
     local whereFromDuck = math.random(2)
-    ducks[i] = display.newSprite( duckSheet,duckseq )
+    ducks = display.newSprite( duckSheet,duckseq )
     physics.addBody( ducks, "dynamic" ,{density=1,bounce=0, radius= 125} )
     ducks.isFixedRotation = true
   if(whereFromDuck == 1)then
-    ducks[i].x = -60
-    ducks[i].y = 900
-    ducks[i]:setSequence("duckwalk")
-    if ((buff.x - ducks[i].x) >= 600) then
-      ducks[i]:play()
+    ducks.x = -60
+    ducks.y = 900
+    ducks:setSequence("duckwalk")
+    if ((buff.x - ducks.x) >= 600) then
+      ducks:play()
       if not(died) then
-        transition.to ( ducks[i], {time=3000,x=buff.x,y=900} )
+        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
       end
-    elseif((buff.x-ducks[i].x) < 600)then
-      ducks[i]:play()
+    elseif((buff.x-ducks.x) < 600)then
+      ducks:play()
       if not(died) then
-        transition.to ( ducks[i], {time=3000,x=buff.x,y=900} )
+        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
       end
     end
   elseif(whereFromDuck == 2)then
-    ducks[i].x = 1920+60
-    ducks[i].y = 900
-    if ((buff.x - ducks[i].x) >= 600) then
-        ducks[i]:play()
+    ducks.x = 1920+60
+    ducks.y = 900
+    if ((buff.x - ducks.x) >= 600) then
+        ducks:play()
       if not(died) then
-        transition.to ( ducks[i], {time=3000,x=buff.x,y=900} )
+        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
       end
-    elseif((buff.x-ducks[i].x) < 600)then
-      ducks[i]:play()
+    elseif((buff.x-ducks.x) < 600)then
+      ducks:play()
       if not(died) then
-        transition.to ( ducks[i], {time=3000,x=buff.x,y=900} )
+        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
       end
     end
   end
@@ -193,36 +189,36 @@ local ninjaseq = {
 
 function createNinja(event)
     local whereFromNinja = math.random(2)
-    ninjas[i] = display.newSprite( ninjaSheet,ninjaseq )
+    ninjas = display.newSprite( ninjaSheet,ninjaseq )
     physics.addBody( ninjas, "dynamic" ,{density=1,bounce=0, radius= 147} )
     ninjas.isFixedRotation = true
   if(whereFromNinja == 1)then
-    ninjas[i].x = -60
-    ninjas[i].y = 900
-    ninjas[i]:setSequence("ninjawalk")
-    if ((buff.x - ducks[i].x) >= 600) then
-      ninjas[i]:play()
+    ninjas.x = -60
+    ninjas.y = 900
+    ninjas:setSequence("ninjawalk")
+    if ((buff.x - ninjas.x) >= 600) then
+      ninjas:play()
       if not(died) then
-        transition.to ( ninjas[i], {time=3000,x=buff.x,y=900} )
+        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
       end
-    elseif((buff.x-ducks[i].x) < 600)then
-      ninjas[i]:play()
+    elseif((buff.x-ninjas.x) < 600)then
+      ninjas:play()
       if not(died) then
-        transition.to ( ninjas[i], {time=3000,x=buff.x,y=900} )
+        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
       end
     end
   elseif(whereFromNinja == 2)then
-    ninjas[i].x = 1920+60
-    ninjas[i].y = 900
-    if ((buff.x - ninjas[i].x) >= 600) then
-        ninjas[i]:play()
+    ninjas.x = 1920+60
+    ninjas.y = 900
+    if ((buff.x - ninjas.x) >= 600) then
+        ninjas:play()
       if not(died) then
-        transition.to ( ninjas[i], {time=3000,x=buff.x,y=900} )
+        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
       end
-    elseif((buff.x-ducks[i].x) < 600)then
-      ninjas[i]:play()
+    elseif((buff.x-ninjas.x) < 600)then
+      ninjas:play()
       if not(died) then
-        transition.to ( ninjas[i], {time=3000,x=buff.x,y=900} )
+        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
       end
     end
   end

@@ -4,4 +4,4 @@ local composer = require( "composer" )
 
 math.randomseed( os.time() )
 
-composer.gotoScene( "level2" )
+composer.gotoScene( "level1" )

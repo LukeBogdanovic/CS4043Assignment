@@ -1,57 +1,47 @@
--- local buff = require("buff")
--- local duckOptions =
--- {
-    -- width = 320,
-    -- height = 320,
-    -- numFrames = 4
--- }
+local ai = require("AI")
 
--- local duckSheet = graphics.newImageSheet( "img/ducksheetlarge.png",  duckOptions )
+local _M = {}
 
--- local duckseq = {
-  -- {
-  -- start = 1,
-    -- name = "duckwalk",
-    -- count = 3,
-    -- time = 413,
-    -- loopCount = 0,
-    -- loopDirection = "forward"
-  -- },
-  -- {
-    -- name = "duckMelee",
-    -- frames = {1,4},
-    -- time = 413,
-    -- loopCount = 1,
-    -- loopDirection = "bounce"
-  -- }
--- }
+local duckOptions =
+{
+    width = 320,
+    height = 320,
+    numFrames = 4
+}
 
--- function createDuck()
-  -- local newDuck = display.newSprite(duckSheet,duckseq)
-  -- local whereFrom = math.random(2)
-  -- if(whereFrom == 1)then
-    -- newDuck.x = -60
-    -- newDuck.y = buff.y
-    -- if ((buff.x - duck.x) >= 600) then
-      -- duck:setSequence("duckwalk")
-      -- duck:setLinearVelocity(200,0)
-    -- elseif((buff.x-duck.x) < 600)then
-      -- duck:setLinearVelocity(100,0)
-    -- end
-  -- elseif(whereFrom == 2)then
-    -- newDuck.x = 1920+60
-    -- newDuck.y = buff.y
-    -- if ((buff.x - duck.x) >= 600) then
-      -- duck:setLinearVelocity(200,0)
-    -- elseif((buff.x-duck.x) < 600)then
-      -- duck:setLinearVelocity(100,0)
-    -- end
-  -- end
--- end
+local duckSheet = graphics.newImageSheet( "img/ducksheetlarge.png",  duckOptions )
 
--- local function duckWalk()
-  -- if()then
+local duckseq = {
+  {
+    start = 1,
+    name = "duckwalk",
+    count = 3,
+    time = 413,
+    loopCount = 0,
+    loopDirection = "forward"
+  },
+  {
+    name = "duckMelee",
+    frames = {1,4},
+    time = 413,
+    loopCount = 1,
+    loopDirection = "bounce"
+  }
+}
 
-  -- end
--- end
--- return duck
+local sprite = {duckSheet,duckseq}
+
+function _M.newDuckAI(params)
+  local img = params.img
+  local group = params.group
+  local x = params.x
+  local y = params.y
+  local aiType = params.ai_type or "patrol"
+  local sprite = params.sprite or {}
+
+  local duckObj = AI.newAI(group,img,x,y,aiType,sprite)
+
+  return duckObj
+end
+
+return _M

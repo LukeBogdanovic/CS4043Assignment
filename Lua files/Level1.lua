@@ -1,22 +1,21 @@
 --level1.lua
 local composer = require("composer")
 local buff = require("buff")
-local duck = require("duck")
-local hotDog = require("hotDog")
-local Ninja = require("Ninja")
+local Ninja = require("Ninja").newAI
+local newAI = require("AI").newAI
 local scene = composer.newScene()
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,60)
--- physics.setDrawMode("hybrid")
+physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
 local livesText
 local hit = false
-local backGroup
-local mainGroup
-local uiGroup
+local backGroup = display.newGroup()
+local mainGroup = display.newGroup()
+local uiGroup = display.newGroup()
 local scrollSpeed = 2
 local background
 local background2
@@ -25,19 +24,17 @@ local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
 local musicChannel
 local sensorOverlaps = 0
+local sceneGroup = display.newGroup()
 
 function scene:create(event)
-  local sceneGroup = self.view
+  sceneGroup = self.view
 
   physics.pause()
 
-  backGroup = display.newGroup()
   sceneGroup:insert(backGroup)
 
-  mainGroup = display.newGroup()
   sceneGroup:insert(mainGroup)
 
-  uiGroup = display.newGroup()
   sceneGroup:insert(uiGroup)
 
   background = display.newImageRect(backGroup,"img/Level1Background.png",1920,1080)
@@ -176,11 +173,16 @@ local ninjaseq = {
   }
 }
 
-function createNinja(event)
-    local whereFromNinja = math.random(2)
-    local ninjas = display.newSprite( ninjaSheet,ninjaseq )
-    physics.addBody( ninjas, "dynamic" ,{density=1,bounce=0, radius= 147} )
-    ninjas.isFixedRotation = true
+local sprite ={ninjaSheet,ninjaseq}
+local enemy = newAI({group = mainGroup, img = "img/1.png", x =1560, y = buff.y, ai_type = "patrol",sprite = sprite})
+enemy.stalker = true
+enemy.limitLeft = 1200
+enemy.visionLength = 1200
+
+function enemy:defaultActionOnAiCollisionWithPlayer(event)
+  	 enemy:remove( )
+end
+--[[    ninjas.isFixedRotation = true
   if(whereFromNinja == 1)then
     ninjas.x = -80
     ninjas.y = 900
@@ -211,9 +213,18 @@ function createNinja(event)
       end
     end
   end
+end]]--
+
+function ninjaAttack(event)
+  if(buff.x-ninjas.x < 50)then
+    ninjas:pause()
+    ninjas:setSequence("ninjaMelee")
+    ninjas:play()
+  end
 end
 
-timer.performWithDelay( 7000, createNinja ,-1 )
+sceneGroup:insert(mainGroup)
+-- timer.performWithDelay( 7000, createNinja ,0 )
 Runtime:addEventListener("collision",killEnemy)
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
