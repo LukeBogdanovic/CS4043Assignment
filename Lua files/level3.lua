@@ -28,6 +28,8 @@ local background2
 local floor
 local deathText
 local enemiesKilled = 0
+local music =audio.loadSound( "music/FinalLevel.mp3" )
+local musicChannel
 
 function scene:create(event)
   local sceneGroup = self.view
@@ -61,6 +63,10 @@ function scene:create(event)
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
   killCounter = display.newText( uiGroup,"Killed: "..enemiesKilled,1760,80,"Font.ttf",108 )
+end
+
+local function musicPlay()
+  musicChannel = audio.play( music ,{channel = 1, loops = -1} )
 end
 
 local function updateKilled(event)

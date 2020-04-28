@@ -1,6 +1,7 @@
 --story3.lua
 local composer = require("composer")
 local scene = composer.newScene()
+local buff = require("buff")
 
 local function goToLevel()
   composer.gotoScene( "level3" , "fade" )
@@ -15,6 +16,9 @@ local nextLevelButtonText
 local floor
 local ClickButton
 local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
+local music = audio.loadSound( "music/LevelTwo.mp3" )
+local music2 = audio.loadSound( "music/FinalLevel.mp3" )
+local musicChannel2
 
 function Buttonclicked (event)
   audio.setVolume( .5, { channel= ClickButtonChannel } )
@@ -52,10 +56,10 @@ function scene:create( event )
   timer.performWithDelay( 6000, fadeMusic )
 
   function nextLevelAppear()
-    nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
-    nextLevelButton.x = 1650
+    nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 750, 400 )
+    nextLevelButton.x = 1600
     nextLevelButton.y = 100
-    nextLevelButtonText = display.newText( uiGroup,"Next Level",1650,100,"font.ttf",108 )
+    nextLevelButtonText = display.newText( uiGroup,"FINISH THE MISSION",1600,100,"font.ttf",108 )
     nextLevelButton:addEventListener("tap",Buttonclicked)
     nextLevelButton:addEventListener("tap",goToLevel)
   end

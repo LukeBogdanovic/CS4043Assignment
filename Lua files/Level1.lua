@@ -18,7 +18,7 @@ local uiGroup = display.newGroup()
 local scrollSpeed = 2
 local background
 local background2
-local enemiesKilled = 13
+local enemiesKilled = 0
 local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
 local musicChannel

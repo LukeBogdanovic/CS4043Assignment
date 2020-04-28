@@ -32,6 +32,8 @@ local enemiesKilled = 0
 local killCounter
 local scrollSpeed = 2
 local sceneGroup = display.newGroup()
+local music = audio.loadSound( "music/LevelTwo.mp3" )
+local musicChannel
 
 function scene:create(event)
   local sceneGroup = self.view
@@ -63,6 +65,10 @@ function scene:create(event)
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
   killCounter = display.newText( uiGroup,"Killed: "..enemiesKilled,1760,80,"Font.ttf",108 )
+end
+
+local function musicPlay()
+  musicChannel = audio.play( music ,{channel = 1,loops = -1} )
 end
 
 local function updateKilled(event)
@@ -138,6 +144,20 @@ end
 
 buff.type = "player"
 
+
+function fPressed(event)
+  if (event.phase == "down") then
+    if (event.keyName == "f") then
+      fPressed = true
+    end
+  elseif (event.phase == "up") then
+    if (event.keyName == "f") then
+      fPressed = false
+    end
+  end
+end
+
+Runtime:addEventListener("key",fPressed)
 local duckOptions =
 {
     width = 320,
@@ -171,7 +191,7 @@ function createDucks()
   enemy1.limitLeft = 1000
   enemy1.limitRight = 1000
   function enemy1:defaultActionOnAiCollisionWithPlayer(event)
-    if (event.other.type == "player") then
+    if (event.other.type == "player" and fPressed == true) then
        enemiesKilled = enemiesKilled + 1
        updateText()
   	   enemy1:remove( )
@@ -228,7 +248,7 @@ function createNinjas()
   enemy.limitRight = 1000
   enemy.lastPlayerNoticedPosition = buff.x
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
-    if (event.other.type == "player" and fPressed) then
+    if (event.other.type == "player" and fPressed == true) then
        enemiesKilled = enemiesKilled + 1
        updateText()
   	   enemy:remove()
@@ -260,20 +280,21 @@ function createNinjas()
     end
   end
 
-  function fPressed(event)
-    if (event.phase == "down") then
-      if (event.keyName == "f") then
-        fPressed = true
-      end
-    elseif (event.phase == "up") then
-      if (event.keyName == "f") then
-        fPressed = false
-      end
+end
+
+function fPressed(event)
+  if (event.phase == "down") then
+    if (event.keyName == "f") then
+      fPressed = true
+    end
+  elseif (event.phase == "up") then
+    if (event.keyName == "f") then
+      fPressed = false
     end
   end
+end
 
 Runtime:addEventListener("key",fPressed)
-end
 
 local function backToBeginning()
   if died == true then

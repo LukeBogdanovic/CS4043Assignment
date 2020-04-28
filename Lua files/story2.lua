@@ -53,10 +53,10 @@ function scene:create( event )
   timer.performWithDelay( 6000, fadeMusic )
 
   function nextLevelAppear()
-    nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
+    nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 700, 400 )
     nextLevelButton.x = 1650
     nextLevelButton.y = 100
-    nextLevelButtonText = display.newText( uiGroup,"Next Level",1650,100,"font.ttf",108 )
+    nextLevelButtonText = display.newText( uiGroup,"PURSUE CULLENS",1625,100,"font.ttf",108 )
     nextLevelButton:addEventListener("tap",Buttonclicked)
     nextLevelButton:addEventListener("tap",goToLevel)
   end

@@ -112,7 +112,7 @@ function scene:create( event )
     nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
     nextLevelButton.x = 1650
     nextLevelButton.y = 100
-    nextLevelButtonText = display.newText( uiGroup,"Next Level",1650,100,"font.ttf",108 )
+    nextLevelButtonText = display.newText( uiGroup,"START THE HUNT",1650,100,"font.ttf",108 )
     nextLevelButton:addEventListener("tap",Buttonclicked)
     nextLevelButton:addEventListener("tap",goToLevel)
   end
