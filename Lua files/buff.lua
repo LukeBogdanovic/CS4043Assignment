@@ -1,7 +1,7 @@
 local dPressed = false
 local aPressed = false
+local wPressed = false
 local spacePressed = false
-local fPressed = false
 local physics = require("physics")
 
 local options =
@@ -146,7 +146,7 @@ local buffseq = {
         name = "punch",
         frames = { 1,9,10 },
         time = 250,
-        loopCount = 0,
+        loopCount = 1,
         loopDirection = "bounce"
     },
     {
@@ -184,20 +184,20 @@ local canJump = true
 
 function key(event)
   if (event.phase == "down") then
-          if (event.keyName == "f") then
-              fPressed = true
-          elseif (event.keyName == "space") then
+          if (event.keyName == "space") then
               spacePressed = true
+          elseif (event.keyName == "w") then
+              wPressed = true
           elseif (event.keyName == "a") then
               aPressed = true
           elseif (event.keyName == "d") then
               dPressed = true
           end
       elseif (event.phase == "up") then
-          if (event.keyName == "f") then
-              fPressed = false
-          elseif (event.keyName == "space") then
+          if (event.keyName == "space") then
               spacePressed = false
+          elseif (event.keyName == "w") then
+              wPressed = false
           elseif (event.keyName == "a") then
               aPressed = false
           elseif (event.keyName == "d") then
@@ -220,18 +220,18 @@ function walkBuff( event )
 end
 
 function buffJump(event)
-  if (spacePressed and canJump) then
+  if (wPressed and canJump) then
     canJump = false
     buff:setLinearVelocity(0,-1.5*buff.mass)
   end
 end
 
 function buffPunch(event)
-  if(fPressed)then
+  if(spacePressed)then
     buff:setSequence("punch")
     buff:play("punch")
   end
-  if not (fPressed) then
+  if not (spacePressed) then
     buff:setSequence("walk")
   end
 end

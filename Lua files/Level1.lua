@@ -172,13 +172,12 @@ local ninjaseq = {
 
 local ninjasprite = {ninjaSheet,ninjaseq}
 function createNinjas()
-  local fPressed = false
   local enemy = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = ninjasprite})
   enemy.limitLeft = 1000
   enemy.limitRight = 1000
   enemy.lastPlayerNoticedPosition = buff.x
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
-    if (event.other.type == "player" and fPressed == true) then
+    if (event.other.type == "player" and spacePressed == true) then
        enemiesKilled = enemiesKilled + 1
        updateText()
   	   enemy:remove()
@@ -209,19 +208,19 @@ function createNinjas()
     end
   end
 
-  function fPresseda(event)
+  function spacePressed(event)
     if (event.phase == "down") then
-      if (event.keyName == "f") then
-        fPressed = true
+      if (event.keyName == "space") then
+        spacePressed = true
       end
     elseif (event.phase == "up") then
-      if (event.keyName == "f") then
-        fPressed = false
+      if (event.keyName == "space") then
+        spacePressed = false
       end
     end
   end
 
-Runtime:addEventListener("key",fPressed)
+Runtime:addEventListener("key",spacePressed)
 end
 
 timer.performWithDelay( 5000, createNinjas ,-1 )
