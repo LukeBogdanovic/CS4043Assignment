@@ -210,10 +210,12 @@ function walkBuff( event )
     if (aPressed) then
       buff:play("walk")
       buff.x = buff.x - 10
+      buff.xScale = -1
     end
     if (dPressed) then
       buff:play("walk")
       buff.x = buff.x + 10
+      buff.xScale = 1
     end
 end
 

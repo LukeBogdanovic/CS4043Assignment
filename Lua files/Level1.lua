@@ -6,7 +6,7 @@ local scene = composer.newScene()
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,60)
-physics.setDrawMode("hybrid")
+--physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
@@ -17,7 +17,7 @@ local uiGroup = display.newGroup()
 local scrollSpeed = 2
 local background
 local background2
-local enemiesKilled = 14
+local enemiesKilled = 13
 local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
 local musicChannel
@@ -178,7 +178,7 @@ function createNinjas()
   enemy.limitRight = 1000
   enemy.lastPlayerNoticedPosition = buff.x
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
-    if (event.other.type == "player" and fPressed) then
+    if (event.other.type == "player" and fPressed == true) then
        enemiesKilled = enemiesKilled + 1
        updateText()
   	   enemy:remove()
@@ -209,7 +209,7 @@ function createNinjas()
     end
   end
 
-  function fPressed(event)
+  function fPresseda(event)
     if (event.phase == "down") then
       if (event.keyName == "f") then
         fPressed = true
