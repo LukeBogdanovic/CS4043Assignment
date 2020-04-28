@@ -19,10 +19,14 @@ local musicChannel1
 local musicChannel2
 local music1 = audio.loadSound( "music/Menu.mp3" )
 local music2 = audio.loadSound( "music/levelOne.mp3" )
-local ClickButton = audio.loadSound( "sounds/ClickButton.mp3" )
-local ClickButtonChannel
+local ClickButton
+local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
 local chickenFilletRoll
 local hotDog
+local buffLines = audio.loadSound( "voicelines/Opening.mp3" )
+local buffLinesChannel
+local JJLines = audio.loadSound( "voicelines/JJstory1.mp3" )
+local JJlinesChannel
 
 local function fadeMusic(event)
   musicChannel1 = audio.fadeOut( music1,{ channel=1, time=1500  } )
@@ -30,17 +34,16 @@ end
 
 local function newMusic(event)
   musicChannel2 = audio.play( music2,{channel =2, loops=-1} )
-end
-
-local function Buttonclicked(event)
-  ClickButtonChannel = audio.play( ClickButton,{channel = 3, loops =0} )
+  audio.setVolume( .1, { channel = musicChannel2 } )
 end
 
 local function buffAppear(event)
   buff.x = -90
   buff.y = 900
   buff:play("walk")
-  transition.to( buff, { time=9500,  x=800, y=900, } )
+  transition.to( buff, { time=25500,  x=1300, y=900, } )
+  buffLinesChannel = audio.play( buffLines,{channel=3, loops = 0})
+  audio.setVolume( 1, { channel = buffLinesChannel } )
 end
 
 local function chickenFilletRollAppear(event)
@@ -51,6 +54,8 @@ local function hotDogAppear(event)
   hotDog.x = 1700
   hotDog.y = 0
   transition.to( hotDog, { time=500,  x=1700, y=900, } )
+  JJLinesChannel = audio.play( JJLines,{channel=4, loops = 0})
+  audio.setVolume( 1, { channel = JJLinesChannel } )
 end
 
 local function buffstop(event)
@@ -67,6 +72,9 @@ function scene:create( event )
 
   backGroup = display.newGroup()
   sceneGroup:insert(backGroup)
+
+  audio.setVolume( .1, { channel = musicChannel1 } )
+  audio.setVolume( .1, { channel = musicChannel2 } )
 
   mainGroup = display.newGroup()
   sceneGroup:insert(mainGroup)
@@ -93,12 +101,12 @@ function scene:create( event )
   floor.x = display.contentCenterX
   floor.y = 1080
   timer.performWithDelay( 500,  buffAppear )
-  timer.performWithDelay( 6000, chickenFilletRollAppear )
-  timer.performWithDelay( 10000, buffstop )
-  timer.performWithDelay( 11000, hotDogAppear)
-  timer.performWithDelay( 14500, hotDogSteals)
-  timer.performWithDelay( 11000, fadeMusic )
-  timer.performWithDelay( 11500, newMusic )
+  timer.performWithDelay( 21500, chickenFilletRollAppear )
+  timer.performWithDelay( 26000, buffstop )
+  timer.performWithDelay( 35000, hotDogAppear)
+  timer.performWithDelay( 56500, hotDogSteals)
+  timer.performWithDelay( 34800, fadeMusic )
+  timer.performWithDelay( 37500, newMusic )
 
   function nextLevelAppear()
     nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
@@ -108,7 +116,9 @@ function scene:create( event )
     nextLevelButton:addEventListener("tap",Buttonclicked)
     nextLevelButton:addEventListener("tap",goToLevel)
   end
-  timer.performWithDelay( 15000,nextLevelAppear )
+
+
+  timer.performWithDelay( 57000,nextLevelAppear )
 end
 
 function scene:show( event )
