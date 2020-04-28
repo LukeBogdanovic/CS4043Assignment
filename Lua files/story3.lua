@@ -1,10 +1,5 @@
 --story3.lua
 local composer = require("composer")
-local buff = require("buff")
-local duck = require("duck")
-local hotDog = require("hotDog")
-local Ninja = require("Ninja")
-
 local scene = composer.newScene()
 
 local function goToLevel()
@@ -86,14 +81,13 @@ function scene:hide( event )
   if ( phase == "will" ) then
 
   elseif ( phase == "did" ) then
-
+    composer.removeScene( "Story3", false)
   end
 end
 
 function scene:destroy( event )
   local sceneGroup = self.view
   audio.dispose( music )
-  composer.removeScene( "Story4", false)
 end
 
 scene:addEventListener( "create", scene )

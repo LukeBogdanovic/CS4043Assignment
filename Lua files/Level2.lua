@@ -224,8 +224,10 @@ function createNinjas()
 
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
     if (event.other.type == "player" and buffPunch) then
-  	   enemy:remove( )
        enemiesKilled = enemiesKilled + 1
+       updateText()
+       enemy:remove( )
+       finishLevel()
     end
  end
 
