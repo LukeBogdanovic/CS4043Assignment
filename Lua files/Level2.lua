@@ -2,6 +2,7 @@
 local composer = require("composer")
 local buff = require("buff")
 local ai = require("AI").newAI
+local timers = require("timer").timer
 
 local scene = composer.newScene()
 
@@ -26,7 +27,6 @@ local mainGroup = display.newGroup()
 local uiGroup = display.newGroup()
 local background
 local background2
-local pauseButton
 local floor
 local enemiesKilled = 0
 local killCounter
@@ -58,7 +58,7 @@ function scene:create(event)
   floor.objType = "floor"
   physics.addBody( floor,"static",  {friction = 0.3,bounce = 0})
 
-  physics.addBody( buff,"dynamic", {density =1,bounce=0},{box ={halfWidth=45,halfHeight=30 ,x=96,y=30},isSensor = true} )
+  physics.addBody( buff,"dynamic", {density =1,bounce=0} )
   buff.isFixedRotation = true
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
@@ -123,7 +123,9 @@ local function bgScroll(event)
 end
 
 local function finishLevel()
-  if (enemiesKilled == 15) then
+  if (enemiesKilled == 20) then
+    timer.cancel( ninjas )
+    timer.cancel( ducks )
     nextLevel()
   end
 end
@@ -220,22 +222,57 @@ local ninjaseq = {
 
 local ninjasprite = {ninjaSheet,ninjaseq}
 function createNinjas()
+  local fPressed = false
   local enemy = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = ninjasprite})
-
+  enemy.limitLeft = 1000
+  enemy.limitRight = 1000
+  enemy.lastPlayerNoticedPosition = buff.x
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
-    if (event.other.type == "player" and buffPunch) then
+    if (event.other.type == "player" and fPressed) then
        enemiesKilled = enemiesKilled + 1
        updateText()
-       enemy:remove( )
+  	   enemy:remove()
        finishLevel()
     end
  end
 
+ function enemy:customActionOnAiCollisionWithPlayerEnd(event)
+   if(event.other.type == "player" and enemy.x )then
+     buff:pause()
+     buff:setSequence("hurt")
+     buff:play()
+     died = true
+     updateText()
+   end
+ end
+
   function enemy:customActionOnAiCollisionWithObjects(event)
-	 if(event.other.type == 'enemy') then
+	   if(event.other.type == "enemy") then
 		  enemy:SwitchDirection()
-	 end
+	   end
   end
+
+  function enemy:addExtraAction()
+    if(buff.buffPunch and (buff.x - enemy.x) < 50 and event.phase == "began") then
+      if(event.contact.isTouching) then
+      enemy:remove()
+      end
+    end
+  end
+
+  function fPressed(event)
+    if (event.phase == "down") then
+      if (event.keyName == "f") then
+        fPressed = true
+      end
+    elseif (event.phase == "up") then
+      if (event.keyName == "f") then
+        fPressed = false
+      end
+    end
+  end
+
+Runtime:addEventListener("key",fPressed)
 end
 
 local function backToBeginning()
@@ -246,8 +283,8 @@ local function backToBeginning()
   end
 end
 
-timer.performWithDelay( 14000, createDucks ,-1 )
-timer.performWithDelay( 7000, createNinjas ,-1 )
+ducks = timer.performWithDelay( 14000, createDucks ,-1 )
+ninjas = timer.performWithDelay( 7000, createNinjas ,-1 )
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
