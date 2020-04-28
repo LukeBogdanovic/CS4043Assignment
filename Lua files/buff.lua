@@ -167,7 +167,7 @@ local buffseq = {
       },
       {
            name = "hurt",
-            frames = {1,11},
+           frames = {1,11},
            time = 300,
            loopCount = 1,
            loopDirection = "bounce"

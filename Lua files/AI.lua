@@ -8,7 +8,6 @@
 --]]
 -- ai_types: "patrol"(default), "guard", "boss"
 -- params: group, img, x, y, ai_type, spriteObj
-
 local physics = require( "physics" )
 
 local _M = {}
@@ -52,16 +51,16 @@ function _M.newAI(params)
 		obj = display.newImage(group, img, x, y);
 	end
 
-	physics.addBody( obj, { density=1.0, friction=0.3, bounce=0.2 } )
+	physics.addBody( obj, {radius=130, density=1.0, friction=0.3, bounce=0.0 } )
 	obj.type = "enemy"
 	obj.limitLeft = limitLeft
 	obj.limitRight = limitRight
-	obj.isFixedRotation = true
-	obj.switchDirectionTime = 3000
+	-- obj.isFixedRotation = true
+	obj.switchDirectionTime = 5000
 	obj.allowShoot = false
 	obj.shootVelocity = 2000
 	obj.fireImg = nil
-	obj.visionLength = 300
+	obj.visionLength = 1200
 	obj.withoutLimit = withoutLimit
 	obj.direction = direction
 	obj.stop = stop
@@ -87,7 +86,9 @@ function _M.newAI(params)
 
 
 
-
+	---------------------
+	-- Methods
+	---------------------
 	-- ai detection
 	function obj:defaultActionOnVisualContactWithPlayer(event)
 		if(obj.type == "enemy") then
@@ -184,7 +185,9 @@ function _M.newAI(params)
 		display.remove( obj )
 	end
 
-
+	---------------------
+	-- Collisions
+	---------------------
 
 	function onObjCollision( self, event )
 		if(event.other.type == "player") then
@@ -216,7 +219,9 @@ function _M.newAI(params)
 
 
 
-
+	---------------------
+	-- Functions
+	---------------------
 	function obj:MoveAIRigth()
 		obj.x = obj.x + 1
 		obj.xScale = -1
@@ -292,7 +297,9 @@ function _M.newAI(params)
 			scanBeam:setLinearVelocity( 700,0 )
 		end
 
-
+		---------------------
+		-- Collisions scanBeam
+		---------------------
 
 		local function onScanCollision( self, event )
 			if(event.other.type == "player") then
@@ -368,7 +375,9 @@ function _M.newAI(params)
 			fireEnabled = true
 		end )
 
-
+		---------------------
+		-- Collisions fireBall
+		---------------------
 
 		local function onFireBallCollision( self, event )
 			if(event.other.type == "player") then
@@ -415,10 +424,12 @@ function _M.newAI(params)
 
 
 
-
+	---------------------
+	-- Render
+	---------------------
 	function obj:actionAI( event )
 
-		obj:lookAIAhead(direction)
+		obj:lookAIAhead(direction) -- AI scan area ahead
 		-- if(direction == 0) then
 		-- 	visionScanner.x = obj.x - obj.visionLength -- left
 		-- elseif(direction == 1) then
@@ -512,6 +523,8 @@ function _M.newAI(params)
 	end
 
 	Runtime:addEventListener( "enterFrame", obj )
+	-- End of Functions
+
 
 	return obj
 end

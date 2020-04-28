@@ -1,8 +1,8 @@
 --level2.lua
 local composer = require("composer")
 local buff = require("buff")
-local duck = require("duck")
-local Ninja = require("Ninja")
+local ai = require("AI").newAI
+local ai2 = require("AI").newAI
 
 local scene = composer.newScene()
 
@@ -22,9 +22,9 @@ physics.setDrawMode("hybrid")
 local lives = 3
 local died = false
 local livesText
-local backGroup
-local mainGroup
-local uiGroup
+local backGroup = display.newGroup()
+local mainGroup = display.newGroup()
+local uiGroup = display.newGroup()
 local background
 local background2
 local pauseButton
@@ -32,19 +32,17 @@ local floor
 local enemiesKilled = 0
 local killCounter
 local scrollSpeed = 2
+local sceneGroup = display.newGroup()
 
 function scene:create(event)
   local sceneGroup = self.view
 
   physics.pause()
 
-  backGroup = display.newGroup()
   sceneGroup:insert(backGroup)
 
-  mainGroup = display.newGroup()
   sceneGroup:insert(mainGroup)
 
-  uiGroup = display.newGroup()
   sceneGroup:insert(uiGroup)
 
   background = display.newImageRect(backGroup,"img/Level2Background.png",1920,1080)
@@ -125,6 +123,20 @@ local function bgScroll(event)
   end
 end
 
+local function killEnemy(self,event)
+  if(buff.fpressed and event.other.type == "ducks")then
+    if(event.phase == "began")then
+
+    end
+  end
+end
+
+local function gameOver()
+  if lives == 0 then
+    backToStart()
+  end
+end
+
 local duckOptions =
 {
     width = 320,
@@ -136,8 +148,8 @@ local duckSheet = graphics.newImageSheet( "img/ducksheetlarge.png",  duckOptions
 
 local duckseq = {
   {
-    name = "duckwalk",
     start = 1,
+    name = "duckwalk",
     count = 3,
     time = 413,
     loopCount = 0,
@@ -152,58 +164,24 @@ local duckseq = {
   }
 }
 
-function createDuck(event)
-    local whereFromDuck = math.random(2)
-    local ducks = display.newSprite( duckSheet,duckseq )
-    physics.addBody( ducks, "dynamic" ,{density=1,bounce=0, radius= 125} )
-    ducks.isFixedRotation = true
-    ducks.mass = 999
-  if(whereFromDuck == 1)then
-    ducks.x = -60
-    ducks.y = 900
-    ducks:setSequence("duckwalk")
-    if ((buff.x - ducks.x) >= 600) then
-      ducks:play()
-      if not(died) then
-        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
-      end
-    elseif((buff.x-ducks.x) < 600)then
-      ducks:play()
-      if not(died) then
-        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
-      end
+local duckSprite = {duckSheet,duckseq}
+local duckEnemy = ai2({group = mainGroup,x =60 , y = 900,ai_type = "patrol",sprite = duckSprite})
+function createDucks()
+  local enemy1 = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = duckSprite})
+
+  function enemy:defaultActionOnAiCollisionWithPlayer(event)
+    if (buff.buffPunch) then
+  	   enemy:remove( )
     end
-  elseif(whereFromDuck == 2)then
-    ducks.x = 1920+60
-    ducks.y = 900
-    if ((buff.x - ducks.x) >= 600) then
-        ducks:play()
-      if not(died) then
-        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
-      end
-    elseif((buff.x-ducks.x) < 600)then
-      ducks:play()
-      if not(died) then
-        transition.to ( ducks, {time=3000,x=buff.x,y=900} )
-      end
-    end
+ end
+
+  function enemy1:customActionOnAiCollisionWithObjects(event)
+	 if(event.other.type == 'enemy') then
+		  enemy:SwitchDirection()
+	 end
   end
 end
 
-local function duckJump()
-  local jump = math.random(7)
-  if (jump == 3 or jump == 6) then
-    ducks:setLinearVelocity(0,-1.5*ducks.mass)
-  end
-end
-
-local function killEnemy(self,event)
-  if(buff.fpressed and event.other.type == "ducks")then
-    if(event.phase == "began")then
-
-    end
-  end
-end
 
 local ninjaOptions =
 {
@@ -232,49 +210,20 @@ local ninjaseq = {
   }
 }
 
-function createNinja(event)
-    local whereFromNinja = math.random(2)
-    local ninjas = display.newSprite( ninjaSheet,ninjaseq )
-    physics.addBody( ninjas, "dynamic" ,{density=1,bounce=0, radius= 147} )
-    ninjas.isFixedRotation = true
-  if(whereFromNinja == 1)then
-    ninjas.x = -60
-    ninjas.y = 900
-    ninjas:setSequence("ninjawalk")
-    if ((buff.x - ninjas.x) >= 600) then
-      ninjas:play()
-      if not(died) then
-        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
-      end
-    elseif((buff.x-ninjas.x) < 600)then
-      ninjas:play()
-      if not(died) then
-        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
-      end
-    end
-  elseif(whereFromNinja == 2)then
-    ninjas.x = 1920+60
-    ninjas.y = 900
-    if ((buff.x - ninjas.x) >= 600) then
-        ninjas:play()
-      if not(died) then
-        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
-      end
-    elseif((buff.x-ninjas.x) < 600)then
-      ninjas:play()
-      if not(died) then
-        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
-      end
-    end
-  end
-end
+local ninjasprite = {ninjaSheet,ninjaseq}
+function createNinjas()
+  local enemy = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = ninjasprite})
 
-timer.performWithDelay( 7000, createNinja ,-1 )
-timer.performWithDelay( 5000, createDuck ,-1 )
+  function enemy:defaultActionOnAiCollisionWithPlayer(event)
+    if (buff.buffPunch) then
+  	   enemy:remove( )
+    end
+ end
 
-local function gameOver()
-  if lives == 0 then
-    backToStart()
+  function enemy1:customActionOnAiCollisionWithObjects(event)
+	 if(event.other.type == 'enemy') then
+		  enemy:SwitchDirection()
+	 end
   end
 end
 
@@ -286,10 +235,11 @@ local function backToBeginning()
   end
 end
 
+timer.performWithDelay( 7000, createDucks ,-1 )
+timer.performWithDelay( 7000, createNinjas ,-1 )
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
-
 return scene

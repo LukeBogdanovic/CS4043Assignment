@@ -1,13 +1,13 @@
 --level1.lua
 local composer = require("composer")
 local buff = require("buff")
-local Ninja = require("Ninja").newAI
-local newAI = require("AI").newAI
+local ai = require("AI").newAI
+local ai2 = require("AI").newAI
 local scene = composer.newScene()
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,60)
-physics.setDrawMode("hybrid")
+-- physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
@@ -123,10 +123,14 @@ local function gameOver(event)
 end
 
 local function backToBeginning(event)
-  if died == true then
+  if (died == true) then
     deathText = display.newText( "YOU DIED" )
-    if lives == lives-1 then
-      composer.gotoScene("level1")
+    enemiesKilled = enemiesKilled - 3
+    if(enemiesKilled <= 3) then
+      enemiesKilled = enemiesKilled
+    elseif (enemiesKilled > 3 ) then
+      enemiesKilled = enemiesKilled - 3
+      died = false
     end
   end
 end
@@ -137,14 +141,6 @@ local function finishLevel()
   end
 end
 
-local function killEnemy(self,event)
-  if(buff.buffPunch and event.other.type == "ninjas")then
-    if(event.phase == "began")then
-      display.remove( ninjas )
-      enemiesKilled = enemiesKilled+1
-    end
-  end
-end
 
 local ninjaOptions =
 {
@@ -173,59 +169,37 @@ local ninjaseq = {
   }
 }
 
-local sprite ={ninjaSheet,ninjaseq}
-local enemy = newAI({group = mainGroup, img = "img/1.png", x =1560, y = buff.y, ai_type = "patrol",sprite = sprite})
-enemy.stalker = true
-enemy.limitLeft = 1200
-enemy.visionLength = 1200
-
-function enemy:defaultActionOnAiCollisionWithPlayer(event)
-  	 enemy:remove( )
-end
---[[    ninjas.isFixedRotation = true
-  if(whereFromNinja == 1)then
-    ninjas.x = -80
-    ninjas.y = 900
-    ninjas:setSequence("ninjawalk")
-    if ((buff.x - ninjas.x) >= 600) then
-      ninjas:play()
-      if not(died) then
-        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
-      end
-    elseif((buff.x-ninjas.x) < 600)then
-      ninjas:play()
-      if not(died) then
-        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
-      end
+local ninjasprite = {ninjaSheet,ninjaseq}
+function createNinjas()
+  local enemy = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = ninjasprite})
+  enemy.limitLeft = 1000
+  enemy.limitRight = 1000
+  enemy.lastPlayerNoticedPosition = buff.x
+  function enemy:customActionOnAiCollisionWithPlayer(event)
+    if (event.other.type == "player") then
+      enemy:pause()
+      enemy:setSequence("ninjaMelee")
+  	  enemy:play()
     end
-  elseif(whereFromNinja == 2)then
-    ninjas.x = 1920+80
-    ninjas.y = 900
-    if ((buff.x - ninjas.x) >= 600) then
-        ninjas:play()
-      if not(died) then
-        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
-      end
-    elseif((buff.x-ninjas.x) < 600)then
-      ninjas:play()
-      if not(died) then
-        transition.to ( ninjas, {time=3000,x=buff.x,y=900} )
-      end
-    end
-  end
-end]]--
+ end
 
-function ninjaAttack(event)
-  if(buff.x-ninjas.x < 50)then
-    ninjas:pause()
-    ninjas:setSequence("ninjaMelee")
-    ninjas:play()
+ function enemy:customActionOnAiCollisionWithPlayerEnd(event)
+   if(event.other.type == "player")then
+     buff:pause()
+     buff:setSequence("hurt")
+     buff:play()
+     died = true
+   end
+ end
+
+  function enemy:customActionOnAiCollisionWithObjects(event)
+	 if(event.other.type == "enemy") then
+		  enemy:SwitchDirection()
+	 end
   end
 end
 
-sceneGroup:insert(mainGroup)
--- timer.performWithDelay( 7000, createNinja ,0 )
-Runtime:addEventListener("collision",killEnemy)
+timer.performWithDelay( 10000, createNinjas ,-1 )
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
