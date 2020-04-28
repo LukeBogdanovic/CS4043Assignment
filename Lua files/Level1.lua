@@ -2,6 +2,7 @@
 local composer = require("composer")
 local buff = require("buff")
 local ai = require("AI").newAI
+local timers = require("timer").timer
 local scene = composer.newScene()
 local physics = require("physics")
 physics.start()
@@ -136,7 +137,7 @@ local function finishLevel()
   if (enemiesKilled == 15) then
     display.remove( "buff" )
     composer.removeScene( "level1.lua", false )
-    timer.cancel( createNinjas )
+    timer.cancel( ninjas )
     nextLevel()
   end
 end
@@ -223,7 +224,7 @@ function createNinjas()
 Runtime:addEventListener("key",spacePressed)
 end
 
-timer.performWithDelay( 5000, createNinjas ,-1 )
+ninjas = timer.performWithDelay( 5000, createNinjas ,-1 )
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )

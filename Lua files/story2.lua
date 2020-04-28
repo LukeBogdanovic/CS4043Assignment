@@ -82,14 +82,13 @@ function scene:hide( event )
   if ( phase == "will" ) then
 
   elseif ( phase == "did" ) then
-
+    composer.removeScene( "Story2", false)
   end
 end
 
 function scene:destroy( event )
   local sceneGroup = self.view
   audio.dispose( music )
-  composer.removeScene( "Story4", false)
 end
 
 scene:addEventListener( "create", scene )
