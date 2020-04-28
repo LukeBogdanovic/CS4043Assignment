@@ -32,7 +32,7 @@ local function newMusic(event)
   musicChannel2 = audio.play( music2,{channel =2, loops=-1} )
 end
 
-local function Buttonclicked()
+local function Buttonclicked(event)
   ClickButtonChannel = audio.play( ClickButton,{channel = 3, loops =0} )
 end
 
