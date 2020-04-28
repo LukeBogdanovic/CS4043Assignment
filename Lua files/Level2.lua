@@ -28,12 +28,13 @@ local uiGroup = display.newGroup()
 local background
 local background2
 local floor
-local enemiesKilled = 0
+local enemiesKilled = 16
 local killCounter
 local scrollSpeed = 2
 local sceneGroup = display.newGroup()
 local music = audio.loadSound( "music/LevelTwo.mp3" )
 local musicChannel
+local spacePressed
 
 function scene:create(event)
   local sceneGroup = self.view
@@ -145,19 +146,19 @@ end
 buff.type = "player"
 
 
-function fPressed(event)
+function spacePressed(event)
   if (event.phase == "down") then
-    if (event.keyName == "f") then
-      fPressed = true
+    if (event.keyName == "space") then
+      spacePressed = true
     end
   elseif (event.phase == "up") then
-    if (event.keyName == "f") then
-      fPressed = false
+    if (event.keyName == "space") then
+      spacePressed = false
     end
   end
 end
 
-Runtime:addEventListener("key",fPressed)
+Runtime:addEventListener("key",spacePressed)
 local duckOptions =
 {
     width = 320,
@@ -191,14 +192,13 @@ function createDucks()
   enemy1.limitLeft = 1000
   enemy1.limitRight = 1000
   function enemy1:defaultActionOnAiCollisionWithPlayer(event)
-    if (event.other.type == "player" and fPressed == true) then
+    if (event.other.type == "player" and spacePressed == true) then
        enemiesKilled = enemiesKilled + 1
        updateText()
   	   enemy1:remove( )
        finishLevel()
     end
  end
-
   function enemy1:customActionOnAiCollisionWithObjects(event)
 	 if(event.other.type == 'enemy') then
 		  enemy1:SwitchDirection()
@@ -242,13 +242,12 @@ local ninjaseq = {
 
 local ninjasprite = {ninjaSheet,ninjaseq}
 function createNinjas()
-  local fPressed = false
   local enemy = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = ninjasprite})
   enemy.limitLeft = 1000
   enemy.limitRight = 1000
   enemy.lastPlayerNoticedPosition = buff.x
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
-    if (event.other.type == "player" and fPressed == true) then
+    if (event.other.type == "player" and spacePressed == true) then
        enemiesKilled = enemiesKilled + 1
        updateText()
   	   enemy:remove()
@@ -257,7 +256,7 @@ function createNinjas()
  end
 
  function enemy:customActionOnAiCollisionWithPlayerEnd(event)
-   if(event.other.type == "player" and enemy.x )then
+   if(event.other.type == "player" and (enemy.x - buff.x) < 50 and event.phase == "ended")then
      buff:pause()
      buff:setSequence("hurt")
      buff:play()
@@ -282,19 +281,19 @@ function createNinjas()
 
 end
 
-function fPressed(event)
+function spacePressed(event)
   if (event.phase == "down") then
-    if (event.keyName == "f") then
-      fPressed = true
+    if (event.keyName == "space") then
+      spacePressed = true
     end
   elseif (event.phase == "up") then
-    if (event.keyName == "f") then
-      fPressed = false
+    if (event.keyName == "space") then
+      spacePressed = false
     end
   end
 end
 
-Runtime:addEventListener("key",fPressed)
+Runtime:addEventListener("key",spacePressed)
 
 local function backToBeginning()
   if died == true then
