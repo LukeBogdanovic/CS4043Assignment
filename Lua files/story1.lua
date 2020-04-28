@@ -2,6 +2,7 @@
 local composer = require( "composer" )
 
 local scene = composer.newScene()
+local buff = require("buff")
 
 local function goToLevel()
   composer.gotoScene( "Level1","fade" )
@@ -20,8 +21,8 @@ local music1 = audio.loadSound( "music/Menu.mp3" )
 local music2 = audio.loadSound( "music/levelOne.mp3" )
 local ClickButton
 local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
-local buffthinking
-local perfectchickenroll
+local chickenFilletRoll
+local hotDog
 
 local function fadeMusic(event)
   musicChannel1 = audio.fadeOut( music1,{ channel=1, time=1500  } )
@@ -29,6 +30,32 @@ end
 
 local function newMusic(event)
   musicChannel2 = audio.play( music2,{channel =2, loops=-1} )
+end
+
+local function buffAppear(event)
+  buff.x = -90
+  buff.y = 900
+  buff:play("walk")
+  transition.to( buff, { time=9500,  x=800, y=900, } )
+end
+
+local function chickenFilletRollAppear(event)
+  transition.to( chickenFilletRoll, { time=5000,  x=1600, y=950, } )
+end
+
+local function hotDogAppear(event)
+  hotDog.x = 1700
+  hotDog.y = 0
+  transition.to( hotDog, { time=500,  x=1700, y=900, } )
+end
+
+local function buffstop(event)
+  buff:pause()
+end
+
+local function hotDogSteals(event)
+  transition.to( hotDog, { time=500,  x=3000, y=900, } )
+  transition.to( chickenFilletRoll, { time=500,  x=3000, y=900, } )
 end
 
 function scene:create( event )
@@ -43,6 +70,17 @@ function scene:create( event )
   uiGroup = display.newGroup()
   sceneGroup:insert(uiGroup)
 
+  chickenFilletRoll = display.newImageRect(mainGroup, "img/Chicken-Roll.png", 150, 150)
+  chickenFilletRoll.x = 2000
+  chickenFilletRoll.y = 950
+  hotDog = display.newImageRect(mainGroup, "img/HotDogMoving.png", 150, 150)
+  hotDog.xScale = -1
+  hotDog.x = 1700
+  hotDog.y = -75
+
+  buff.x = -500
+  buff.y = 500
+
   background = display.newImageRect( backGroup, "img/Level1Background.png", 1920, 1080 )
   background.x = display.contentCenterX
   background.y = display.contentCenterY
@@ -50,17 +88,17 @@ function scene:create( event )
   floor = display.newImageRect( backGroup, "img/floor.png",1920 , 100 )
   floor.x = display.contentCenterX
   floor.y = 1080
+  timer.performWithDelay( 500,  buffAppear )
+  timer.performWithDelay( 6000, chickenFilletRollAppear )
+  timer.performWithDelay( 10000, buffstop )
+  timer.performWithDelay( 11000, hotDogAppear)
+  timer.performWithDelay( 12000, hotDogSteals)
 
-  buffthinking = display.newImageRect( uiGroup, "img/Chicken_Roll_think_bubble.png", 560, 860)
-  buffthinking.x = 700
-  buffthinking.y = 600
 
-  perfectchickenroll = display.newImageRect( uiGroup, "img/Chicken-Roll.png", 220, 220)
-  perfectchickenroll.x = 720
-  perfectchickenroll.y = 370
 
   timer.performWithDelay( 6000, fadeMusic )
   timer.performWithDelay( 7000, newMusic )
+
   function nextLevelAppear()
     nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
     nextLevelButton.x = 1650
@@ -69,6 +107,8 @@ function scene:create( event )
     nextLevelButton:addEventListener("tap",Buttonclicked)
     nextLevelButton:addEventListener("tap",goToLevel)
   end
+
+
   timer.performWithDelay( 15000,nextLevelAppear )
 end
 
