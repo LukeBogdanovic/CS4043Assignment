@@ -70,10 +70,10 @@ function scene:create( event )
   uiGroup = display.newGroup()
   sceneGroup:insert(uiGroup)
 
-  chickenFilletRoll = display.newImageRect(mainGroup, "img/Chicken-Roll.png", 150, 150)
+  chickenFilletRoll = display.newImageRect( "img/Chicken-Roll.png", 150, 150)
   chickenFilletRoll.x = 2000
   chickenFilletRoll.y = 950
-  hotDog = display.newImageRect(mainGroup, "img/HotDogMoving.png", 150, 150)
+  hotDog = display.newImageRect( "img/HotDogMoving.png", 150, 150)
   hotDog.xScale = -1
   hotDog.x = 1700
   hotDog.y = -75
@@ -92,12 +92,9 @@ function scene:create( event )
   timer.performWithDelay( 6000, chickenFilletRollAppear )
   timer.performWithDelay( 10000, buffstop )
   timer.performWithDelay( 11000, hotDogAppear)
-  timer.performWithDelay( 12000, hotDogSteals)
-
-
-
-  timer.performWithDelay( 6000, fadeMusic )
-  timer.performWithDelay( 7000, newMusic )
+  timer.performWithDelay( 14500, hotDogSteals)
+  timer.performWithDelay( 11000, fadeMusic )
+  timer.performWithDelay( 11500, newMusic )
 
   function nextLevelAppear()
     nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )

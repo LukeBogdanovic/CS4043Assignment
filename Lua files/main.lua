@@ -4,4 +4,4 @@ local composer = require( "composer" )
 
 math.randomseed( os.time() )
 
-composer.gotoScene( "story1" )
+composer.gotoScene( "menu" )
