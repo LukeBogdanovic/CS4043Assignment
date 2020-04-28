@@ -225,7 +225,7 @@ function createNinjas()
 Runtime:addEventListener("key",fPressed)
 end
 
-timer.performWithDelay( 5000, createNinjas ,-1 )
+ninjas = timer.performWithDelay( 5000, createNinjas ,-1 )
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
