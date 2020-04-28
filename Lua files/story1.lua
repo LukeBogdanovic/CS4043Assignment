@@ -51,9 +51,9 @@ local function chickenFilletRollAppear(event)
 end
 
 local function hotDogAppear(event)
-  hotDog.x = 1700
+  hotDog.x = 1665
   hotDog.y = 0
-  transition.to( hotDog, { time=500,  x=1700, y=900, } )
+  transition.to( hotDog, { time=400,  x=1665, y=840, } )
   JJLinesChannel = audio.play( JJLines,{channel=4, loops = 0})
   audio.setVolume( 1, { channel = JJLinesChannel } )
 end

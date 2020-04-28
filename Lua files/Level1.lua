@@ -18,7 +18,7 @@ local uiGroup = display.newGroup()
 local scrollSpeed = 2
 local background
 local background2
-local enemiesKilled = 0
+local enemiesKilled = 12
 local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
 local musicChannel
@@ -51,8 +51,6 @@ function scene:create(event)
 
   physics.addBody( buff,"dynamic", {density =1,bounce=0} )
   buff.isFixedRotation = true
-
-  musicChannel = audio.play( music, {channel = 1,loops = -1} )
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,140,80,"Font.ttf",108 )
   killCounter = display.newText( uiGroup,"Killed: "..enemiesKilled,1760,80,"Font.ttf",108 )
