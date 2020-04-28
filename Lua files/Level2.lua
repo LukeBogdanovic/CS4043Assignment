@@ -2,7 +2,6 @@
 local composer = require("composer")
 local buff = require("buff")
 local ai = require("AI").newAI
-local ai2 = require("AI").newAI
 
 local scene = composer.newScene()
 
@@ -123,11 +122,9 @@ local function bgScroll(event)
   end
 end
 
-local function killEnemy(self,event)
-  if(buff.fpressed and event.other.type == "ducks")then
-    if(event.phase == "began")then
-
-    end
+local function finishLevel()
+  if (enemiesKilled == 15) then
+    nextLevel()
   end
 end
 
@@ -136,6 +133,8 @@ local function gameOver()
     backToStart()
   end
 end
+
+buff.type = "player"
 
 local duckOptions =
 {
@@ -165,23 +164,32 @@ local duckseq = {
 }
 
 local duckSprite = {duckSheet,duckseq}
-local duckEnemy = ai2({group = mainGroup,x =60 , y = 900,ai_type = "patrol",sprite = duckSprite})
 function createDucks()
   local enemy1 = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = duckSprite})
-
-  function enemy:defaultActionOnAiCollisionWithPlayer(event)
-    if (buff.buffPunch) then
-  	   enemy:remove( )
+  enemy1.limitLeft = 1000
+  enemy1.limitRight = 1000
+  function enemy1:defaultActionOnAiCollisionWithPlayer(event)
+    if (event.other.type == "player") then
+       enemiesKilled = enemiesKilled + 1
+       updateText()
+  	   enemy1:remove( )
+       finishLevel()
     end
  end
 
   function enemy1:customActionOnAiCollisionWithObjects(event)
 	 if(event.other.type == 'enemy') then
-		  enemy:SwitchDirection()
+		  enemy1:SwitchDirection()
 	 end
   end
-end
 
+  function enemy1:addExtraAction()
+    local rand = math.random(7)
+    if(rand == 3)then
+      enemy1:setLinearVelocity(0,-200)
+    end
+  end
+end
 
 local ninjaOptions =
 {
@@ -215,12 +223,13 @@ function createNinjas()
   local enemy = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = ninjasprite})
 
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
-    if (buff.buffPunch) then
+    if (event.other.type == "player" and buffPunch) then
   	   enemy:remove( )
+       enemiesKilled = enemiesKilled + 1
     end
  end
 
-  function enemy1:customActionOnAiCollisionWithObjects(event)
+  function enemy:customActionOnAiCollisionWithObjects(event)
 	 if(event.other.type == 'enemy') then
 		  enemy:SwitchDirection()
 	 end
@@ -235,7 +244,7 @@ local function backToBeginning()
   end
 end
 
-timer.performWithDelay( 7000, createDucks ,-1 )
+timer.performWithDelay( 14000, createDucks ,-1 )
 timer.performWithDelay( 7000, createNinjas ,-1 )
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )

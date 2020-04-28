@@ -190,11 +190,13 @@ local ninjaseq = {
   }
 }
 
+buff.type = "player"
+
 local ninjasprite = {ninjaSheet,ninjaseq}
 function createNinjas()
   local enemy = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = ninjasprite})
 
-  function enemy:defaultActionOnAiCollisionWithPlayer(event)
+  function enemy:customActionOnAiCollisionWithPlayer(event)
     if (buff.buffPunch and event.phase) then
   	   enemy:remove( )
     end

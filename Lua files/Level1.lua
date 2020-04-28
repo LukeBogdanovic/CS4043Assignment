@@ -2,17 +2,15 @@
 local composer = require("composer")
 local buff = require("buff")
 local ai = require("AI").newAI
-local ai2 = require("AI").newAI
 local scene = composer.newScene()
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,60)
--- physics.setDrawMode("hybrid")
+physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
 local livesText
-local hit = false
 local backGroup = display.newGroup()
 local mainGroup = display.newGroup()
 local uiGroup = display.newGroup()
@@ -23,7 +21,6 @@ local enemiesKilled = 0
 local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
 local musicChannel
-local sensorOverlaps = 0
 local sceneGroup = display.newGroup()
 
 function scene:create(event)
@@ -51,7 +48,7 @@ function scene:create(event)
   floor.objType = "floor"
   physics.addBody( floor,"static",  {friction = 0.3,bounce = 0})
 
-  physics.addBody( buff,"dynamic", {density =1,bounce=0},{box ={halfWidth=45,halfHeight=30 ,x=96,y=30},isSensor = true} )
+  physics.addBody( buff,"dynamic", {density =1,bounce=0} )
   buff.isFixedRotation = true
 
   musicChannel = audio.play( music, {channel = 1,loops = -1} )
@@ -141,6 +138,7 @@ local function finishLevel()
   end
 end
 
+buff.type = "player"
 
 local ninjaOptions =
 {
@@ -175,16 +173,17 @@ function createNinjas()
   enemy.limitLeft = 1000
   enemy.limitRight = 1000
   enemy.lastPlayerNoticedPosition = buff.x
-  function enemy:customActionOnAiCollisionWithPlayer(event)
-    if (event.other.type == "player") then
-      enemy:pause()
-      enemy:setSequence("ninjaMelee")
-  	  enemy:play()
+  function enemy:defaultActionOnAiCollisionWithPlayer(event)
+    if (event.other.type == "player" and buffPunch) then
+       enemiesKilled = enemiesKilled + 1
+       updateText()
+  	   enemy:remove()
+       finishLevel()
     end
  end
 
  function enemy:customActionOnAiCollisionWithPlayerEnd(event)
-   if(event.other.type == "player")then
+   if(event.other.type == "player" and (enemy.x - buff.x) < 50 and event.phase == "ended")then
      buff:pause()
      buff:setSequence("hurt")
      buff:play()
@@ -193,13 +192,22 @@ function createNinjas()
  end
 
   function enemy:customActionOnAiCollisionWithObjects(event)
-	 if(event.other.type == "enemy") then
+	   if(event.other.type == "enemy") then
 		  enemy:SwitchDirection()
-	 end
+	   end
   end
+
+  function enemy:addExtraAction()
+    if(buff.buffPunch and (buff.x - enemy.x) < 50 and event.phase == "began") then
+      if(event.contact.isTouching) then
+      enemy:remove()
+      end
+    end
+  end
+
 end
 
-timer.performWithDelay( 10000, createNinjas ,-1 )
+timer.performWithDelay( 5000, createNinjas ,-1 )
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )

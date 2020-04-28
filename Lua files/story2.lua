@@ -2,7 +2,7 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 
-local function goToMenu()
+local function goToLevel()
   composer.gotoScene( "Level2" , "fade" )
 end
 
@@ -30,6 +30,7 @@ local function newMusic(event)
 end
 
 function scene:create( event )
+  composer.removeScene( "level1.lua",false )
   local sceneGroup = self.view
 
   backGroup = display.newGroup()
