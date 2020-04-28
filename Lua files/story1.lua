@@ -19,8 +19,8 @@ local musicChannel1
 local musicChannel2
 local music1 = audio.loadSound( "music/Menu.mp3" )
 local music2 = audio.loadSound( "music/levelOne.mp3" )
-local ClickButton
-local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
+local ClickButton = audio.loadSound( "sounds/ClickButton.mp3" )
+local ClickButtonChannel
 local chickenFilletRoll
 local hotDog
 
@@ -30,6 +30,10 @@ end
 
 local function newMusic(event)
   musicChannel2 = audio.play( music2,{channel =2, loops=-1} )
+end
+
+local function Buttonclicked()
+  ClickButtonChannel = audio.play( ClickButton,{channel = 3, loops =0} )
 end
 
 local function buffAppear(event)
@@ -107,8 +111,6 @@ function scene:create( event )
     nextLevelButton:addEventListener("tap",Buttonclicked)
     nextLevelButton:addEventListener("tap",goToLevel)
   end
-
-
   timer.performWithDelay( 15000,nextLevelAppear )
 end
 

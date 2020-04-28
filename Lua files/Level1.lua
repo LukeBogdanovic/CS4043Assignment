@@ -17,7 +17,7 @@ local uiGroup = display.newGroup()
 local scrollSpeed = 2
 local background
 local background2
-local enemiesKilled = 0
+local enemiesKilled = 14
 local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
 local musicChannel
@@ -134,6 +134,9 @@ end
 
 local function finishLevel()
   if (enemiesKilled == 15) then
+    display.remove( "buff" )
+    composer.removeScene( "level1.lua", false )
+    timer.cancel( createNinjas )
     nextLevel()
   end
 end
@@ -169,12 +172,13 @@ local ninjaseq = {
 
 local ninjasprite = {ninjaSheet,ninjaseq}
 function createNinjas()
+  local fPressed = false
   local enemy = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = ninjasprite})
   enemy.limitLeft = 1000
   enemy.limitRight = 1000
   enemy.lastPlayerNoticedPosition = buff.x
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
-    if (event.other.type == "player" and buffPunch) then
+    if (event.other.type == "player" and fPressed) then
        enemiesKilled = enemiesKilled + 1
        updateText()
   	   enemy:remove()
@@ -205,6 +209,19 @@ function createNinjas()
     end
   end
 
+  function fPressed(event)
+    if (event.phase == "down") then
+      if (event.keyName == "f") then
+        fPressed = true
+      end
+    elseif (event.phase == "up") then
+      if (event.keyName == "f") then
+        fPressed = false
+      end
+    end
+  end
+
+Runtime:addEventListener("key",fPressed)
 end
 
 timer.performWithDelay( 5000, createNinjas ,-1 )
