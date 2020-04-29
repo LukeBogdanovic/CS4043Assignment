@@ -194,9 +194,11 @@ function _M.newAI(params)
 			if ( event.phase == "began" ) then
 				print( self.type .. ": collision began with " .. event.other.type )
 				obj:defaultActionOnAiCollisionWithPlayer(event)
+				obj:customActionOnAiCollisionWithPlayer(event)
 			elseif ( event.phase == "ended" ) then
 				print( self.type .. ": collision ended with " .. event.other.type )
 				obj:defaultActionOnAiCollisionWithPlayerEnd(event)
+				obj:customActionOnAiCollisionWithPlayerEnd(event)
 			end
 		else
 			if ( event.phase == "began" ) then

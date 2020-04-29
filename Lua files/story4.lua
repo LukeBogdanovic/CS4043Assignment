@@ -1,5 +1,4 @@
 local composer = require("composer")
-
 local scene = composer.newScene()
 
 local function goToMenu()
@@ -13,10 +12,15 @@ local background
 local nextLevelButton
 local nextLevelButtonText
 local floor
-local ClickButton
-local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
+local ClickButton = audio.loadSound( "sounds/ClickButton.mp3" )
+local ClickButtonChannel
 local music = audio.loadSound( "music/FinalLevel.mp3" )
 local musicChannel
+
+local buffLines = audio.loadSound( "voicelines/story4.mp3" )
+local buffLinesChannel
+local JJLines = audio.loadSound( "voicelines/JJstory4.mp3" )
+local jjLinesChannel
 
 function Buttonclicked (event)
   audio.setVolume( .5, { channel= ClickButtonChannel } )
@@ -25,6 +29,15 @@ end
 
 local function newMusic(event)
   musicChannel = audio.play( music2,{channel =1, loops=-1} )
+end
+
+
+
+
+local function buffVanish(event)
+  buff.x = -9000
+  buff.y = 0
+  buff.xScale = 1
 end
 
 function scene:create( event )
@@ -53,10 +66,14 @@ function scene:create( event )
     nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 600, 400 )
     nextLevelButton.x = 1650
     nextLevelButton.y = 100
-    nextLevelButtonText = display.newText( uiGroup,"Next Level",1650,100,"font.ttf",108 )
+    nextLevelButtonText = display.newText( uiGroup,"MISSION ACCOMPLISHED",1650,100,"font.ttf",108 )
     nextLevelButton:addEventListener("tap",Buttonclicked)
     nextLevelButton:addEventListener("tap",goToLevel)
   end
+
+  timer.performWithDelay( 1,  buffVanish )
+
+
   timer.performWithDelay( 15000,nextLevelAppear )
 end
 

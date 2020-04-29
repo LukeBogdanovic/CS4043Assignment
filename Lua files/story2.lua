@@ -1,6 +1,5 @@
 --story2.lua
 local composer = require( "composer" )
-
 local scene = composer.newScene()
 local buff = require("buff")
 
@@ -16,7 +15,7 @@ local nextLevelButton
 local nextLevelButtonText
 local floor
 local duckSheet
-local ClickButton
+local ClickButton  = audio.loadSound( "sounds/ClickButton.mp3" )
 local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
 local musicChannel1
 local musicChannel2
@@ -101,7 +100,7 @@ end
 
 
 function scene:create( event )
-  composer.removeScene( "level1.lua",false )
+  composer.removeScene( "level1" )
   local sceneGroup = self.view
 
   backGroup = display.newGroup()
@@ -139,6 +138,7 @@ function scene:create( event )
   timer.performWithDelay( 20000, buffAndDuckLeaves )
 
   timer.performWithDelay( 18500, fadeMusic )
+  timer.performWithDelay( 19000,newMusic )
 
   function nextLevelAppear()
     nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 700, 400 )

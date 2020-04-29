@@ -7,7 +7,7 @@ local scene = composer.newScene()
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,60)
-physics.setDrawMode("hybrid")
+-- physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
@@ -18,13 +18,14 @@ local uiGroup = display.newGroup()
 local scrollSpeed = 2
 local background
 local background2
-local enemiesKilled = 14
+local enemiesKilled = 0
 local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
 local musicChannel
 local sceneGroup = display.newGroup()
 
 function scene:create(event)
+  composer.removeScene("story1")
   sceneGroup = self.view
 
   physics.pause()
@@ -112,28 +113,17 @@ local function nextLevel()
   composer.gotoScene( "Story2" , "fade" )
 end
 
-local function gameOver(event)
+local function gameOver()
   if (lives == 0) then
+    timer.cancel( ninjas )
+    display.remove( "buff" )
     backToStart()
-  end
-end
-
-local function backToBeginning(event)
-  if (died == true) then
-    deathText = display.newText( "YOU DIED" )
-    enemiesKilled = enemiesKilled - 3
-    if(enemiesKilled <= 3) then
-      enemiesKilled = enemiesKilled
-    elseif (enemiesKilled > 3 ) then
-      enemiesKilled = enemiesKilled - 3
-      died = false
-    end
   end
 end
 
 local function finishLevel()
   if (enemiesKilled == 15) then
-    display.remove( "buff" )
+    display.remove( buff )
     composer.removeScene( "level1.lua", false )
     timer.cancel( ninjas )
     nextLevel()
@@ -175,6 +165,7 @@ function createNinjas()
   enemy.limitLeft = 1000
   enemy.limitRight = 1000
   enemy.lastPlayerNoticedPosition = buff.x
+  enemy.stalker = true
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
     if (event.other.type == "player" and spacePressed == true) then
        enemiesKilled = enemiesKilled + 1
@@ -185,43 +176,27 @@ function createNinjas()
  end
 
  function enemy:customActionOnAiCollisionWithPlayerEnd(event)
-   if(event.other.type == "player" and (enemy.x - buff.x) < 50 and event.phase == "ended")then
-     buff:pause()
-     buff:setSequence("hurt")
-     buff:play()
-     died = true
-   end
+  if(event.other.type == "player" and spacePressed == false) then
+    lives = lives - 1
+    updateText()
+    gameOver()
+  end
  end
-
-  function enemy:customActionOnAiCollisionWithObjects(event)
-	   if(event.other.type == "enemy") then
-		  enemy:SwitchDirection()
-	   end
-  end
-
-  function enemy:addExtraAction()
-    if(buff.buffPunch and (buff.x - enemy.x) < 50 and event.phase == "began") then
-      if(event.contact.isTouching) then
-      enemy:remove()
-      end
-    end
-  end
-
-  function spacePressed(event)
-    if (event.phase == "down") then
-      if (event.keyName == "space") then
-        spacePressed = true
-      end
-    elseif (event.phase == "up") then
-      if (event.keyName == "space") then
-        spacePressed = false
-      end
-    end
-  end
-
-Runtime:addEventListener("key",spacePressed)
 end
 
+function spacePressed(event)
+  if (event.phase == "down") then
+    if (event.keyName == "space") then
+      spacePressed = true
+    end
+  elseif (event.phase == "up") then
+    if (event.keyName == "space") then
+      spacePressed = false
+    end
+  end
+end
+
+Runtime:addEventListener("key",spacePressed)
 ninjas = timer.performWithDelay( 5000, createNinjas ,-1 )
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )

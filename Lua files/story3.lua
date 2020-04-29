@@ -14,11 +14,16 @@ local background
 local nextLevelButton
 local nextLevelButtonText
 local floor
-local ClickButton
-local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
+local ClickButton = audio.loadSound( "sounds/ClickButton.mp3" )
+local ClickButtonChannel
 local music = audio.loadSound( "music/LevelTwo.mp3" )
 local music2 = audio.loadSound( "music/FinalLevel.mp3" )
 local musicChannel2
+
+local buffLines = audio.loadSound( "voicelines/story3.mp3" )
+local buffLinesChannel
+local JJLines = audio.loadSound( "voicelines/JJstory3.mp3" )
+local jjLinesChannel
 
 function Buttonclicked (event)
   audio.setVolume( .5, { channel= ClickButtonChannel } )
@@ -31,6 +36,15 @@ end
 
 local function newMusic(event)
   musicChannel2 = audio.play( music2,{channel =2, loops=-1} )
+end
+
+
+
+
+local function buffVanish(event)
+  buff.x = -9000
+  buff.y = 0
+  buff.xScale = 1
 end
 
 function scene:create( event )
@@ -63,6 +77,10 @@ function scene:create( event )
     nextLevelButton:addEventListener("tap",Buttonclicked)
     nextLevelButton:addEventListener("tap",goToLevel)
   end
+
+  timer.performWithDelay( 1,  buffVanish )
+
+
   timer.performWithDelay( 15000,nextLevelAppear )
 end
 
