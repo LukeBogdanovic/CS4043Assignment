@@ -215,7 +215,7 @@ function createDucks()
      buff:setSequence("walk")
    end
   end
- 
+
 
    function enemy1:defaultActionOnVisualContactWithPlayer(event)
      if(event.other.type == "player") then
@@ -439,6 +439,7 @@ function createJJ(event)
       JJ:getPlayerPosition(buff)
       JJ:moveObjToPlayerPosition()
     end
+  end
 
   function JJ:defaultActionOnAiCollisionWithPlayer(event)
     if (event.other.type == "player" and spacePressed == true) then
