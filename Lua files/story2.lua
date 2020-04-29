@@ -27,6 +27,8 @@ local buffLines = audio.loadSound( "voicelines/story2.mp3" )
 local buffLinesChannel
 local JJLines = audio.loadSound( "voicelines/JJstory2.mp3" )
 local JJlinesChannel
+--local duckLines
+--local duckLinesChannel = audio.loadsound("voicelines/duckstory2.mp3")
 
 function Buttonclicked (event)
   audio.setVolume( .5, { channel= ClickButtonChannel } )
@@ -91,8 +93,12 @@ function buffAndDuckLeaves (event)
   hotDog.xScale = 1
   buff.xScale = 1
   buff:play("walk"  )
+  duck1.xScale = -1
+  duck2.xScale = -1
   transition.to( buff, { time=3000,  x=3600, y=900, } )
-  transition.to( duck, { time=3000,  x=2600, y=900, } )
+  transition.to( duck, { time=3000,  x=3000, y=900, } )
+  transition.to( duck1, { time=3000,  x=2700, y=900, } )
+  transition.to( duck2, { time=3000,  x=2300, y=900, } )
 end
 
 
@@ -124,6 +130,12 @@ function scene:create( event )
   duck = display.newImageRect( "img/Duck-melee1.png", 275,275)
   duck.x = -100
   duck.y = 900
+  duck1 = display.newImageRect( "img/Duck-melee1.png", 275,275)
+  duck1.x = -100
+  duck1.y = 900
+  duck2 = display.newImageRect( "img/Duck-melee1.png", 275,275)
+  duck2.x = -200
+  duck2.y = 900
 
   hotDog = display.newImageRect( "img/HotDogMoving.png", 300, 300)
   hotDog.x = -500
@@ -137,8 +149,8 @@ function scene:create( event )
   timer.performWithDelay( 17500, buffstop )
   timer.performWithDelay( 17500, duckAppears )
   timer.performWithDelay( 20000, buffAndDuckLeaves )
-
   timer.performWithDelay( 18500, fadeMusic )
+  timer.performWithDelay( 20000, newMusic )
 
   function nextLevelAppear()
     nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 700, 400 )

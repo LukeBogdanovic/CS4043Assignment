@@ -28,7 +28,7 @@ local uiGroup = display.newGroup()
 local background
 local background2
 local floor
-local enemiesKilled = 16
+local enemiesKilled = 19
 local killCounter
 local scrollSpeed = 2
 local sceneGroup = display.newGroup()

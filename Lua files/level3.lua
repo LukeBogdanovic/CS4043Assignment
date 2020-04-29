@@ -59,6 +59,8 @@ function scene:create(event)
 
   physics.addBody( buff,"dynamic", {density =1,bounce=0} )
   buff.isFixedRotation = true
+  buff.x = 300
+  buff.y= 900
 
 
   livesText	= display.newText( uiGroup,"Lives: "..lives,160,80,"Font.ttf",108 )
