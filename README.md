@@ -4,9 +4,10 @@ Font: Shangri-La author: junkohanhero
 Controls:
 A: walk left
 D: Walk Right
-Space bar: Jump
-F: punch/use weapon
+Space bar: Attack
+W:Jump
 All character models are made by the development team for the game
+All images and music used in game are royalty free without need of purchasing a language
 AI file was altered for use by the development to suit the style of game created
 timer and AI lua files are licensed files
 timer license:
