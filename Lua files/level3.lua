@@ -215,7 +215,7 @@ function createDucks()
      buff:setSequence("walk")
    end
   end
- end
+ 
 
    function enemy1:defaultActionOnVisualContactWithPlayer(event)
      if(event.other.type == "player") then
