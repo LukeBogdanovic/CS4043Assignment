@@ -399,7 +399,7 @@ local JJoptions =
     }
 }
 
-local JJSheet = graphics.newImageSheet( "img/hotdogsheet.png",  JJOptions )
+local JJSheet = graphics.newImageSheet( "img/hotdogsheet.png",  JJoptions )
 
 local JJseq = {
   {
