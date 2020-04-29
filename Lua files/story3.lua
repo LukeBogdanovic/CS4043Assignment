@@ -63,13 +63,13 @@ function buffstop (event)
   audio.setVolume( 1, { channel = JJLinesChannel } )
 end
 
-function hotDogTransforms (event)
+function JJTransforms (event)
 
 end
 
-function hotDogLeaves (event)
-    hotDog.xScale = 1
-    transition.to( hotDog, { time=2500,  x=2800, y=920, } )
+function JJLeaves (event)
+    JJ.xScale = 1
+    transition.to( JJ, { time=2500,  x=2800, y=920, } )
 end
 
 function BuffChases (event)
@@ -77,6 +77,125 @@ function BuffChases (event)
   transition.to( buff, { time=1500,  x=2800, y=920, } )
 end
 
+local JJoptions =
+{
+    frames =
+    {
+        {   -- frame 1
+            x = 0,
+            y = 0,
+            width = 69,
+            height = 96
+        },
+        {   -- frame 2
+            x = 72,
+            y = 0,
+            width = 69,
+            height = 96
+        },
+        {   -- frame 3
+            x =143,
+            y = 0,
+            width = 69,
+            height = 96
+        },
+        {   -- frame 4 growing
+            x = 214,
+            y = 0,
+            width = 90,
+            height = 125
+        },
+        {   -- frame 5
+            x = 306,
+            y = 0,
+            width = 120,
+            height = 167
+        },
+        {   -- frame 6
+            x = 428,
+            y = 0,
+            width = 150,
+            height = 209
+        },
+        {   -- frame 7
+            x = 580,
+            y = 0,
+            width = 180,
+            height = 250
+        },
+        {   -- frame 8
+            x = 762,
+            y = 0,
+            width = 210,
+            height = 292
+        },
+        {   -- frame 9
+            x = 974,
+            y = 0,
+            width = 240,
+            height = 334
+        },
+        {   -- frame 10
+            x = 1216,
+            y = 0,
+            width = 270,
+            height = 376
+        },
+        {   -- frame 11
+            x = 1488,
+            y = 0,
+            width = 300,
+            height = 417
+        },
+        {   -- frame 12 grown
+            x = 1790,
+            y = 0,
+            width = 330,
+            height = 459
+        },
+        {   -- frame 13
+            x = 2122,
+            y = 0,
+            width = 330,
+            height = 459
+        },
+        {   -- frame 14
+            x = 2454,
+            y = 0,
+            width = 330,
+            height = 459
+        }
+    }
+}
+
+local JJSheet = graphics.newImageSheet( "img/hotdogsheet.png",  JJoptions )
+
+local JJseq = {
+  {
+    name = "smallwalk",
+    start = 1,
+    count = 3,
+    time = 413,
+    loopCount = 0,
+    loopDirection = "forward"
+  },
+  {
+    name = "bigwalk",
+    start = 12,
+    count = 3,
+    time = 800,
+    loopCount = 0,
+    loopDirection = "forward"
+  },
+  {
+    name = "grow",
+    start = 4,
+    count = 9,
+    time = 413,
+    loopCount = 0,
+    loopDirection = "forward"
+  }
+}
 
 
 function scene:create( event )
@@ -100,20 +219,21 @@ function scene:create( event )
   floor.x = display.contentCenterX
   floor.y = 1080
 
-  hotDog = display.newImageRect( "img/HotDogMoving.png", 300, 300)
-  hotDog.x =1800
-  hotDog.y = 920
-  hotDog.xScale =-1
+  JJ = display.newSprite( JJSheet, JJseq )
+  JJ.xScale=-1
+  JJ.x = 1800
+  JJ.y = 990
+
 
 
   timer.performWithDelay( 1, buffVanish )
   timer.performWithDelay( 2000, buffAppear )
   timer.performWithDelay( 5560, buffstop )
-  timer.performWithDelay( 9500, hotDogTransforms)
-  timer.performWithDelay( 15000, hotDogLeaves)
+  timer.performWithDelay( 9500, JJTransforms)
+  timer.performWithDelay( 15000, JJLeaves)
   timer.performWithDelay( 17000, BuffChases )
-  timer.performWithDelay( 7000, fadeMusic )
-  timer.performWithDelay( 9500, newMusic )
+  --timer.performWithDelay( 7000, fadeMusic )
+  --timer.performWithDelay( 9500, newMusic )
 
   function nextLevelAppear()
     nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 750, 400 )
