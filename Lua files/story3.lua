@@ -20,8 +20,9 @@ local music = audio.loadSound( "music/LevelTwo.mp3" )
 local music2 = audio.loadSound( "music/FinalLevel.mp3" )
 local musicChannel1
 local musicChannel2
+local JJ
 
-local buffLines = audio.loadSound( "voicelines/story3.mp3" )
+local buffLines = audio.loadSound( "voicelines/story3pt1.mp3" )
 local buffLinesChannel
 local JJLines = audio.loadSound( "voicelines/JJstory3.mp3" )
 local JJlinesChannel
@@ -37,44 +38,7 @@ end
 
 local function newMusic(event)
   musicChannel2 = audio.play( music2,{channel =2, loops=-1} )
-end
-
-local function buffVanish(event)
-  buff.x = -9000
-  buff.y = 0
-  buff.xScale = 1
-end
-
-function buffAppear(event)
-    physics.pause()
-    buff.x = -190
-    buff.y = 900
-    buff.xScale = 1
-    buff:play("walk"  )
-    transition.to( buff, { time=3500,  x=800, y=900, } )
-    buffLinesChannel = audio.play( buffLines,{channel=3, loops = 0})
-    audio.setVolume( 1, { channel = buffLinesChannel } )
-end
-
-
-function buffstop (event)
-  buff:pause()
-  JJLinesChannel = audio.play( JJLines,{channel=4, loops = 0})
-  audio.setVolume( 1, { channel = JJLinesChannel } )
-end
-
-function JJTransforms (event)
-
-end
-
-function JJLeaves (event)
-    JJ.xScale = 1
-    transition.to( JJ, { time=2500,  x=2800, y=920, } )
-end
-
-function BuffChases (event)
-  buff:play("walk")
-  transition.to( buff, { time=1500,  x=2800, y=920, } )
+  audio.setVolume( .1, { channel = musicChannel2 } )
 end
 
 local JJoptions =
@@ -183,7 +147,7 @@ local JJseq = {
     name = "bigwalk",
     start = 12,
     count = 3,
-    time = 800,
+    time = 400,
     loopCount = 0,
     loopDirection = "forward"
   },
@@ -191,12 +155,61 @@ local JJseq = {
     name = "grow",
     start = 4,
     count = 9,
-    time = 413,
-    loopCount = 0,
+    time = 500,
+    loopCount = 1,
     loopDirection = "forward"
   }
 }
+JJ = display.newSprite( JJSheet, JJseq )
+JJ.xScale=-1
+JJ.x = 1800
+JJ.y = 980
+JJ:setSequence("grow")
 
+
+local function buffVanish(event)
+  buff.x = -9000
+  buff.y = 0
+  buff.xScale = 1
+end
+
+function buffAppear(event)
+    buff.x = -190
+    buff.y = 900
+    buff.xScale = 1
+    buff:play("walk"  )
+    transition.to( buff, { time=6000,  x=800, y=900, } )
+    buffLinesChannel = audio.play( buffLines,{channel=3, loops = 0})
+    audio.setVolume( 1, { channel = buffLinesChannel } )
+end
+
+
+function buffstop (event)
+  buff:pause()
+  JJLinesChannel = audio.play( JJLines,{channel=4, loops = 0})
+  audio.setVolume( 1, { channel = JJLinesChannel } )
+end
+
+function JJTransforms (event)
+  transition.to( JJ, { time=500,  x=1800, y=400, } )
+  JJ:play("grow")
+end
+function JJLands (event)
+  JJ:setSequence("bigwalk")
+  JJ:play("bigwalk")
+  transition.to( JJ, { time=500,  x=1800, y=850, } )
+end
+function Buffleaves (event)
+  buff:play("walk")
+  buff.xScale=-1
+  transition.to( buff, { time=1000,  x=-100, y=900, } )
+  JJLines = audio.loadSound( "voicelines/story3pt3.mp3" )
+  JJLinesChannel = audio.play( JJLines,{channel=5, loops = 0})
+end
+
+function JJChases (event)
+  transition.to( JJ, { time=750,  x=-300, y=850, } )
+end
 
 function scene:create( event )
   local sceneGroup = self.view
@@ -218,21 +231,19 @@ function scene:create( event )
   floor.x = display.contentCenterX
   floor.y = 1080
 
-  JJ = display.newSprite( JJSheet, JJseq )
-  JJ.xScale=-1
-  JJ.x = 1800
-  JJ.y = 990
+
 
 
 
   timer.performWithDelay( 1, buffVanish )
   timer.performWithDelay( 2000, buffAppear )
-  timer.performWithDelay( 5560, buffstop )
-  timer.performWithDelay( 9500, JJTransforms)
-  timer.performWithDelay( 15000, JJLeaves)
-  timer.performWithDelay( 17000, BuffChases )
-  --timer.performWithDelay( 7000, fadeMusic )
-  --timer.performWithDelay( 9500, newMusic )
+  timer.performWithDelay( 8000, buffstop )
+  timer.performWithDelay( 10000, JJTransforms)
+  timer.performWithDelay( 11000, JJLands)
+  timer.performWithDelay( 19000, Buffleaves )
+  timer.performWithDelay( 19000, JJChases)
+  timer.performWithDelay( 7000, fadeMusic )
+  timer.performWithDelay( 10500, newMusic )
 
   function nextLevelAppear()
     composer.removeScene( "level2")
@@ -247,7 +258,7 @@ function scene:create( event )
   timer.performWithDelay( 1,  buffVanish )
 
 
-  timer.performWithDelay( 15000,nextLevelAppear )
+  timer.performWithDelay( 20000,nextLevelAppear )
 end
 
 function scene:show( event )

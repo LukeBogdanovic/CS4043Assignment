@@ -1,5 +1,1 @@
-local hotDogOptions = {
-   
 
-
-}
