@@ -265,12 +265,6 @@ function createNinjas()
   enemy.lastPlayerNoticedPosition = buff.x
   enemy.stalker = true
 
-  function enemy:defaultActionOnVisualContactWithPlayer(event)
-    if(event.other.type == "player") then
-      JJ:moveObjToPlayerPosition()
-    end
-  end
-
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
     if (event.other.type == "player" and spacePressed == true) then
        enemiesKilled = enemiesKilled + 1
