@@ -18,12 +18,13 @@ local ClickButton = audio.loadSound( "sounds/ClickButton.mp3" )
 local ClickButtonChannel
 local music = audio.loadSound( "music/LevelTwo.mp3" )
 local music2 = audio.loadSound( "music/FinalLevel.mp3" )
+local musicChannel1
 local musicChannel2
 
 local buffLines = audio.loadSound( "voicelines/story3.mp3" )
 local buffLinesChannel
 local JJLines = audio.loadSound( "voicelines/JJstory3.mp3" )
-local jjLinesChannel
+local JJlinesChannel
 
 function Buttonclicked (event)
   audio.setVolume( .5, { channel= ClickButtonChannel } )
@@ -38,16 +39,48 @@ local function newMusic(event)
   musicChannel2 = audio.play( music2,{channel =2, loops=-1} )
 end
 
-
-
-
 local function buffVanish(event)
   buff.x = -9000
   buff.y = 0
   buff.xScale = 1
 end
 
+function buffAppear(event)
+    physics.pause()
+    buff.x = -190
+    buff.y = 900
+    buff.xScale = 1
+    buff:play("walk"  )
+    transition.to( buff, { time=3500,  x=800, y=900, } )
+    buffLinesChannel = audio.play( buffLines,{channel=3, loops = 0})
+    audio.setVolume( 1, { channel = buffLinesChannel } )
+end
+
+
+function buffstop (event)
+  buff:pause()
+  JJLinesChannel = audio.play( JJLines,{channel=4, loops = 0})
+  audio.setVolume( 1, { channel = JJLinesChannel } )
+end
+
+function hotDogTransforms (event)
+
+end
+
+function hotDogLeaves (event)
+    hotDog.xScale = 1
+    transition.to( hotDog, { time=2500,  x=2800, y=920, } )
+end
+
+function BuffChases (event)
+  buff:play("walk")
+  transition.to( buff, { time=1500,  x=2800, y=920, } )
+end
+
+
+
 function scene:create( event )
+  composer.removeScene( "level2")
   local sceneGroup = self.view
 
   backGroup = display.newGroup()
@@ -67,7 +100,20 @@ function scene:create( event )
   floor.x = display.contentCenterX
   floor.y = 1080
 
-  timer.performWithDelay( 6000, fadeMusic )
+  hotDog = display.newImageRect( "img/HotDogMoving.png", 300, 300)
+  hotDog.x =1800
+  hotDog.y = 920
+  hotDog.xScale =-1
+
+
+  timer.performWithDelay( 1, buffVanish )
+  timer.performWithDelay( 2000, buffAppear )
+  timer.performWithDelay( 5560, buffstop )
+  timer.performWithDelay( 9500, hotDogTransforms)
+  timer.performWithDelay( 15000, hotDogLeaves)
+  timer.performWithDelay( 17000, BuffChases )
+  timer.performWithDelay( 7000, fadeMusic )
+  timer.performWithDelay( 9500, newMusic )
 
   function nextLevelAppear()
     nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 750, 400 )
