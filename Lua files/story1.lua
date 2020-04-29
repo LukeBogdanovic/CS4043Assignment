@@ -7,7 +7,7 @@ local buff = require("buff")
 local function goToLevel()
   composer.gotoScene( "Level1","fade" )
 end
-local canJump = false
+
 local backGroup
 local mainGroup
 local uiGroup

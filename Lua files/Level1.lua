@@ -7,7 +7,7 @@ local scene = composer.newScene()
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,60)
---physics.setDrawMode("hybrid")
+physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
@@ -18,7 +18,7 @@ local uiGroup = display.newGroup()
 local scrollSpeed = 2
 local background
 local background2
-local enemiesKilled = 12
+local enemiesKilled = 14
 local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
 local musicChannel
