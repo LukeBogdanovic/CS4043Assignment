@@ -37,8 +37,8 @@ end
 
 local function newMusic(event)
   musicChannel2 = audio.play( music2,{channel =2, loops=-1} )
+  audio.setVolume( .1, { channel = musicChannel2 } )
 end
-
 
 
 

@@ -274,8 +274,8 @@ function spacePressed(event)
   end
 end
 
-ducks = timer.performWithDelay( 7000, createDucks ,-1 )
-ninjas = timer.performWithDelay( 5000, createNinjas ,-1 )
+ducks = timer.performWithDelay( 5000, createDucks ,-1 )
+ninjas = timer.performWithDelay( 3000, createNinjas ,-1 )
 Runtime:addEventListener("key",spacePressed)
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )

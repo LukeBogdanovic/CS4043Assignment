@@ -411,9 +411,9 @@ function createJJ(event)
   end
 end
 
-ninjas = timer.performWithDelay( 5000, createNinjas ,-1 )
-ducks = timer.performWithDelay( 7000, createDucks,-1 )
-JJ = timer.performWithDelay(20000, createJJ, 3)
+ninjas = timer.performWithDelay( 3000, createNinjas ,-1 )
+ducks = timer.performWithDelay( 5000, createDucks,-1 )
+JJ = timer.performWithDelay(15000, createJJ, 3)
 Runtime:addEventListener("key",spacePressed)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
