@@ -277,6 +277,7 @@ function createNinjas()
       JJ:getPlayerPosition(buff)
       JJ:moveObjToPlayerPosition()
     end
+  end
 
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
     if (event.other.type == "player" and spacePressed == true) then
