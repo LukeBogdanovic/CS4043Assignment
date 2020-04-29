@@ -27,7 +27,7 @@ local scrollSpeed = 2
 local background
 local background2
 local floor
-local deathText
+local killCounter
 local enemiesKilled = 0
 local music =audio.loadSound( "music/FinalLevel.mp3" )
 local musicChannel
@@ -73,12 +73,9 @@ local function musicPlay()
   musicChannel = audio.play( music ,{channel = 1, loops = -1} )
 end
 
-local function updateKilled(event)
-  enemiesKilled = enemiesKilled + 1
-end
-
 local function updateText()
   livesText.text = "Lives: "..lives
+  killCounter.text = "Killed: "..enemiesKilled
 end
 
 function scene:show( event )
@@ -204,7 +201,7 @@ function createDucks()
     end
   end
 
-  function enemy:customActionOnAiCollisionWithPlayerEnd(event)
+  function enemy1:customActionOnAiCollisionWithPlayerEnd(event)
    if(event.other.type == "player" and spacePressed == false) then
      lives = lives - 1
      updateText()
@@ -267,13 +264,6 @@ function createNinjas()
   enemy.limitRight = 1000
   enemy.lastPlayerNoticedPosition = buff.x
   enemy.stalker = true
-
-  function enemy:defaultActionOnVisualContactWithPlayer(event)
-    if(event.other.type == "player") then
-      JJ:getPlayerPosition(buff)
-      JJ:moveObjToPlayerPosition()
-    end
-  end
 
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
     if (event.other.type == "player" and spacePressed == true) then
