@@ -139,7 +139,9 @@ local function gameOver()
     timer.cancel( ducks )
     timer.cancel( JJ )
     display.remove( "buff" )
+
     backToStart()
+    composer.removeScene( "level3" )
   end
 end
 
@@ -149,8 +151,8 @@ local function finishLevel(event)
     timer.cancel( ducks )
     timer.cancel( JJ )
     display.remove( "buff" )
-    enemy:remove()
-    enemy1:remove()
+    Runtime:removeEventListener("enterFrame",bgScroll)
+    nextLevel()
     composer.removeScene( "level3", false )
   end
 end
@@ -188,6 +190,7 @@ local duckseq = {
 local duckSprite = {duckSheet,duckseq}
 
 function createDucks()
+  composer.removeScene( "story3" )
   local enemy1 = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = duckSprite})
   enemy1.limitLeft = 1000
   enemy1.limitRight = 1000
@@ -432,7 +435,7 @@ function createJJ(event)
     if (event.other.type == "player" and spacePressed == true) then
        jjLives = jjLives - 1
        updateText()
-  	   enemy:remove()
+  	   JJ:remove()
        finishLevel()
     end
   end
