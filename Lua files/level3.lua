@@ -204,7 +204,7 @@ function createDucks()
     end
   end
 
-  function enemy:customActionOnAiCollisionWithPlayerEnd(event)
+  function enemy1:customActionOnAiCollisionWithPlayerEnd(event)
    if(event.other.type == "player" and spacePressed == false) then
      lives = lives - 1
      updateText()
@@ -270,7 +270,7 @@ function createNinjas()
 
   function enemy:defaultActionOnVisualContactWithPlayer(event)
     if(event.other.type == "player") then
-      JJ:getPlayerPosition(buff)
+      JJ:getPlayerPosition()
       JJ:moveObjToPlayerPosition()
     end
   end
