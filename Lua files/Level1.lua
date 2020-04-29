@@ -18,7 +18,7 @@ local uiGroup = display.newGroup()
 local scrollSpeed = 2
 local background
 local background2
-local enemiesKilled = 0
+local enemiesKilled = 14
 local killCounter
 local music = audio.loadSound( "music/levelOne.mp3" )
 local musicChannel
@@ -102,7 +102,6 @@ end
 function scene:destroy( event )
   local sceneGroup = self.view
   audio.dispose( music )
-  composer.removeScene( "level1", false )
 end
 
 local function backToStart()
@@ -117,16 +116,18 @@ local function gameOver()
   if (lives == 0) then
     timer.cancel( ninjas )
     display.remove( "buff" )
+    Runtime:removeEventListener("enterFrame",bgScroll)
     backToStart()
+    composer.removeScene( "level1", false )
   end
 end
 
 local function finishLevel()
   if (enemiesKilled == 15) then
-    display.remove( buff )
-    composer.removeScene( "level1.lua", false )
     timer.cancel( ninjas )
+    Runtime:removeEventListener("enterFrame",bgScroll)
     nextLevel()
+    composer.removeScene( "level1")
   end
 end
 

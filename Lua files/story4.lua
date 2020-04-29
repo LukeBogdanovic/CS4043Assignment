@@ -1,5 +1,6 @@
 local composer = require("composer")
 local scene = composer.newScene()
+local buff = require("buff")
 
 local function goToMenu()
   composer.gotoScene( "menu" ,"fade" )
@@ -68,7 +69,7 @@ function scene:create( event )
     nextLevelButton.y = 100
     nextLevelButtonText = display.newText( uiGroup,"MISSION ACCOMPLISHED",1650,100,"font.ttf",108 )
     nextLevelButton:addEventListener("tap",Buttonclicked)
-    nextLevelButton:addEventListener("tap",goToLevel)
+    nextLevelButton:addEventListener("tap",goToMenu)
   end
 
   timer.performWithDelay( 1,  buffVanish )

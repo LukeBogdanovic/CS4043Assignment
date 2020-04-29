@@ -17,7 +17,7 @@ end
 local physics = require("physics")
 physics.start()
 physics.setGravity(0,60)
-physics.setDrawMode("hybrid")
+-- physics.setDrawMode("hybrid")
 
 local lives = 3
 local died = false
@@ -28,7 +28,7 @@ local uiGroup = display.newGroup()
 local background
 local background2
 local floor
-local enemiesKilled = 0
+local enemiesKilled = 19
 local killCounter
 local scrollSpeed = 2
 local sceneGroup = display.newGroup()
@@ -123,11 +123,14 @@ local function bgScroll(event)
 end
 
 local function finishLevel(event)
-  if(jjLives == 0) then
+  if(enemiesKilled == 20) then
     timer.cancel( ninjas )
     timer.cancel( ducks )
     display.remove( "buff" )
-    composer.removeScene( "level3", false )
+    display.remove( "ai" )
+    Runtime:removeEventListener("enterFrame",bgScroll)
+    nextLevel()
+    composer.removeScene( "level2", false )
   end
 end
 
@@ -136,9 +139,10 @@ local function gameOver()
     timer.cancel( ninjas )
     timer.cancel( ducks )
     display.remove( "buff" )
-    enemy:remove()
-    enemy1:remove()
+    display.remove( "ai" )
+    Runtime:removeEventListener("enterFrame",bgScroll)
     backToStart()
+    composer.removeScene( "level2")
   end
 end
 
@@ -186,7 +190,7 @@ function createDucks()
     end
   end
 
-  function enemy:customActionOnAiCollisionWithPlayerEnd(event)
+  function enemy1:customActionOnAiCollisionWithPlayerEnd(event)
    if(event.other.type == "player" and spacePressed == false) then
      lives = lives - 1
      updateText()
@@ -257,7 +261,7 @@ function createNinjas()
     gameOver()
   end
  end
-end
+
 
   function enemy:customActionOnAiCollisionWithObjects(event)
 	   if(event.other.type == "enemy") then

@@ -145,8 +145,7 @@ end
 
 function scene:destroy( event )
   local sceneGroup = self.view
-  audio.dispose( music )
-  composer.removeScene( "story1", false )
+
 end
 
 scene:addEventListener( "create", scene )

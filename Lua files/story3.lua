@@ -199,7 +199,6 @@ local JJseq = {
 
 
 function scene:create( event )
-  composer.removeScene( "level2")
   local sceneGroup = self.view
 
   backGroup = display.newGroup()
@@ -236,6 +235,7 @@ function scene:create( event )
   --timer.performWithDelay( 9500, newMusic )
 
   function nextLevelAppear()
+    composer.removeScene( "level2")
     nextLevelButton = display.newImageRect( uiGroup, "img/Button.png", 750, 400 )
     nextLevelButton.x = 1600
     nextLevelButton.y = 100
