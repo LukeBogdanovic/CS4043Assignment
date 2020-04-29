@@ -139,7 +139,7 @@ local function gameOver()
     timer.cancel( ducks )
     timer.cancel( JJ )
     display.remove( "buff" )
-
+    Runtime:removeEventListener("enterFrame",bgScroll)
     backToStart()
     composer.removeScene( "level3" )
   end

@@ -282,16 +282,16 @@ function _M.newAI(params)
 		scanBeam.alpha = 0
 
 		--Make the object a "bullet" type object
-		-- scanBeam.isBullet = true
+		--scanBeam.isBullet = true
 
 		--Make the object a sensor
 		scanBeam.isSensor = true
 
-		-- if(direction == 0 or direction == 2) then
-		-- 	scanBeam:setLinearVelocity( -700,0 )
-		-- elseif(direction == 1 or direction == 3) then
-		-- 	scanBeam:setLinearVelocity( 700,0 )
-		-- end
+		--if(direction == 0 or direction == 2) then
+			--scanBeam:setLinearVelocity( -700,0 )
+		--elseif(direction == 1 or direction == 3) then
+			--scanBeam:setLinearVelocity( 700,0 )
+		--end
 
 		if(obj.direction == 0 or obj.direction == 2) then
 			scanBeam:setLinearVelocity( -700,0 )

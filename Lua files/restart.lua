@@ -26,7 +26,6 @@ function Buttonclicked (event)
 end
 
 function scene:create( event )
-    composer.removeScene( "level1" )
     local sceneGroup = self.view
 
     backGroup = display.newGroup()
@@ -79,7 +78,6 @@ end
 
 function scene:destroy( event )
     local sceneGroup = self.view
-    composer.removeScene( "restart", true )
 end
 
 scene:addEventListener( "create", scene )
