@@ -73,12 +73,9 @@ local function musicPlay()
   musicChannel = audio.play( music ,{channel = 1, loops = -1} )
 end
 
-local function updateKilled(event)
-  enemiesKilled = enemiesKilled + 1
-end
-
 local function updateText()
   livesText.text = "Lives: "..lives
+  enemiesKilled.text = "Killed"..enemiesKilled
 end
 
 function scene:show( event )
@@ -270,7 +267,6 @@ function createNinjas()
 
   function enemy:defaultActionOnVisualContactWithPlayer(event)
     if(event.other.type == "player") then
-      JJ:getPlayerPosition()
       JJ:moveObjToPlayerPosition()
     end
   end
