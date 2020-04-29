@@ -1,5 +1,5 @@
 local composer = require( "composer" )
-
+local buff = require("buff")
 local scene = composer.newScene()
 
 local gameOverText
@@ -26,7 +26,6 @@ function Buttonclicked (event)
 end
 
 function scene:create( event )
-    composer.removeScene( "level3" )
     local sceneGroup = self.view
 
     backGroup = display.newGroup()
@@ -46,8 +45,13 @@ function scene:create( event )
 
     musicChannel = audio.play(music,{channel = 1,loops = 0})
 
+    buff.x = -9000
+    buff.y = 0
+
     continueText:addEventListener("tap", backToLevel)
     mainText:addEventListener("tap", backtoMenu)
+    continueText:addEventListener("tap",Buttonclicked)
+    mainText:addEventListener("tap",Buttonclicked)
 end
 
 function scene:show( event )

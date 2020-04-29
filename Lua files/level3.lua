@@ -16,9 +16,8 @@ local physics  = require("physics")
 physics.start()
 physics.setGravity(0,60)
 
-local jjLives = 3
+local jjLives = 1
 local lives = 3
-local died = false
 local livesText
 local backGroup
 local mainGroup
@@ -34,6 +33,7 @@ local musicChannel
 
 function scene:create(event)
   composer.removeScene( "story3" )
+  composer.removeScene("level2")
   local sceneGroup = self.view
 
   backGroup = display.newGroup()
@@ -138,10 +138,8 @@ local function gameOver()
     timer.cancel( ninjas )
     timer.cancel( ducks )
     timer.cancel( JJ )
-    display.remove( "buff" )
     Runtime:removeEventListener("enterFrame",bgScroll)
     backToStart()
-    composer.removeScene( "level3" )
   end
 end
 
@@ -150,10 +148,8 @@ local function finishLevel(event)
     timer.cancel( ninjas )
     timer.cancel( ducks )
     timer.cancel( JJ )
-    display.remove( "buff" )
     Runtime:removeEventListener("enterFrame",bgScroll)
     nextLevel()
-    composer.removeScene( "level3", false )
   end
 end
 
@@ -201,24 +197,12 @@ function createDucks()
        enemiesKilled = enemiesKilled + 1
        updateText()
   	   enemy1:remove( )
-    end
-  end
-
-  function enemy1:customActionOnAiCollisionWithPlayerEnd(event)
-   if(event.other.type == "player" and spacePressed == false) then
+     elseif(event.other.type == "player" and spacePressed == false)then
      lives = lives - 1
      updateText()
      gameOver()
    end
   end
-
-
-   function enemy1:defaultActionOnVisualContactWithPlayer(event)
-     if(event.other.type == "player") then
-       enemy1:getPlayerPosition(buff)
-       enemy1:moveObjToPlayerPosition()
-     end
-   end
 
   function enemy1:customActionOnAiCollisionWithObjects(event)
 	 if(event.other.type == 'enemy') then
@@ -273,21 +257,12 @@ function createNinjas()
        enemiesKilled = enemiesKilled + 1
        updateText()
   	   enemy:remove()
-    end
- end
-
- function enemy:customActionOnAiCollisionWithPlayerEnd(event)
-   if(event.other.type == "player" and spacePressed == false) then
-    enemy:setSequence("duckMelee")
-    enemy:play()
-    buff:pause()
-    buff:setSequence("hurt")
-    buff:play()
-    lives = lives - 1
-    updateText()
-    gameOver()
+     elseif(event.other.type == "player" and spacePressed == false)then
+     lives = lives - 1
+     updateText()
+     gameOver()
    end
-  end
+ end
 
   function enemy:customActionOnAiCollisionWithObjects(event)
 	   if(event.other.type == "enemy") then
@@ -424,12 +399,6 @@ function createJJ(event)
   JJ.limitRight = 1200
   JJ.lastPlayerNoticedPosition = buff.x
   JJ.stalker = true
-  function JJ:defaultActionOnVisualContactWithPlayer(event)
-    if(event.other.type == "player") then
-      JJ:getPlayerPosition(buff)
-      JJ:moveObjToPlayerPosition()
-    end
-  end
 
   function JJ:defaultActionOnAiCollisionWithPlayer(event)
     if (event.other.type == "player" and spacePressed == true) then
@@ -437,15 +406,11 @@ function createJJ(event)
        updateText()
   	   JJ:remove()
        finishLevel()
-    end
-  end
-
-  function JJ:customActionOnAiCollisionWithPlayer(event)
-    if(event.other.type == "player" and spacePressed == false) then
-      lives = lives - 1
-      updateText()
-      gameOver()
-    end
+     elseif(event.other.type == "player" and spacePressed == false)then
+     lives = lives - 1
+     updateText()
+     gameOver()
+   end
   end
 end
 

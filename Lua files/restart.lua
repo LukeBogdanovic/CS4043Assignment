@@ -1,4 +1,5 @@
 local composer = require( "composer" )
+local buff = require("buff")
 
 local scene = composer.newScene()
 
@@ -44,6 +45,9 @@ function scene:create( event )
     mainText:setFillColor(255,0,0)
 
     musicChannel = audio.play(music,{channel = 1,loops = 0})
+
+    buff.x = -9000
+    buff.y = 0
 
     continueText:addEventListener("tap", backToLevel)
     mainText:addEventListener("tap", backtoMenu)

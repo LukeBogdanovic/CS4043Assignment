@@ -19,6 +19,8 @@ local ClickButton = audio.loadSound( "sounds/ClickButton.mp3" )
 local CLickButtonChannel
 
 function scene:create( event )
+  composer.removeScene( "level3")
+  composer.removeScene( "story4")
   local sceneGroup = self.view
 
   backGroup = display.newGroup()

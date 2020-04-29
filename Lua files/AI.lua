@@ -51,7 +51,7 @@ function _M.newAI(params)
 		obj = display.newImage(group, img, x, y);
 	end
 
-	physics.addBody( obj, {radius=130, density=1.0, friction=0.3, bounce=0.0 } )
+	physics.addBody( obj, {radius = 130, density=1.0, friction=0.3, bounce=0.2 } )
 	obj.type = "enemy"
 	obj.limitLeft = limitLeft
 	obj.limitRight = limitRight
@@ -60,7 +60,7 @@ function _M.newAI(params)
 	obj.allowShoot = false
 	obj.shootVelocity = 2000
 	obj.fireImg = nil
-	obj.visionLength = 1200
+	obj.visionLength = 300
 	obj.withoutLimit = withoutLimit
 	obj.direction = direction
 	obj.stop = stop
@@ -194,11 +194,9 @@ function _M.newAI(params)
 			if ( event.phase == "began" ) then
 				print( self.type .. ": collision began with " .. event.other.type )
 				obj:defaultActionOnAiCollisionWithPlayer(event)
-				obj:customActionOnAiCollisionWithPlayer(event)
 			elseif ( event.phase == "ended" ) then
 				print( self.type .. ": collision ended with " .. event.other.type )
 				obj:defaultActionOnAiCollisionWithPlayerEnd(event)
-				obj:customActionOnAiCollisionWithPlayerEnd(event)
 			end
 		else
 			if ( event.phase == "began" ) then
@@ -282,16 +280,16 @@ function _M.newAI(params)
 		scanBeam.alpha = 0
 
 		--Make the object a "bullet" type object
-		--scanBeam.isBullet = true
+		-- scanBeam.isBullet = true
 
 		--Make the object a sensor
 		scanBeam.isSensor = true
 
-		--if(direction == 0 or direction == 2) then
-			--scanBeam:setLinearVelocity( -700,0 )
-		--elseif(direction == 1 or direction == 3) then
-			--scanBeam:setLinearVelocity( 700,0 )
-		--end
+		-- if(direction == 0 or direction == 2) then
+		-- 	scanBeam:setLinearVelocity( -700,0 )
+		-- elseif(direction == 1 or direction == 3) then
+		-- 	scanBeam:setLinearVelocity( 700,0 )
+		-- end
 
 		if(obj.direction == 0 or obj.direction == 2) then
 			scanBeam:setLinearVelocity( -700,0 )

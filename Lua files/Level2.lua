@@ -39,6 +39,7 @@ local rand = math.random(7)
 
 function scene:create(event)
   composer.removeScene( "story2" )
+  composer.removeScene( "level1")
   local sceneGroup = self.view
 
   physics.pause()
@@ -126,11 +127,8 @@ local function finishLevel(event)
   if(enemiesKilled == 20) then
     timer.cancel( ninjas )
     timer.cancel( ducks )
-    display.remove( "buff" )
-    display.remove( "ai" )
     Runtime:removeEventListener("enterFrame",bgScroll)
     nextLevel()
-    composer.removeScene( "level2", false )
   end
 end
 
@@ -138,11 +136,9 @@ local function gameOver()
   if (lives == 0) then
     timer.cancel( ninjas )
     timer.cancel( ducks )
-    display.remove( "buff" )
-    display.remove( "ai" )
     Runtime:removeEventListener("enterFrame",bgScroll)
+    lives = 3
     backToStart()
-    composer.removeScene( "level2")
   end
 end
 
@@ -182,12 +178,16 @@ function createDucks()
   enemy1.limitRight = 1000
   enemy1.stalker = true
   function enemy1:defaultActionOnAiCollisionWithPlayer(event)
-    if (event.other.type == "player" and spacePressed == true) then
+    if(event.other.type == "player" and spacePressed == true) then
        enemiesKilled = enemiesKilled + 1
        updateText()
   	   enemy1:remove( )
        finishLevel()
-    end
+     elseif(event.other.type == "player" and spacePressed == false) then
+         lives = lives - 1
+         updateText()
+         gameOver()
+       end
   end
 
   function enemy1:customActionOnAiCollisionWithPlayerEnd(event)
@@ -251,17 +251,12 @@ function createNinjas()
        updateText()
   	   enemy:remove()
        finishLevel()
-    end
- end
-
- function enemy:customActionOnAiCollisionWithPlayerEnd(event)
-  if(event.other.type == "player" and spacePressed == false) then
+    elseif(event.other.type == "player" and spacePressed == false)then
     lives = lives - 1
     updateText()
     gameOver()
   end
  end
-
 
   function enemy:customActionOnAiCollisionWithObjects(event)
 	   if(event.other.type == "enemy") then
@@ -282,7 +277,7 @@ function spacePressed(event)
   end
 end
 
-ducks = timer.performWithDelay( 10000, createDucks ,-1 )
+ducks = timer.performWithDelay( 7000, createDucks ,-1 )
 ninjas = timer.performWithDelay( 5000, createNinjas ,-1 )
 Runtime:addEventListener("key",spacePressed)
 Runtime:addEventListener("enterFrame",bgScroll)

@@ -101,7 +101,6 @@ end
 
 function scene:destroy( event )
   local sceneGroup = self.view
-  audio.dispose( music )
 end
 
 local function backToStart()
@@ -115,10 +114,8 @@ end
 local function gameOver()
   if (lives == 0) then
     timer.cancel( ninjas )
-    display.remove( "buff" )
     Runtime:removeEventListener("enterFrame",bgScroll)
     backToStart()
-    composer.removeScene( "level1", false )
   end
 end
 
@@ -127,7 +124,6 @@ local function finishLevel()
     timer.cancel( ninjas )
     Runtime:removeEventListener("enterFrame",bgScroll)
     nextLevel()
-    composer.removeScene( "level1")
   end
 end
 
@@ -173,15 +169,11 @@ function createNinjas()
        updateText()
   	   enemy:remove()
        finishLevel()
-    end
- end
-
- function enemy:customActionOnAiCollisionWithPlayerEnd(event)
-  if(event.other.type == "player" and spacePressed == false) then
-    lives = lives - 1
-    updateText()
-    gameOver()
-  end
+     elseif(event.other.type == "player" and spacePressed == false)then
+     lives = lives - 1
+     updateText()
+     gameOver()
+   end
  end
 end
 
