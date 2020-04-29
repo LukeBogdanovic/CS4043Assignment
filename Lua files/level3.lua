@@ -206,13 +206,9 @@ function createDucks()
 
   function enemy:customActionOnAiCollisionWithPlayerEnd(event)
    if(event.other.type == "player" and spacePressed == false) then
-     buff:pause()
-     buff:setSequence("hurt")
-     buff:play()
      lives = lives - 1
      updateText()
      gameOver()
-     buff:setSequence("walk")
    end
   end
 
