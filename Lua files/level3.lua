@@ -27,7 +27,7 @@ local scrollSpeed = 2
 local background
 local background2
 local floor
-local deathText
+local killCounter
 local enemiesKilled = 0
 local music =audio.loadSound( "music/FinalLevel.mp3" )
 local musicChannel
@@ -75,7 +75,7 @@ end
 
 local function updateText()
   livesText.text = "Lives: "..lives
-  enemiesKilled.text = "Killed"..enemiesKilled
+  killCounter.text = "Killed: "..enemiesKilled
 end
 
 function scene:show( event )
