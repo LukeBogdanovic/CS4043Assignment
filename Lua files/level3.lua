@@ -16,7 +16,7 @@ local physics  = require("physics")
 physics.start()
 physics.setGravity(0,60)
 
-local jjLives = 1
+local jjLives = 3
 local lives = 3
 local livesText
 local backGroup
