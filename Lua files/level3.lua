@@ -135,10 +135,7 @@ end
 
 local function gameOver()
   if (lives == 0) then
-    timer.cancel( ninjas )
-    timer.cancel( ducks )
-    timer.cancel( JJ )
-    Runtime:removeEventListener("enterFrame",bgScroll)
+    lives = 3
     backToStart()
   end
 end
