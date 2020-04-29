@@ -7,7 +7,7 @@ local timers = require("timer").timer
 local scene = composer.newScene()
 
 local function backToStart()
-  composer.gotoScene( "restart" )
+  composer.gotoScene( "restart2" )
 end
 
 local function nextLevel()
@@ -28,15 +28,17 @@ local uiGroup = display.newGroup()
 local background
 local background2
 local floor
-local enemiesKilled = 19
+local enemiesKilled = 0
 local killCounter
 local scrollSpeed = 2
 local sceneGroup = display.newGroup()
 local music = audio.loadSound( "music/LevelTwo.mp3" )
 local musicChannel
 local spacePressed
+local rand = math.random(7)
 
 function scene:create(event)
+  composer.removeScene( "story2" )
   local sceneGroup = self.view
 
   physics.pause()
@@ -71,16 +73,6 @@ end
 
 local function musicPlay()
   musicChannel = audio.play( music ,{channel = 1,loops = -1} )
-end
-
-local function updateKilled(event)
-  enemiesKilled = enemiesKilled + 1
-end
-
-local function finishLevel()
-  if(enemiesKilled == 20) then
-    nextLevel()
-  end
 end
 
 local function updateText()
@@ -130,36 +122,28 @@ local function bgScroll(event)
   end
 end
 
-local function finishLevel()
-  if (enemiesKilled == 20) then
+local function finishLevel(event)
+  if(jjLives == 0) then
     timer.cancel( ninjas )
     timer.cancel( ducks )
-    nextLevel()
+    display.remove( "buff" )
+    composer.removeScene( "level3", false )
   end
 end
 
 local function gameOver()
-  if lives == 0 then
+  if (lives == 0) then
+    timer.cancel( ninjas )
+    timer.cancel( ducks )
+    display.remove( "buff" )
+    enemy:remove()
+    enemy1:remove()
     backToStart()
   end
 end
 
 buff.type = "player"
 
-
-function spacePressed(event)
-  if (event.phase == "down") then
-    if (event.keyName == "space") then
-      spacePressed = true
-    end
-  elseif (event.phase == "up") then
-    if (event.keyName == "space") then
-      spacePressed = false
-    end
-  end
-end
-
-Runtime:addEventListener("key",spacePressed)
 local duckOptions =
 {
     width = 320,
@@ -192,6 +176,7 @@ function createDucks()
   local enemy1 = ai({group = mainGroup,x =math.random(1920), y = 900, ai_type = "patrol",sprite = duckSprite})
   enemy1.limitLeft = 1000
   enemy1.limitRight = 1000
+  enemy1.stalker = true
   function enemy1:defaultActionOnAiCollisionWithPlayer(event)
     if (event.other.type == "player" and spacePressed == true) then
        enemiesKilled = enemiesKilled + 1
@@ -199,7 +184,16 @@ function createDucks()
   	   enemy1:remove( )
        finishLevel()
     end
- end
+  end
+
+  function enemy:customActionOnAiCollisionWithPlayerEnd(event)
+   if(event.other.type == "player" and spacePressed == false) then
+     lives = lives - 1
+     updateText()
+     gameOver()
+   end
+  end
+
   function enemy1:customActionOnAiCollisionWithObjects(event)
 	 if(event.other.type == 'enemy') then
 		  enemy1:SwitchDirection()
@@ -207,7 +201,6 @@ function createDucks()
   end
 
   function enemy1:addExtraAction()
-    local rand = math.random(7)
     if(rand == 3)then
       enemy1:setLinearVelocity(0,-200)
     end
@@ -247,6 +240,7 @@ function createNinjas()
   enemy.limitLeft = 1000
   enemy.limitRight = 1000
   enemy.lastPlayerNoticedPosition = buff.x
+  enemy.stalker = true
   function enemy:defaultActionOnAiCollisionWithPlayer(event)
     if (event.other.type == "player" and spacePressed == true) then
        enemiesKilled = enemiesKilled + 1
@@ -257,29 +251,19 @@ function createNinjas()
  end
 
  function enemy:customActionOnAiCollisionWithPlayerEnd(event)
-   if(event.other.type == "player" and (enemy.x - buff.x) < 50 and event.phase == "ended")then
-     buff:pause()
-     buff:setSequence("hurt")
-     buff:play()
-     died = true
-     updateText()
-   end
+  if(event.other.type == "player" and spacePressed == false) then
+    lives = lives - 1
+    updateText()
+    gameOver()
+  end
  end
+end
 
   function enemy:customActionOnAiCollisionWithObjects(event)
 	   if(event.other.type == "enemy") then
 		  enemy:SwitchDirection()
 	   end
   end
-
-  function enemy:addExtraAction()
-    if(buff.buffPunch and (buff.x - enemy.x) < 50 and event.phase == "began") then
-      if(event.contact.isTouching) then
-      enemy:remove()
-      end
-    end
-  end
-
 end
 
 function spacePressed(event)
@@ -294,18 +278,9 @@ function spacePressed(event)
   end
 end
 
+ducks = timer.performWithDelay( 10000, createDucks ,-1 )
+ninjas = timer.performWithDelay( 5000, createNinjas ,-1 )
 Runtime:addEventListener("key",spacePressed)
-
-local function backToBeginning()
-  if died == true then
-    deathText = display.newText( "YOU DIED" )
-    enemiesKilled = 0
-    composer.gotoScene("level2")
-  end
-end
-
-ducks = timer.performWithDelay( 14000, createDucks ,-1 )
-ninjas = timer.performWithDelay( 7000, createNinjas ,-1 )
 Runtime:addEventListener("enterFrame",bgScroll)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )

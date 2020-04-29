@@ -26,6 +26,7 @@ function Buttonclicked (event)
 end
 
 function scene:create( event )
+    composer.removeScene( "level2" )
     local sceneGroup = self.view
 
     backGroup = display.newGroup()

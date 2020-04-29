@@ -14,8 +14,8 @@ local background
 local nextLevelButton
 local nextLevelButtonText
 local floor
-local ClickButton
-local ClickButtonChannel = audio.loadSound( "sounds/ClickButton.mp3" )
+local ClickButton = audio.loadSound( "sounds/ClickButton.mp3" )
+local ClickButtonChannel
 local music = audio.loadSound( "music/LevelTwo.mp3" )
 local music2 = audio.loadSound( "music/FinalLevel.mp3" )
 local musicChannel1
@@ -80,6 +80,7 @@ end
 
 
 function scene:create( event )
+  composer.removeScene( "level2")
   local sceneGroup = self.view
 
   backGroup = display.newGroup()
@@ -122,6 +123,10 @@ function scene:create( event )
     nextLevelButton:addEventListener("tap",Buttonclicked)
     nextLevelButton:addEventListener("tap",goToLevel)
   end
+
+  timer.performWithDelay( 1,  buffVanish )
+
+
   timer.performWithDelay( 15000,nextLevelAppear )
 end
 
